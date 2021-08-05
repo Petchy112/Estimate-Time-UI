@@ -51,14 +51,16 @@
                 <v-divider />
                 <v-card-text style="height: 400px;">
                     <v-card
-                        v-for="number in numbers"
-                        :key="number"
+                        v-for="(choice,index) in choices"
+                        :key="index"
                         class="ma-2"
                         elevation="1"
                     >
                         <v-btn
-
+                            fab
+                            @click="handleCloseClicked(choices.indexOf(choice))"
                             color="error"
+                            v-if="choices.length>1"
                         >
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
@@ -72,12 +74,13 @@
 
                                 <v-text-field
                                     placeholder="ชื่อฟังก์ชัน"
-                                    v-model="body"
+                                    v-model="choices[index].title"
                                     solo
                                 />
                             </v-card-title>
                             <v-card-subtitle>
                                 <v-text-field
+                                    v-model="choices[index].description"
                                     placeholder="คำอธิบาย"
                                     solo
                                 />
@@ -85,7 +88,7 @@
                         </v-col>
                     </v-card>
                     <v-btn
-
+                        fab
                         @click="handleAddClicked"
                         color="success"
                     >
@@ -156,7 +159,14 @@ export default {
         return {
             dialog: false,
             functionData: [],
-            numbers: 1
+            numbers: 1,
+            group: '',
+            choices: [
+                {
+                    title: '',
+                    description: ''
+                }
+            ]
         }
     },
     async mounted() {
@@ -166,13 +176,17 @@ export default {
     },
     methods: {
         async handleAddClicked() {
-            this.numbers++
-            console.log(this.numbers)
+            this.choices.push({ title: '', description: '' })
+            console.log(this.choices.length)
+        },
+        async handleCloseClicked(index) {
+            console.log(index)
+            this.choices.splice(index, 1)
         }
     },
 
-}
 
+}
 </script>
 <style scoped>
 h1{
