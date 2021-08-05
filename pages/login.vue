@@ -1,19 +1,30 @@
-<template>
-   <v-col
-          cols="12"
-          sm="6"
-          md="3"
-        >
+<template lang="html">
+    <div>
+        <v-text-field v-model="email" label="Email" solo />
         <v-text-field
-            label="Email"
-            placeholder="Email"
+            v-model="password"
+            label="Password"
+            type="password"
             solo
-          ></v-text-field>
-        </v-col>
+        />
+        <v-btn @click="handleLoginClicked">
+            Login
+        </v-btn>
+    </div>
 </template>
 
 <script>
+// import axios from '@nuxtjs/axios'
 export default {
+    methods: {
+        async handleLoginClicked() {
+            // try {
 
+            // }
+            // catch {
+
+            // }
+        }
+    }
 }
 </script>
