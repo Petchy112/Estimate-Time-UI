@@ -102,14 +102,14 @@ export default {
                     to: '/'
                 },
                 {
-                    icon: 'mdi-chart-bubble',
-                    title: 'Inspire',
+                    icon: 'mdi-account',
+                    title: 'User Management',
                     to: {
-                        name: 'inspire'
+                        name: 'user'
                     }
                 },
                 {
-                    icon: 'mdi-chart-bubble',
+                    icon: 'mdi-puzzle',
                     title: 'Functions',
                     to: {
                         name: 'function'
@@ -119,7 +119,7 @@ export default {
             miniVariant: false,
             right: true,
             rightDrawer: false,
-            title: 'Vuetify.js'
+            title: 'ESTIMATE TIME'
         }
     }
 }
