@@ -4,9 +4,13 @@ export async function request(method, url, data) {
         const response = await axios({
             method, url, data
         })
+        console.log('res API', response)
         return response
     }
-    catch (e) {
-        return e
+
+    catch (error) {
+        console.log('e', error.response)
+        return error.response
     }
+
 }
