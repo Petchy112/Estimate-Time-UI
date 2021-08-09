@@ -4,24 +4,13 @@
             <v-card
                 v-for="user in userData"
                 :key="user.index"
-                class="pa-3"
+                class="pa-3 mb-3"
+                @click="handleShowClicked(user._id)"
             >
-                <v-card-title>{{ user.firstname }}</v-card-title>
-                <v-card-action>
-                    <v-btn
-                        color="blue"
-                        right
-                    >
-                        Show
-                    </v-btn>
-                    <v-btn
-                        color="error"
-                        right
-                        @click="handleDeleteClicked(user._id)"
-                    >
-                        Delete
-                    </v-btn>
-                </v-card-action>
+                <v-card-title>
+                    {{ user.firstname }}
+                    {{ user.lastname }}
+                </v-card-title>
             </v-card>
         </div>
         <v-col
@@ -31,7 +20,7 @@
                 id="add"
                 color="success"
                 :to="{
-                    name: 'user-register'
+                    name: 'register'
                 }"
             >
                 ADD
@@ -45,7 +34,8 @@ import * as userAPI from '@/utils/userAPI'
 export default {
     data() {
         return {
-            userData: []
+            userData: [],
+            deleteDialog: false
         }
     },
     async mounted () {
@@ -57,11 +47,10 @@ export default {
             })
     },
     methods: {
-        async handleDeleteClicked (id) {
-            const response = await userAPI.del(id)
-            console.log('Response', response)
-            await this.$router.push({ name: 'user' })
-        }
+        async handleShowClicked(id) {
+            console.log(id)
+            this.$router.push({ name: 'user-id', params: { id } })
+        },
     }
 }
 

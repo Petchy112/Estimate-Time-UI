@@ -6,9 +6,13 @@ export function index() {
     return request('get', url, {})
 }
 export function register(body) {
-    console.log('in', body)
     const url = `${HOSTNAME}/user/register`
     return request('post', url, body)
+}
+export function show(id) {
+    console.log(id)
+    const url = `${HOSTNAME}/user/${id}`
+    return request('get', url, {})
 }
 export function del(id) {
     const url = `${HOSTNAME}/user/${id}`
