@@ -90,7 +90,7 @@
                     <v-btn
                         fab
                         @click="handleAddClicked"
-                        color="success"
+                        color="green"
                     >
                         <v-icon>mdi-plus</v-icon>
                     </v-btn>
@@ -127,8 +127,8 @@
                 class="ma-5"
                 max-width="344"
                 v-for="functions in functionData"
-                :key="functions.id"
-                @click="logs"
+                :key="functions.index"
+                @click="handleShowClicked(functions._id)"
             >
                 <v-img
                     src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
@@ -138,17 +138,6 @@
                 <v-card-title>
                     {{ functions.group }}
                 </v-card-title>
-
-                <v-spacer />
-                <v-card-actions>
-                    <v-btn
-                        :to="{name:'function-id',params: { id: functions._id }}"
-                        color="orange lighten-2"
-                        text
-                    >
-                        Show
-                    </v-btn>
-                </v-card-actions>
             </v-card>
         </div>
     </div>
@@ -184,6 +173,10 @@ export default {
             this.choices.push({ title: '', description: '' })
             console.log(this.choices.length)
         },
+        async handleShowClicked(id) {
+            console.log(id)
+            this.$router.push({ name: 'function-id', params: { id } })
+        },
         async handleCloseClicked(index) {
             console.log(index)
             this.choices.splice(index, 1)
@@ -196,7 +189,7 @@ export default {
                     this.$router.push({
                         name: 'function-id',
                         params: {
-                            id: response.data.id
+                            id: response.data._id
                         }
                     })
                 })
