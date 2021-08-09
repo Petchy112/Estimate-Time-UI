@@ -11,7 +11,7 @@
             append-icon="mdi-magnify"
             class="mx-4"
         />
-        <v-row justify="space-around">
+        <v-row justify="end">
             <v-menu
                 offset-y
             >
@@ -29,8 +29,8 @@
                 <v-list>
                     <v-list-item
                         v-for="item in items"
-                        :key="item"
-                        @click="editDialog = !editDialog"
+                        :key="item.index"
+                        @click="openDialog(item)"
                         link
                     >
                         <v-list-item-title v-text="item" />
@@ -160,6 +160,34 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-dialog
+            v-model="deleteDialog"
+            max-width="500"
+        >
+            <v-card class="pa-5">
+                <v-card-title class="text-h5 justify-center">
+                    Do you want to delete {{ functionData.group }} ?
+                </v-card-title>
+
+                <v-row justify="space-between">
+                    <v-col>
+                        <v-btn
+                            class="pa-2"
+                            @click="deleteDialog = false"
+                        >
+                            No
+                        </v-btn>
+                        <v-btn
+                            class="pa-2"
+                            color="error"
+                            @click="handleDeleteClicked(functionData._id)"
+                        >
+                            Yes
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -169,10 +197,10 @@ export default {
     data() {
         return {
             editDialog: false,
+            deleteDialog: false,
             functionData: null,
             items: [
-                [ 'Edit', editDialog ],
-                [ 'Delete', deleteDialog ]
+                'Edit', 'Delete'
             ],
             group: null,
             choices: [
@@ -190,12 +218,20 @@ export default {
         this.functionData = response.data
     },
     methods: {
+        openDialog(event) {
+            if (event == 'Edit') {
+                this.editDialog = true
+            }
+            else if (event == 'Delete') {
+                this.deleteDialog = true
+            }
+        },
         async handleEditClicked () {
             await functionAPI.edit(this.functionData._id, this.functionData.group, this.functionData.choice)
                 .then(response => {
                     console.log('res', response.data)
-                    this.dialog = false
-                    this.$router.push({
+                    this.editDialog = false
+                    this.$router.replace({
                         name: 'function-id',
                         params: {
                             id: this.functionData._id
@@ -203,8 +239,15 @@ export default {
                     })
                 })
         },
-        async handleDeleteClicked () {
-            console.log('bb')
+        async handleDeleteClicked(id) {
+            await functionAPI.del(id)
+                .then(response => {
+                    console.log('RESPONSE', response)
+                    this.deleteDialog = false
+                    this.$router.replace({
+                        name: 'function'
+                    })
+                })
         },
         async handleAddClicked () {
             console.log(this.functionData.choice.length)
