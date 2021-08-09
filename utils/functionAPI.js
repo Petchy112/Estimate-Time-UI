@@ -21,3 +21,7 @@ export function edit(id, group, choice) {
     const url =`${HOSTNAME}/function/${id}/edit`
     return request('put', url, { group, choice })
 }
+export function del(id) {
+    const url =`${HOSTNAME}/function/${id}`
+    return request('delete', url, {})
+}
