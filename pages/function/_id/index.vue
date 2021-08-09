@@ -8,10 +8,36 @@
         <v-text-field
             placeholder="Search"
             solo-inverted
-            prepend-inner-icon="mdi-magnify"
+            append-icon="mdi-magnify"
             class="mx-4"
         />
+        <v-row justify="space-around">
+            <v-menu
+                offset-y
+            >
+                <template #activator="{ attrs, on }">
+                    <v-btn
+                        color="blue"
+                        class="white--text ma-5"
+                        v-bind="attrs"
+                        v-on="on"
+                    >
+                        Settings
+                    </v-btn>
+                </template>
 
+                <v-list>
+                    <v-list-item
+                        v-for="item in items"
+                        :key="item"
+                        @click="editDialog = !editDialog"
+                        link
+                    >
+                        <v-list-item-title v-text="item" />
+                    </v-list-item>
+                </v-list>
+            </v-menu>
+        </v-row>
         <div class="d-flex flex-wrap">
             <v-card
                 class="ma-5"
@@ -30,6 +56,110 @@
                 <v-card-subtitle>Time : {{ choice.time }}</v-card-subtitle>
             </v-card>
         </div>
+        <v-dialog
+            v-model="editDialog"
+            scrollable
+            max-width="1000px"
+        >
+            <v-card>
+                <v-card-title>
+                    <span class=" mt-4 text-h4">แก้ไขฟังก์ชัน</span>
+                </v-card-title>
+                <v-text-field
+                    class="px-6"
+                    v-model="functionData.group"
+                    placeholder="ชื่อกลุ่มฟังก์ชัน"
+
+                    required
+                    solo
+                />
+                <v-radio-group
+                    class="pa-sm-5 pa-xs-1"
+                    row
+                >
+                    <span class="ml-lg-6 mr-lg-6 text-h6">เลือกแพลตฟอร์ม</span>
+                    <v-radio
+                        label="Option 1"
+                        value="radio-1"
+                    />
+                    <v-radio
+                        label="Option 2"
+                        value="radio-2"
+                    />
+                    <v-radio
+                        label="Option 3"
+                        value="radio-3"
+                    />
+                </v-radio-group>
+
+                <v-divider />
+                <v-card-text style="height: 400px;">
+                    <v-card
+                        v-for="(choice,index) in functionData.choice"
+                        :key="index"
+                        class="ma-2"
+                        elevation="1"
+                    >
+                        <v-btn
+                            fab
+                            @click="handleCloseClicked(functionData.choice.indexOf(choice))"
+                            color="error"
+                            v-if="functionData.choice.length>1"
+                        >
+                            <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                        <v-col cols="12">
+                            <v-card-title>
+                                <v-avatar
+                                    class="mr-3 mb-3"
+                                    color="primary"
+                                    size="80"
+                                />
+
+                                <v-text-field
+                                    placeholder="ชื่อฟังก์ชัน"
+                                    v-model="choice.name"
+                                    solo
+                                />
+                            </v-card-title>
+                            <v-card-subtitle>
+                                <v-text-field
+                                    placeholder="คำอธิบาย"
+                                    v-model="choice.description"
+                                    solo
+                                />
+                            </v-card-subtitle>
+                        </v-col>
+                    </v-card>
+                    <v-btn
+                        fab
+                        @click="handleAddClicked"
+                        color="success"
+                    >
+                        <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+                </v-card-text>
+                <v-divider />
+                <v-card-actions>
+                    <v-btn
+                        class="pa-md-4 pa-lg-4 pa-xs-auto"
+                        color="blue darken-1"
+                        text
+                        @click="dialog = false"
+                    >
+                        Close
+                    </v-btn>
+                    <v-btn
+                        class="pa-md-4 pa-lg-4 pa-xs-auto"
+                        color="blue darken-1"
+                        text
+                        @click="handleEditClicked"
+                    >
+                        Save
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -38,7 +168,19 @@ import * as functionAPI from '@/utils/functionAPI'
 export default {
     data() {
         return {
-            functionData: null
+            editDialog: false,
+            functionData: null,
+            items: [
+                [ 'Edit', editDialog ],
+                [ 'Delete', deleteDialog ]
+            ],
+            group: null,
+            choices: [
+                {
+                    name: null,
+                    description: null
+                }
+            ]
         }
     },
     async mounted() {
@@ -46,6 +188,32 @@ export default {
         const response = await functionAPI.show(this.$route.params.id)
         console.log('RESPONSE', response)
         this.functionData = response.data
+    },
+    methods: {
+        async handleEditClicked () {
+            await functionAPI.edit(this.functionData._id, this.functionData.group, this.functionData.choice)
+                .then(response => {
+                    console.log('res', response.data)
+                    this.dialog = false
+                    this.$router.push({
+                        name: 'function-id',
+                        params: {
+                            id: this.functionData._id
+                        }
+                    })
+                })
+        },
+        async handleDeleteClicked () {
+            console.log('bb')
+        },
+        async handleAddClicked () {
+            console.log(this.functionData.choice.length)
+            this.functionData.choice.push({ title: '', description: '' })
+        },
+        async handleCloseClicked (index) {
+            console.log(index)
+            this.functionData.choice.splice(index, 1)
+        }
     }
 }
 </script>
