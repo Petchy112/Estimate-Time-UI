@@ -74,7 +74,7 @@
 
                                 <v-text-field
                                     placeholder="ชื่อฟังก์ชัน"
-                                    v-model="choices[index].title"
+                                    v-model="choices[index].name"
                                     solo
                                 />
                             </v-card-title>
@@ -109,7 +109,7 @@
                         class="pa-md-4 pa-lg-4 pa-xs-auto"
                         color="blue darken-1"
                         text
-                        @click="dialog = false"
+                        @click="handleSaveClicked"
                     >
                         Save
                     </v-btn>
@@ -119,7 +119,8 @@
         <v-text-field
             label="Search"
             solo-inverted
-            prepend-inner-icon="mdi-magify"
+            append-icon="mdi-magnify"
+            class="mx-4"
         />
         <div class="d-flex flex-wrap">
             <v-card
@@ -127,6 +128,7 @@
                 max-width="344"
                 v-for="functions in functionData"
                 :key="functions.id"
+                @click="logs"
             >
                 <v-img
                     src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
@@ -163,18 +165,21 @@ export default {
             group: '',
             choices: [
                 {
-                    title: '',
+                    name: '',
                     description: ''
                 }
             ]
         }
     },
     async mounted() {
-        const response = await functionAPI.index()
-        console.log('RESPONSE', response)
-        this.functionData = response.data
+        await functionAPI.index()
+            .then(response => {
+                console.log('RESPONSE', response)
+                this.functionData = response.data
+            })
     },
     methods: {
+
         async handleAddClicked() {
             this.choices.push({ title: '', description: '' })
             console.log(this.choices.length)
@@ -182,8 +187,21 @@ export default {
         async handleCloseClicked(index) {
             console.log(index)
             this.choices.splice(index, 1)
+        },
+        async handleSaveClicked () {
+            await functionAPI.create(this.group, this.choices)
+                .then(response => {
+                    console.log('res', response.data)
+                    this.dialog = false
+                    this.$router.push({
+                        name: 'function-id',
+                        params: {
+                            id: response.data.id
+                        }
+                    })
+                })
         }
-    },
+    }
 
 
 }
