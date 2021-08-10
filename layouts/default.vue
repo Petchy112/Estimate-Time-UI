@@ -92,8 +92,8 @@
 export default {
     data () {
         return {
-            clipped: false,
-            drawer: false,
+            clipped: true,
+            drawer: true,
             fixed: true,
             items: [
                 {
@@ -102,17 +102,31 @@ export default {
                     to: '/'
                 },
                 {
-                    icon: 'mdi-account',
+                    icon: 'mdi-account-box',
                     title: 'User Management',
                     to: {
                         name: 'user'
                     }
                 },
                 {
-                    icon: 'mdi-puzzle',
+                    icon: 'mdi-puzzle-outline',
                     title: 'Functions',
                     to: {
                         name: 'function'
+                    }
+                },
+                {
+                    icon: 'mdi-vote',
+                    title: 'Vote Result',
+                    to: {
+                        name: 'vote'
+                    }
+                },
+                {
+                    icon: 'mdi-timer-sand',
+                    title: 'Estimate Result',
+                    to: {
+                        name: 'estimated'
                     }
                 },
             ],
