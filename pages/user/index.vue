@@ -1,5 +1,20 @@
 <template>
     <div v-if="userData">
+        <div class="ma-5">
+            <h1>
+                ระบบจัดการผู้ใช้
+            </h1>
+        </div>
+        <v-btn
+            class="px-12 ml-10"
+            color="success"
+
+            :to="{
+                name: 'register'
+            }"
+        >
+            ADD
+        </v-btn>
         <div class="d-flex flex-column pa-3 ma-5">
             <v-card
                 v-for="user in userData"
@@ -13,19 +28,6 @@
                 </v-card-title>
             </v-card>
         </div>
-        <v-col
-            cols="12"
-        >
-            <v-btn
-                id="add"
-                color="success"
-                :to="{
-                    name: 'register'
-                }"
-            >
-                ADD
-            </v-btn>
-        </v-col>
     </div>
 </template>
 
@@ -55,8 +57,12 @@ export default {
 }
 
 </script>
-<style scoped>
-v-btn #add {
-    align-self: center;
+<style >
+h1 {
+    text-align: center;
+}
+.add-btn {
+    position: relative;
+
 }
 </style>

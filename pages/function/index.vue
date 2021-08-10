@@ -1,11 +1,14 @@
 <template>
     <div>
-        <h1 class="ma-3">
-            จัดการฟังก์ชัน
-        </h1>
+        <div>
+            <h1 class="ma-3">
+                จัดการฟังก์ชัน
+            </h1>
+        </div>
+
         <v-btn
             fab
-            color="cyan accent-2"
+            color="success"
             bottom
             right
             fixed
@@ -116,30 +119,52 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-tabs
+            v-model="tab"
+            slider-color="yellow"
+            fixed-tabs
+        >
+            <v-tab
+                v-for="item in items"
+                :key="item.tab"
+            >
+                {{ item.tab }}
+            </v-tab>
+        </v-tabs>
         <v-text-field
+            flat
             label="Search"
             solo-inverted
             append-icon="mdi-magnify"
-            class="mx-4"
+            class="mx-4 my-2"
         />
-        <div class="d-flex flex-wrap">
-            <v-card
-                class="ma-5"
-                max-width="344"
-                v-for="functions in functionData"
-                :key="functions.index"
-                @click="handleShowClicked(functions._id)"
-            >
-                <v-img
-                    src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-                    height="200px"
-                />
+        <v-card flat>
+            <v-tabs-items v-model="tab">
+                <v-tab-item
+                    v-for="item in items"
+                    :key="item.tab"
+                >
+                    <div class="d-flex flex-wrap">
+                        <v-card
+                            class="ma-5"
+                            max-width="344"
+                            v-for="functions in functionData"
+                            :key="functions.index"
+                            @click="handleShowClicked(functions._id)"
+                        >
+                            <v-img
+                                src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                                height="200px"
+                            />
 
-                <v-card-title>
-                    {{ functions.group }}
-                </v-card-title>
-            </v-card>
-        </div>
+                            <v-card-title class="justify-center">
+                                {{ functions.group }}
+                            </v-card-title>
+                        </v-card>
+                    </div>
+                </v-tab-item>
+            </v-tabs-items>
+        </v-card>
     </div>
 </template>
 
@@ -157,7 +182,13 @@ export default {
                     name: '',
                     description: ''
                 }
-            ]
+            ],
+            tab: null,
+            items: [
+                { tab: 'web', },
+                { tab: 'mobile', },
+
+            ],
         }
     },
     async mounted() {
