@@ -1,16 +1,15 @@
 import axios from 'axios'
-export async function request(method, url, data) {
+export async function request(method, url, data, headers) {
     try {
         const response = await axios({
-            method, url, data
+            method, url, data, headers
         })
-        console.log('res API', response)
         return response
     }
 
     catch (error) {
-        console.log('e', error.response)
-        return error.response
+        console.log('error in API', error)
+        return error
     }
 
 }
