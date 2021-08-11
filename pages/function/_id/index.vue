@@ -62,8 +62,8 @@
             max-width="1000px"
         >
             <v-card>
-                <v-card-title>
-                    <span class=" mt-4 text-h4">แก้ไขฟังก์ชัน</span>
+                <v-card-title class=" my-4 text-h4">
+                    แก้ไขฟังก์ชัน
                 </v-card-title>
                 <v-text-field
                     class="px-6"
@@ -140,23 +140,25 @@
                     </v-btn>
                 </v-card-text>
                 <v-divider />
-                <v-card-actions>
-                    <v-btn
-                        class="pa-md-4 pa-lg-4 pa-xs-auto"
-                        color="blue darken-1"
-                        text
-                        @click="dialog = false"
-                    >
-                        Close
-                    </v-btn>
-                    <v-btn
-                        class="pa-md-4 pa-lg-4 pa-xs-auto"
-                        color="blue darken-1"
-                        text
-                        @click="handleEditClicked"
-                    >
-                        Save
-                    </v-btn>
+                <v-card-actions class="pa-7">
+                    <v-row justify="end">
+                        <v-btn
+                            class="mx-md-2 pa-md-4 pa-lg-4 pa-xs-auto"
+                            color="error"
+
+                            @click="dialog = false"
+                        >
+                            Close
+                        </v-btn>
+                        <v-btn
+                            class="mx-md-2 pa-md-4 pa-lg-4 pa-xs-auto"
+                            color="success"
+
+                            @click="handleEditClicked"
+                        >
+                            Save
+                        </v-btn>
+                    </v-row>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -165,27 +167,32 @@
             max-width="500"
         >
             <v-card class="pa-5">
-                <v-card-title class="text-h5 justify-center">
+                <v-card-title class="text-h5 justify-center mx-4 mb-4">
                     Do you want to delete {{ functionData.group }} ?
                 </v-card-title>
-
-                <v-row justify="space-between">
-                    <v-col>
-                        <v-btn
-                            class="pa-2"
-                            @click="deleteDialog = false"
+                <v-card-action>
+                    <v-row justify="space-between">
+                        <v-col
+                            cols="12"
                         >
-                            No
-                        </v-btn>
-                        <v-btn
-                            class="pa-2"
-                            color="error"
-                            @click="handleDeleteClicked(functionData._id)"
-                        >
-                            Yes
-                        </v-btn>
-                    </v-col>
-                </v-row>
+                            <v-row justify="space-around">
+                                <v-btn
+                                    class="pa-2"
+                                    @click="deleteDialog = false"
+                                >
+                                    No
+                                </v-btn>
+                                <v-btn
+                                    class="pa-2"
+                                    color="error"
+                                    @click="handleDeleteClicked(functionData._id)"
+                                >
+                                    Yes
+                                </v-btn>
+                            </v-row>
+                        </v-col>
+                    </v-row>
+                </v-card-action>
             </v-card>
         </v-dialog>
     </div>

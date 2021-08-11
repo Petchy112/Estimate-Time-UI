@@ -22,8 +22,8 @@
             max-width="1000px"
         >
             <v-card>
-                <v-card-title>
-                    <span class=" mt-4 text-h4">เพิ่มฟังก์ชัน</span>
+                <v-card-title class=" my-4 text-h4">
+                    เพิ่มฟังก์ชัน
                 </v-card-title>
                 <v-text-field
                     class="px-6"
@@ -93,36 +93,37 @@
                     <v-btn
                         fab
                         @click="handleAddClicked"
-                        color="green"
+                        color="success"
                     >
                         <v-icon>mdi-plus</v-icon>
                     </v-btn>
                 </v-card-text>
                 <v-divider />
-                <v-card-actions>
-                    <v-btn
-                        class="pa-md-4 pa-lg-4 pa-xs-auto"
-                        color="blue darken-1"
-                        text
-                        @click="dialog = false"
-                    >
-                        Close
-                    </v-btn>
-                    <v-btn
-                        class="pa-md-4 pa-lg-4 pa-xs-auto"
-                        color="blue darken-1"
-                        text
-                        @click="handleSaveClicked"
-                    >
-                        Save
-                    </v-btn>
+                <v-card-actions class="pa-7">
+                    <v-row justify="end">
+                        <v-btn
+                            class="mx-md-2 pa-md-4 pa-lg-4 pa-xs-auto"
+                            color="error"
+
+                            @click="dialog = false"
+                        >
+                            Close
+                        </v-btn>
+                        <v-btn
+                            class="mx-md-2 pa-md-4 pa-lg-4 pa-xs-auto"
+                            color="success"
+
+                            @click="handleEditClicked"
+                        >
+                            Save
+                        </v-btn>
+                    </v-row>
                 </v-card-actions>
             </v-card>
         </v-dialog>
         <v-tabs
             v-model="tab"
             slider-color="yellow"
-            fixed-tabs
         >
             <v-tab
                 v-for="item in items"
@@ -218,7 +219,7 @@ export default {
                     console.log('res', response.data)
                     this.dialog = false
                     this.$router.push({
-                        name: 'function-id',
+                        name: 'function',
                         params: {
                             id: response.data._id
                         }
