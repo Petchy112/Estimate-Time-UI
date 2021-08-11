@@ -1,16 +1,16 @@
 <template>
-    <div>
+    <div v-if="estimateData">
         <div class="ma-3">
             <h1>ผลการประมาณ</h1>
         </div>
         <v-data-table
             :headers="data"
-            :items="desserts"
-            item-key="name"
+            :items="estimateData"
+            item-key="projectName"
             class="elevation-0"
             :search="search"
             :custom-filter="filterOnlyCapsText"
-            :click="logs"
+            @click="logs"
         >
             <template #top>
                 <v-text-field
@@ -22,10 +22,7 @@
                 />
             </template>
 
-            <tr
-                @click="logs"
-            >
-                <td @click="logs" />
+            <tr>
                 <td colspan="4" />
             </tr>
         </v-data-table>
@@ -33,44 +30,22 @@
 </template>
 
 <script>
+import * as estimateAPI from "@/utils/estimateAPI"
 export default {
     data () {
         return {
             search: '',
             calories: '',
-            desserts: [
-                {
-                    name: 'Frozen Yogurt',
-                },
-                {
-                    name: 'Ice cream sandwich',
-                },
-                {
-                    name: 'Eclair',
-                },
-                {
-                    name: 'Cupcake',
-                },
-                {
-                    name: 'Gingerbread',
-                },
-                {
-                    name: 'Jelly bean',
-                },
-                {
-                    name: 'Lollipop',
-                },
-                {
-                    name: 'Honeycomb',
-                },
-                {
-                    name: 'Donut',
-                },
-                {
-                    name: 'KitKat',
-                },
-            ],
+            estimateData: [],
+
         }
+    },
+    async mounted() {
+        await estimateAPI.index()
+            .then(response => {
+                console.log('RESPONSE', response)
+                this.estimateData = response.data
+            })
     },
     computed: {
         data () {
@@ -79,7 +54,8 @@ export default {
                     text: 'Name',
                     align: 'start',
                     sortable: true,
-                    value: 'name',
+                    value: 'projectName',
+
                 },
 
             ]
