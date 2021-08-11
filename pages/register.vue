@@ -9,78 +9,83 @@
             <h1 class="mb-8">
                 REGISTER FORM
             </h1>
-            <v-text-field
-                v-model="body.firstname"
-                :counter="10"
-                :rules="nameRules"
-                label="Firstname"
-                required
-                solo-inverted
-            />
-            <v-text-field
-                v-model="body.lastname"
-                :counter="10"
-                :rules="nameRules"
-                label="Lastname"
-                required
-                solo-inverted
-            />
-
-            <v-text-field
-                v-model="body.email"
-                :rules="emailRules"
-                label="E-mail"
-                required
-                solo-inverted
-            />
-            <v-text-field
-                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="passwordRules"
-                :type="show1 ? 'text' : 'password'"
-                label="Password"
-                hint="At least 8 characters"
-                v-model="body.password"
-                class="input-group--focused"
-                @click:append="show1 = !show1"
-                solo-inverted
-            />
-            <v-text-field
-                :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="confirmPasswordRules"
-                :type="show2 ? 'text' : 'password'"
-                label="Confirm Password"
-                hint="At least 8 characters"
-                v-model="body.confirmPassword"
-                class="input-group--focused"
-                @click:append="show2 = !show2"
-                solo-inverted
-            />
-
-            <v-select
-
-                :items="items"
-                :rules="[v => !!v || 'Role is required']"
-                label="Select Role"
-                required
-                solo-inverted
-            />
-
-            <v-btn
-                color="error"
-                class="mr-4"
-                @click="cancel"
+            <v-col
+                cols="12"
+                sm="12"
             >
-                cancel
-            </v-btn>
+                <v-text-field
+                    v-model="body.firstname"
+                    :counter="10"
+                    :rules="nameRules"
+                    label="Firstname"
+                    required
+                    solo-inverted
+                />
+                <v-text-field
+                    v-model="body.lastname"
+                    :counter="10"
+                    :rules="nameRules"
+                    label="Lastname"
+                    required
+                    solo-inverted
+                />
 
-            <v-btn
-                :disabled="!valid"
-                color="success"
-                class="mr-4"
-                @click="validate"
-            >
-                register
-            </v-btn>
+                <v-text-field
+                    v-model="body.email"
+                    :rules="emailRules"
+                    label="E-mail"
+                    required
+                    solo-inverted
+                />
+                <v-text-field
+                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="passwordRules"
+                    :type="show1 ? 'text' : 'password'"
+                    label="Password"
+                    hint="At least 8 characters"
+                    v-model="body.password"
+                    class="input-group--focused"
+                    @click:append="show1 = !show1"
+                    solo-inverted
+                />
+                <v-text-field
+                    :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="confirmPasswordRules"
+                    :type="show2 ? 'text' : 'password'"
+                    label="Confirm Password"
+                    hint="At least 8 characters"
+                    v-model="body.confirmPassword"
+                    class="input-group--focused"
+                    @click:append="show2 = !show2"
+                    solo-inverted
+                />
+
+                <v-select
+
+                    :items="items"
+                    :rules="[v => !!v || 'Role is required']"
+                    label="Select Role"
+                    required
+                    solo-inverted
+                />
+
+                <v-btn
+                    color="error"
+                    class="mr-4"
+                    @click="cancel"
+                >
+                    cancel
+                </v-btn>
+
+                <v-btn
+                    :disabled="!valid"
+                    color="success"
+                    class="mr-4"
+                    @click="validate"
+                >
+                    register
+                </v-btn>
+            </v-col>
         </v-form>
     </div>
 </template>
