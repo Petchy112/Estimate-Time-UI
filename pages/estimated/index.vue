@@ -1,31 +1,32 @@
 <template>
     <div v-if="estimateData">
-        <div class="ma-3">
-            <h1>ผลการประมาณ</h1>
-        </div>
-        <v-data-table
-            :headers="data"
-            :items="estimateData"
-            item-key="projectName"
-            class="elevation-0"
-            :search="search"
-            :custom-filter="filterOnlyCapsText"
-            @click="logs"
+        <v-card
+            flat
         >
-            <template #top>
+            <v-card-title class="ma-3 text-h4">
+                ผลการประมาณ
+                <v-spacer />
                 <v-text-field
+                    append-icon="mdi-magnify"
                     flat
                     v-model="search"
                     label="Search"
                     class="mx-4"
                     solo-inverted
+                    single-line
+                    hide-details
                 />
-            </template>
+            </v-card-title>
 
-            <tr>
-                <td colspan="4" />
-            </tr>
-        </v-data-table>
+            <v-data-table
+                :headers="headers"
+                :items="estimateData"
+                :items-per-page="5"
+                class="elevation-0"
+                :search="search"
+                @click="logs"
+            />
+        </v-card>
     </div>
 </template>
 
@@ -35,8 +36,11 @@ export default {
     data () {
         return {
             search: '',
-            calories: '',
             estimateData: [],
+            headers: [
+                { text: 'Project Name', align: 'start', sortable: true, value: 'projectName' },
+                { text: 'Create by', align: 'start', sortable: true, value: 'createBy' },
+            ],
 
         }
     },
@@ -47,31 +51,10 @@ export default {
                 this.estimateData = response.data
             })
     },
-    computed: {
-        data () {
-            return [
-                {
-                    text: 'Name',
-                    align: 'start',
-                    sortable: true,
-                    value: 'projectName',
-
-                },
-
-            ]
-        },
-    },
     methods: {
-        filterOnlyCapsText (value, search, item) {
-            return value != null &&
-          search != null &&
-          typeof value === 'string' &&
-          value.toString().toLocaleLowerCase().indexOf(search) !== -1
-        },
         logs() {
             console.log('abc')
         }
-
     },
 }
 </script>
