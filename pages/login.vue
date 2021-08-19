@@ -1,10 +1,25 @@
 <template>
     <div>
+        <div v-if="message">
+            <v-row justify-md="end">
+                <v-col
+                    md="5"
+                    class="justify--end"
+                >
+                    <v-alert
+                        dense
+                        elevation="5"
+                        type="error"
+                    >
+                        {{ message }}
+                    </v-alert>
+                </v-col>
+            </v-row>
+        </div>
         <v-card
             class=" d-flex align-center justify-center"
             color="white"
-            height="900px"
-            flat
+            height="600px"
         >
             <v-card
                 class="pa-10"
@@ -70,6 +85,7 @@ export default {
     layout: 'blank',
     data () {
         return {
+            message: '',
             body: {
                 email: '',
                 password: ''
@@ -88,15 +104,17 @@ export default {
     methods: {
         async login() {
             await userAPI.login(this.body)
-                .then(response => {
+                .then(async response => {
                     console.log('RESPONSE', response)
-                    localStorage.setItem('token', response.data.accessToken)
+                    await localStorage.setItem('token', response.data.accessToken)
                     this.$router.push({ name: 'function' })
                 })
-                .catch(response => {
-                    console.log('ERROR', response)
-
+                .catch(async error => {
+                    console.log('ERROR', error.response)
+                    this.message = error.response.data.error.message
                 })
+
+
         }
 
     }
