@@ -9,11 +9,10 @@ export function show(id) {
     const url =`${HOSTNAME}/function/${id}`
     return request('get', url, {}, { Authorization: localStorage.getItem('token') })
 }
-export function create(group, choice) {
-    console.log('NAME', group)
-    console.log('BODY', choice)
+export function create(group, platform, choice) {
+    console.log(group, platform, choice)
     const url =`${HOSTNAME}/function/add`
-    return request('post', url, { group, choice }, { Authorization: localStorage.getItem('token') })
+    return request('post', url, { group, platform, choice }, { Authorization: localStorage.getItem('token') })
 }
 export function edit(id, group, choice) {
     console.log(group, choice)
