@@ -22,6 +22,22 @@
             max-width="1000px"
         >
             <v-card>
+                <div v-if="message">
+                    <v-row justify-md="end">
+                        <v-col
+                            md="5"
+                            class="justify--end"
+                        >
+                            <v-alert
+                                dense
+                                elevation="5"
+                                type="error"
+                            >
+                                {{ message }}
+                            </v-alert>
+                        </v-col>
+                    </v-row>
+                </div>
                 <v-card-title class=" my-4 text-h4">
                     เพิ่มฟังก์ชัน
                 </v-card-title>
@@ -132,11 +148,15 @@
         <v-text-field
             flat
             label="Search"
+            v-model="search"
             solo-inverted
             append-icon="mdi-magnify"
             class="mx-4 my-2"
         />
-        <v-card flat>
+        <v-card
+            flat
+            :search="search"
+        >
             <v-tabs-items v-model="tab">
                 <v-tab-item
                     v-for="item in items"
@@ -149,6 +169,7 @@
                             v-for="functions in functionData"
                             :key="functions.index"
                             @click="handleShowClicked(functions._id)"
+                            :search="search"
                         >
                             <v-img
                                 src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
@@ -171,6 +192,8 @@ import * as functionAPI from '@/utils/functionAPI'
 export default {
     data() {
         return {
+            search: '',
+            message: '',
             dialog: false,
             functionData: [],
             numbers: 1,
