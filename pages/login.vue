@@ -20,6 +20,7 @@
             class=" d-flex align-center justify-center"
             color="white"
             height="600px"
+            flat
         >
             <v-card
                 class="pa-10"
