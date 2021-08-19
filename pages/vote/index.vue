@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="results">
         <div class="ma-5">
             <h1>
                 ผลโหวต
@@ -27,10 +27,11 @@
                 </thead>
                 <tbody>
                     <tr
-                        v-for="(round,index) in results"
+                        v-for="(data,index) in results "
                         :key="index"
+                        @click="handleShowClicked(data._id)"
                     >
-                        <td>โหวตครั้งที่ {{ index+1 }}</td>
+                        <td>โหวตครั้งที่ {{ index+1 }} , ({{ data.votingDate }})</td>
                     </tr>
                 </tbody>
             </template>
@@ -39,31 +40,32 @@
 </template>
 
 <script>
+import * as voteAPI from "@/utils/voteAPI"
 export default {
     data () {
         return {
-            results: [
-                {
-                    group: 'Login',
-                    choice: [
-                        { name: 'normal', time: 2, description: 'normal login' },
-                        { name: 'facebook', time: 2.5, description: 'facebook login' }
-                    ],
-                    order: 1,
-                    updateAt: 220
-                },
-                {
-                    group: 'Dashboard',
-                    choice: [
-                        { name: 'score', time: 1.5, description: 'show score' },
-                        { name: 'profile', time: 1.33, description: 'show profile' }
-                    ],
-                    order: 1,
-                    updateAt: 220
-                },
-            ],
+            results: [],
         }
     },
+    async mounted() {
+        await voteAPI.index()
+            .then(response => {
+                console.log('RESPONSE', response)
+                this.results = response.data
+            })
+            .catch(async error => {
+                console.log('ERROR', error.response)
+                this.message = error.response.data.error.message
+            })
+
+    },
+
+    methods: {
+        async handleShowClicked(id) {
+            console.log(id)
+            this.$router.push({ name: 'vote-id', params: { id } })
+        }
+    }
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="voteData">
         <div class="ma-5">
             <h1>
                 โหวตครั้งที่ 1
@@ -58,7 +58,7 @@
                                 </v-list-item-content>
                                 <v-list-action>
                                     <v-list-action-text>
-                                        time
+                                        <v-text-field width="20px" label="time" solo-inverted />
                                     </v-list-action-text>
                                 </v-list-action>
                             </v-list-item>
@@ -71,9 +71,11 @@
 </template>
 
 <script>
+import * as voteAPI from "@/utils/voteAPI"
 export default {
     data() {
         return {
+            voteData: [],
             tab: null,
             items: [
                 { tab: 'web', },
@@ -81,6 +83,18 @@ export default {
 
             ],
         }
+    },
+    async mounted() {
+        console.log('router param', this.$route.params.id)
+        await voteAPI.show(this.$route.params.id)
+            .then(response => {
+                console.log('RESPONSE', response)
+                this.voteData = response.data
+            })
+            .catch(async error => {
+                console.log('ERROR', error.response)
+                this.message = error.response.data.error.message
+            })
     }
 }
 </script>
