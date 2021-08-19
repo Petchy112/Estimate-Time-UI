@@ -137,6 +137,10 @@ export default {
                     console.log('RESPONSE', response)
                     this.$router.push({ name: 'user' })
                 })
+                .catch(async error => {
+                    console.log('ERROR', error.response)
+                    this.message = error.response.data.error.message
+                })
         },
         async cancel () {
             this.$router.push({ name: 'user' })

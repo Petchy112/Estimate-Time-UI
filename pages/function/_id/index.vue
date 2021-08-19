@@ -53,7 +53,7 @@
                 <v-card-title>
                     {{ choice.name }}
                 </v-card-title>
-                <v-card-subtitle>Time : {{ choice.time }}</v-card-subtitle>
+                <v-card-subtitle> {{ choice.description }}</v-card-subtitle>
             </v-card>
         </div>
         <v-dialog
@@ -146,7 +146,7 @@
                             class="mx-md-2 pa-md-4 pa-lg-4 pa-xs-auto"
                             color="error"
 
-                            @click="dialog = false"
+                            @click="editDialog = false"
                         >
                             Close
                         </v-btn>
@@ -245,6 +245,10 @@ export default {
                         }
                     })
                 })
+                .catch(async error => {
+                    console.log('ERROR', error.response)
+                    this.message = error.response.data.error.message
+                })
         },
         async handleDeleteClicked(id) {
             await functionAPI.del(id)
@@ -254,6 +258,10 @@ export default {
                     this.$router.replace({
                         name: 'function'
                     })
+                })
+                .catch(async error => {
+                    console.log('ERROR', error.response)
+                    this.message = error.response.data.error.message
                 })
         },
         async handleAddClicked () {

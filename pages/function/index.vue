@@ -34,20 +34,17 @@
                 />
                 <v-radio-group
                     class="pa-sm-5 pa-xs-1"
+                    v-model="platform"
                     row
                 >
                     <span class="ml-lg-6 mr-lg-6 text-h6">เลือกแพลตฟอร์ม</span>
                     <v-radio
-                        label="Option 1"
-                        value="radio-1"
+                        label="website"
+                        value="WEBSITE"
                     />
                     <v-radio
-                        label="Option 2"
-                        value="radio-2"
-                    />
-                    <v-radio
-                        label="Option 3"
-                        value="radio-3"
+                        label="mobile"
+                        value="MOBILE"
                     />
                 </v-radio-group>
 
@@ -113,7 +110,7 @@
                             class="mx-md-2 pa-md-4 pa-lg-4 pa-xs-auto"
                             color="success"
 
-                            @click="handleEditClicked"
+                            @click="handleSaveClicked"
                         >
                             Save
                         </v-btn>
@@ -178,6 +175,7 @@ export default {
             functionData: [],
             numbers: 1,
             group: '',
+            platform: '',
             choices: [
                 {
                     name: '',
@@ -198,6 +196,10 @@ export default {
                 console.log('RESPONSE', response)
                 this.functionData = response.data
             })
+            .catch(async error => {
+                console.log('ERROR', error.response)
+                this.message = error.response.data.error.message
+            })
     },
     methods: {
 
@@ -214,16 +216,20 @@ export default {
             this.choices.splice(index, 1)
         },
         async handleSaveClicked () {
-            await functionAPI.create(this.group, this.choices)
-                .then(response => {
+            await functionAPI.create(this.group, this.platform, this.choices)
+                .then(async response => {
                     console.log('res', response.data)
                     this.dialog = false
-                    this.$router.push({
-                        name: 'function',
+                    await this.$router.push({
+                        name: 'function-id',
                         params: {
-                            id: response.data._id
+                            id: response.data.id
                         }
                     })
+                })
+                .catch(async error => {
+                    console.log('ERROR', error.response)
+                    this.message = error.response.data.error.message
                 })
         }
     }

@@ -86,6 +86,10 @@ export default {
                 console.log('RESPONSE', response)
                 this.user = response.data
             })
+            .catch(async error => {
+                console.log('ERROR', error.response)
+                this.message = error.response.data.error.message
+            })
 
     },
     methods: {
@@ -96,6 +100,10 @@ export default {
                     console.log('Response', response)
                     this.deleteDialog = false
                     await this.$router.replace({ name: 'user' })
+                })
+                .catch(async error => {
+                    console.log('ERROR', error.response)
+                    this.message = error.response.data.error.message
                 })
         }
     }

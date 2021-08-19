@@ -1,5 +1,21 @@
 <template>
     <div v-if="userData">
+        <div>
+            <v-row justify-md="end">
+                <v-col
+                    md="5"
+                    class="justify--end"
+                >
+                    <v-alert
+                        dense
+                        elevation="5"
+                        type="error"
+                    >
+                        {{ message }}
+                    </v-alert>
+                </v-col>
+            </v-row>
+        </div>
         <div class="ma-5">
             <h1>
                 ระบบจัดการผู้ใช้
@@ -46,6 +62,10 @@ export default {
                 console.log('RESPONSE', response)
                 this.userData = response.data
 
+            })
+            .catch(async error => {
+                console.log('ERROR', error.response)
+                this.message = error.response.data.error.message
             })
     },
     methods: {

@@ -24,7 +24,7 @@
                 :items-per-page="5"
                 class="elevation-0"
                 :search="search"
-                @click="logs"
+                @click:row="handleListClicked(items)"
             />
         </v-card>
     </div>
@@ -39,9 +39,8 @@ export default {
             estimateData: [],
             headers: [
                 { text: 'Project Name', align: 'start', sortable: true, value: 'projectName' },
-                { text: 'Create by', align: 'start', sortable: true, value: 'createBy' },
+                { text: 'Create by', align: 'start', sortable: true, value: 'createBy' }
             ],
-
         }
     },
     async mounted() {
@@ -50,10 +49,14 @@ export default {
                 console.log('RESPONSE', response)
                 this.estimateData = response.data
             })
+            .catch(async error => {
+                console.log('ERROR', error.response)
+                this.message = error.response.data.error.message
+            })
     },
     methods: {
-        logs() {
-            console.log('abc')
+        handleListClicked(id) {
+            console.log(id)
         }
     },
 }

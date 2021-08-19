@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div v-if="estimateDetails">
         <div class="mt-5 mx-5">
-            <h1>ชื่อระบบ:A</h1>
-            <h3>แพลตฟอร์ม:Website</h3>
+            <h1>ชื่อระบบ: {{ estimateDetails.projectName }}</h1>
+            <h3>แพลตฟอร์ม: {{ estimateDetails.platform }}</h3>
         </div>
         <v-row
             justify="start"
@@ -15,13 +15,13 @@
             >
                 <v-card-content>
                     <v-card-title class="text-h6 pa-2">
-                        จำนวนนักพัฒนา : 2
+                        จำนวนนักพัฒนา: {{ estimateDetails.qty }}
                     </v-card-title>
                     <v-card-title class="text-h6 pt-0 pb-0 pl-2">
-                        เวลาการพัฒนา : 2 weeks
+                        เวลาการพัฒนา: {{ time/5 }} weeks
                     </v-card-title>
                     <v-card-title class="text-h6 pa-2">
-                        ขนาดระบบ : กลาง (8-10 ฟังก์ชัน)
+                        ขนาดระบบ: {{ estimateDetails.size }}
                     </v-card-title>
                 </v-card-content>
             </v-card>
@@ -32,40 +32,51 @@
         </div>
         <div class="d-flex flex-wrap">
             <v-card
-                class="ma-5 pa-5"
-                width="500px"
-                tile
-                v-for="i in 10"
-                :key="i"
+                class="ma-5"
+                max-width="344"
+                v-for="selected in estimateDetails.choice"
+                :key="selected.index"
             >
-                <v-card-title class="text-h5 justify-center">
-                    ชื่อกลุ่มฟังก์ชัน
-                </v-card-title>
-                <div
-                    v-for="n in 3"
-                    :key="n"
-                >
+                <v-img
+                    src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                    height="200px"
+                />
+
+                <v-card-title class="pa-0">
                     <v-list-item two-line>
-                        <v-list-item-avatar>
-                            <v-avatar
-                                class="ma-3 ml-6"
-                                color="red"
-                                size="120px"
-                            />
-                        </v-list-item-avatar>
                         <v-list-item-content>
-                            <v-list-item-title>name</v-list-item-title>
-                            <v-list-item-subtitle>description</v-list-item-subtitle>
+                            <v-list-item-title>{{ selected }}</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                </div>
+                </v-card-title>
             </v-card>
         </div>
     </div>
 </template>
 
 <script>
+import * as estimateAPI from "@/utils/estimateAPI"
 export default {
+    data() {
+        return {
+            estimateDetails: [],
+            time: ''
+        }
+    },
+    async mounted() {
+        console.log(this.$route.params.id)
+        await estimateAPI.show(this.$route.params.id)
+            .then(response => {
+                console.log('RESPONSE', response)
+                this.estimateDetails = response.data
+                this.time = response.data.estimatedTime
+            })
+            .catch(async error => {
+                console.log('ERROR', error.response)
+                this.message = error.response.data.error.message
+            })
+
+    }
 
 }
 </script>
