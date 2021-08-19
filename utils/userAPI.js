@@ -14,8 +14,12 @@ export function login(body) {
     return request('post', url, body, null)
 }
 export function getProfile() {
-    const url = `${HOSTNAME}/user/login`
+    const url = `${HOSTNAME}/user/data`
     return request('get', url, {}, { Authorization: localStorage.getItem('token') })
+}
+export function logout() {
+    const url = `${HOSTNAME}/user/logout`
+    return request('post', url, {}, { Authorization: localStorage.getItem('token') })
 }
 export function show(id) {
     console.log(id)
