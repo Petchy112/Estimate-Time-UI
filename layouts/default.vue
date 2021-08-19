@@ -50,6 +50,9 @@
             </v-btn>
             <v-toolbar-title v-text="title" />
             <v-spacer />
+            <v-toolbar-title>
+                Admin , {{ userData.firstname }}
+            </v-toolbar-title>
             <v-btn
                 icon
                 @click.stop="rightDrawer = !rightDrawer"
@@ -69,14 +72,27 @@
             fixed
         >
             <v-list>
-                <v-list-item @click.native="right = !right">
-                    <v-list-item-action>
-                        <v-icon light>
-                            mdi-repeat
-                        </v-icon>
-                    </v-list-item-action>
-                    <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-                </v-list-item>
+                <v-row justify-md="center">
+                    <v-list-title class="ma-5 text-h4">
+                        User
+                    </v-list-title>
+                    <v-list-item three-line>
+                        <v-list-item-action>
+                            <v-col cols="12">
+                                <div class="ma-2">
+                                    <v-btn class="yellow" color="error">
+                                        change password
+                                    </v-btn>
+                                </div>
+                                <div class="ma-2">
+                                    <v-btn color="error" @click="logout">
+                                        Sign out
+                                    </v-btn>
+                                </div>
+                            </v-col>
+                        </v-list-item-action>
+                    </v-list-item>
+                </v-row>
             </v-list>
         </v-navigation-drawer>
         <v-footer
@@ -89,9 +105,11 @@
 </template>
 
 <script>
+import * as userAPI from "@/utils/userAPI"
 export default {
     data () {
         return {
+            userData: [],
             clipped: true,
             drawer: true,
             fixed: true,
@@ -134,6 +152,29 @@ export default {
             right: true,
             rightDrawer: false,
             title: 'ESTIMATE TIME'
+        }
+    },
+    async mounted() {
+        await userAPI.getProfile()
+            .then(response => {
+                console.log('RESPONSE', response.data)
+                this.userData = response.data
+            })
+            .catch(error => {
+                this.$router.replace({ name: 'login' })
+            })
+    },
+    methods: {
+        async logout() {
+            await userAPI.logout()
+                .then(response => {
+                    console.log(response)
+                    localStorage.clear()
+                    this.$router.replace({ name: 'login' })
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         }
     }
 }
