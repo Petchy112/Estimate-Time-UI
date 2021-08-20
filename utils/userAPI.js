@@ -17,6 +17,10 @@ export function getProfile() {
     const url = `${HOSTNAME}/user/data`
     return request('get', url, {}, { Authorization: localStorage.getItem('token') })
 }
+export function changepassword(body) {
+    const url = `${HOSTNAME}/user/changePassword`
+    return request('post', url, body, null)
+}
 export function logout() {
     const url = `${HOSTNAME}/user/logout`
     return request('post', url, {}, { Authorization: localStorage.getItem('token') })
