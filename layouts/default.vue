@@ -51,7 +51,7 @@
             <v-toolbar-title v-text="title" />
             <v-spacer />
             <v-toolbar-title>
-                Admin , {{ userData.firstname }}
+                Admin, {{ userData.firstname }}
             </v-toolbar-title>
             <v-btn
                 icon
@@ -73,25 +73,20 @@
         >
             <v-list>
                 <v-row justify-md="center">
-                    <v-list-title class="ma-5 text-h4">
-                        User
-                    </v-list-title>
-                    <v-list-item three-line>
-                        <v-list-item-action>
-                            <v-col cols="12">
-                                <div class="ma-2">
-                                    <v-btn class="yellow" color="error" @click="changepassword">
-                                        change password
-                                    </v-btn>
-                                </div>
-                                <div class="ma-2">
-                                    <v-btn color="error" @click="logout">
-                                        Sign out
-                                    </v-btn>
-                                </div>
-                            </v-col>
-                        </v-list-item-action>
-                    </v-list-item>
+                    <v-list-item-action>
+                        <v-col cols="12">
+                            <div class="ma-2">
+                                <v-btn class="yellow" color="error" @click="changepassword">
+                                    change password
+                                </v-btn>
+                            </div>
+                            <div class="ma-2">
+                                <v-btn color="error" @click="logout">
+                                    Sign out
+                                </v-btn>
+                            </div>
+                        </v-col>
+                    </v-list-item-action>
                 </v-row>
             </v-list>
         </v-navigation-drawer>
@@ -154,13 +149,13 @@ export default {
             title: 'ESTIMATE TIME'
         }
     },
-    async mounted() {
-        await userAPI.getProfile()
-            .then(response => {
+    mounted() {
+        userAPI.getProfile()
+            .then(async response => {
                 console.log('RESPONSE', response.data)
                 this.userData = response.data
             })
-            .catch(error => {
+            .catch(async error => {
                 this.$router.replace({ name: 'login' })
             })
     },
