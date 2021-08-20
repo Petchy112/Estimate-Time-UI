@@ -42,13 +42,16 @@
                     เพิ่มฟังก์ชัน
                 </v-card-title>
                 <v-text-field
-                    class="px-6"
+                    class="input-group--focused px-6"
                     placeholder="ชื่อกลุ่มฟังก์ชัน"
+                    hint="กรอกชื่อกลุ่มฟังก์ชัน"
+                    :rules="groupRules"
                     v-model="group"
                     required
                     solo
                 />
                 <v-radio-group
+                    :rules="[v => !!v || 'Platform is required']"
                     class="pa-sm-5 pa-xs-1"
                     v-model="platform"
                     row
@@ -90,6 +93,9 @@
 
                                 <v-text-field
                                     placeholder="ชื่อฟังก์ชัน"
+                                    class="input-group--focused"
+                                    :rules="choiceRules"
+                                    hint="ชื่อฟังก์ชัน"
                                     v-model="choices[index].name"
                                     solo
                                 />
@@ -97,7 +103,10 @@
                             <v-card-subtitle>
                                 <v-text-field
                                     v-model="choices[index].description"
+                                    class="input-group--focused"
+                                    :rules="descriptionRules"
                                     placeholder="คำอธิบาย"
+                                    hint="คำอธิบายฟังก์ชัน"
                                     solo
                                 />
                             </v-card-subtitle>
@@ -210,6 +219,15 @@ export default {
                 { tab: 'web', },
                 { tab: 'mobile', },
 
+            ],
+            groupRules: [
+                v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน'
+            ],
+            choiceRules: [
+                v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน'
+            ],
+            descriptionRules: [
+                v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน'
             ],
         }
     },

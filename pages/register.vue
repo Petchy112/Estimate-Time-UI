@@ -16,7 +16,7 @@
                 <v-text-field
                     v-model="body.firstname"
                     :counter="10"
-                    :rules="nameRules"
+                    :rules="firstnameRules"
                     label="Firstname"
                     required
                     solo-inverted
@@ -24,7 +24,7 @@
                 <v-text-field
                     v-model="body.lastname"
                     :counter="10"
-                    :rules="nameRules"
+                    :rules="lastnameRules"
                     label="Lastname"
                     required
                     solo-inverted
@@ -61,7 +61,6 @@
                 />
 
                 <v-select
-
                     :items="items"
                     :rules="[v => !!v || 'Role is required']"
                     label="Select Role"
@@ -81,7 +80,7 @@
                     :disabled="!valid"
                     color="success"
                     class="mr-4"
-                    @click="validate"
+                    @click="register"
                 >
                     register
                 </v-btn>
@@ -98,21 +97,24 @@ export default {
         show1: false,
         show2: false,
         passwordRules: [
-            v => !!v || 'Password is Required.',
-            v => (v && v.length >= 8) || 'Min 8 characters',
+            v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน.',
+            v => (v && v.length >= 8) || 'ขั้นต่ำ 8 อักษร',
         ],
         confirmPasswordRules: [
-            v => !!v || 'Password is Required.',
-            v => (v && v.length >= 8) || 'Min 8 characters',
+            v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน',
+            v => (v && v.length >= 8) || 'ขั้นต่ำ 8 อักษร',
         ],
-        nameRules: [
-            v => !!v || 'Name is required',
-            v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+        firstnameRules: [
+            v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน',
+            v => (v && v.length <= 10) || 'ชื่อต้องมีขั้นต่ำ 10 อักษร',
         ],
-
+        lastnameRules: [
+            v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน',
+            v => (v && v.length <= 10) || 'นามสกุลต้องมีขั้นต่ำ 10 อักษร',
+        ],
         emailRules: [
-            v => !!v || 'E-mail is required',
-            v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+            v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน',
+            v => /.+@.+\..+/.test(v) || 'กรุณากรอกให้เป็นรูปแบบอีเมล',
         ],
         select: null,
         items: [
@@ -130,7 +132,7 @@ export default {
     }),
 
     methods: {
-        async validate () {
+        async register () {
             this.$refs.form.validate()
             await userAPI.register(this.body)
                 .then(response => {

@@ -1,6 +1,6 @@
 <template>
     <div v-if="userData">
-        <div>
+        <div v-if="message">
             <v-row justify-md="end">
                 <v-col
                     md="5"
@@ -52,6 +52,7 @@ import * as userAPI from '@/utils/userAPI'
 export default {
     data() {
         return {
+            message: '',
             userData: [],
             deleteDialog: false
         }

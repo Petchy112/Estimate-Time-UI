@@ -48,6 +48,7 @@
                                 v-model="body.email"
                                 :rules="emailRules"
                                 label="Email"
+                                class="input-group--focused"
                                 solo-inverted
                             />
                             <v-text-field
@@ -57,6 +58,7 @@
                                 :type="show ? 'text' : 'password'"
                                 @click:append="show = !show"
                                 label="Password"
+                                class="input-group--focused"
                                 solo-inverted
                             />
                             <v-row>
