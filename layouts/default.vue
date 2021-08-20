@@ -80,7 +80,7 @@
                         <v-list-item-action>
                             <v-col cols="12">
                                 <div class="ma-2">
-                                    <v-btn class="yellow" color="error">
+                                    <v-btn class="yellow" color="error" @click="changepassword">
                                         change password
                                     </v-btn>
                                 </div>
@@ -175,6 +175,9 @@ export default {
                 .catch(error => {
                     console.log(error)
                 })
+        },
+        async changepassword() {
+            await this.$router.push({ name: 'changepassword' })
         }
     }
 }
