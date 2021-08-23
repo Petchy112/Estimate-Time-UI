@@ -1,55 +1,26 @@
 <template>
     <div>
-        <div v-if="message">
-            <v-row justify-md="end">
-                <v-col
-                    md="5"
-                    class="justify--end"
-                >
-                    <v-alert
-                        dense
-                        elevation="5"
-                        type="error"
-                    >
-                        {{ message }}
-                    </v-alert>
-                </v-col>
-            </v-row>
-        </div>
-        <v-card
-            class=" d-flex align-center justify-center"
-            color="white"
-            height="600px"
-            flat
-        >
-            <v-card
-                class="pa-10"
-                color="grey lighten-4"
-                width="700px"
-            >
-                <v-card-title
-                    elevation="0"
-                    class="text-sm-h1 text-md-h4"
-                >
-                    Estimated Time App
-                </v-card-title>
-                <v-card-subtitle class="pt-1 pl-7">
-                    PLEASE LOGIN TO WEBSITE
-                </v-card-subtitle>
-
-                <v-card-content>
-                    <v-row justify="center">
-                        <v-col
-                            class="ma-xs-4 mx-md-auto"
-                            sm="4"
-                            md="11"
+        <v-card>
+            <v-card-title>
+                ESTIMATE TIME APP
+            </v-card-title>
+            <v-card-subtitle>
+                Please login to website
+            </v-card-subtitle>
+            <v-card-action>
+                <v-row>
+                    <v-col cols="12">
+                        <v-form
+                            ref="form"
+                            v-model="valid"
+                            lazy-validation
                         >
                             <v-text-field
                                 v-model="body.email"
                                 :rules="emailRules"
                                 label="Email"
-                                class="input-group--focused"
                                 solo-inverted
+                                required
                             />
                             <v-text-field
                                 v-model="body.password"
@@ -58,26 +29,24 @@
                                 :type="show ? 'text' : 'password'"
                                 @click:append="show = !show"
                                 label="Password"
-                                class="input-group--focused"
                                 solo-inverted
+                                required
                             />
-                            <v-row>
-                                <v-col
-                                    cols="12"
-                                    align="end"
-                                >
-                                    <v-btn
-                                        color="success"
-                                        @click="login"
-                                    >
-                                        Sign in
-                                    </v-btn>
-                                </v-col>
-                            </v-row>
-                        </v-col>
-                    </v-row>
-                </v-card-content>
-            </v-card>
+
+
+                            <v-btn
+                                class="width-100"
+                                color="orange"
+                                rounded
+                                @click="login"
+                                dark
+                            >
+                                Sign in
+                            </v-btn>
+                        </v-form>
+                    </v-col>
+                </v-row>
+            </v-card-action>
         </v-card>
     </div>
 </template>
@@ -88,6 +57,7 @@ export default {
     layout: 'blank',
     data () {
         return {
+            valid: true,
             message: '',
             body: {
                 email: '',
@@ -106,6 +76,7 @@ export default {
     },
     methods: {
         async login() {
+            this.$refs.form.validate()
             await userAPI.login(this.body)
                 .then(async response => {
                     console.log('RESPONSE', response)
@@ -116,14 +87,23 @@ export default {
                     console.log('ERROR', error.response)
                     this.message = error.response.data.error.message
                 })
-
-
         }
-
     }
 }
 </script>
 
 <style>
-
+.v-card-subtitle {
+    padding-bottom: 10px 0;
+}
+.width-100 {
+    width: 100%;
+    margin-bottom:9px ;
+}
+.v-form {
+    padding: 0 20px;
+}
+.v-row {
+    align-items:stretch;
+}
 </style>
