@@ -12,12 +12,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .v-application{
     font-family: 'Mitr', sans-serif !important;
 }
 .v-application--wrap {
-    justify-content: center !important;
+    justify-content: center ;
     background: gray;
 }
 
