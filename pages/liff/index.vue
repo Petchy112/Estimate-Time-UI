@@ -1,6 +1,6 @@
 <template>
     <div v-if="functionData">
-        <v-card>
+        <v-list>
             <v-col cols="12">
                 <v-list-item-title class="head">
                     Vote
@@ -12,7 +12,7 @@
             <v-col cols="12">
                 <v-tabs
                     v-model="tab"
-                    slider-color="yellow"
+                    slider-color="orange"
                 >
                     <v-tab
                         v-for="item in items"
@@ -44,14 +44,14 @@
                     </v-tab-item>
                 </v-tabs-items>
             </v-col>
-        </v-card>
+        </v-list>
     </div>
 </template>
 
 <script>
 import * as functionAPI from '@/utils/functionAPI'
 export default {
-    layout: 'blank',
+    layout: 'liff',
     data() {
         return {
             functionData: [],
@@ -85,12 +85,6 @@ export default {
 <style>
 .v-application--wrap {
     color: white;
-}
-.v-card__title{
-    justify-content: center;
-}
-.v-card__subtitle {
-    justify-content: center;
 }
 .head {
     text-align: center;

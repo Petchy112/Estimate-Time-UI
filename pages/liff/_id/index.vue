@@ -10,23 +10,29 @@
                     v-for="choice in functionData.choice"
                     :key="choice.index"
                 >
-                    <v-list-item two-line>
+                    <v-list-item>
                         <v-list-item-avatar>
-                            <v-avatar
-                                max-width="30px"
-                                color="red"
-                            />
+                            <v-avatar color="red" class="circle" />
                         </v-list-item-avatar>
                         <v-list-item-content>
                             <v-list-item-title>{{ choice.name }}</v-list-item-title>
                             <v-list-item-subtitle>{{ choice.description }}</v-list-item-subtitle>
+                            <v-list-item-action>
+                                <div class="input-time">
+                                    <v-text-field filled label="TIME" dense />
+                                </div>
+                            </v-list-item-action>
                         </v-list-item-content>
-                        <v-list-action>
-                            <v-text-field label="time" solo />
-                        </v-list-action>
                     </v-list-item>
                 </div>
             </v-card>
+            <v-col cols="12">
+                <div>
+                    <v-btn rounded class="my-btn">
+                        Next
+                    </v-btn>
+                </div>
+            </v-col>
         </v-card>
     </div>
 </template>
@@ -58,16 +64,27 @@ h1 {
 }
 .my-card {
     margin: 20px 20px;
-
 }
 .v-list-item {
-    padding: 10px 25px;
+    margin: 10px 10px;
 }
-.v-input {
+.v-list-item__action {
+    margin-left: 0px !important;
+}
+.input-time {
     width: 30%;
-    align-content: space-between;
+    text-align: center !important;
+    margin: 0;
+    height:55px;
 }
-.v-list-action {
-    align-content: center;
+.circle {
+    size: 50px;
+}
+.v-btn {
+    height: 50px !important ;
+    margin-left:10px ;
+    width: 95%;
+    font-size: 18px;
+    font-weight: 600;
 }
 </style>
