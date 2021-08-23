@@ -76,19 +76,16 @@
                 <v-radio-group
                     class="pa-sm-5 pa-xs-1"
                     row
+                    v-model="platform"
                 >
                     <span class="ml-lg-6 mr-lg-6 text-h6">เลือกแพลตฟอร์ม</span>
                     <v-radio
-                        label="Option 1"
-                        value="radio-1"
+                        label="website"
+                        value="WEBSITE"
                     />
                     <v-radio
-                        label="Option 2"
-                        value="radio-2"
-                    />
-                    <v-radio
-                        label="Option 3"
-                        value="radio-3"
+                        label="mobile"
+                        value="MOBILE"
                     />
                 </v-radio-group>
 
