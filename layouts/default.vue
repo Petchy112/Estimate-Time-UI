@@ -139,7 +139,7 @@ export default {
             })
             .catch(error => {
                 console.log(error)
-                this.$router.replace({ name: 'login' })
+                this.$router.push({ name: 'index' })
             })
     },
     methods: {
@@ -148,7 +148,7 @@ export default {
                 .then(response => {
                     console.log(response)
                     localStorage.clear()
-                    this.$router.replace({ name: 'login' })
+                    this.$router.replace({ name: 'index' })
                 })
                 .catch(error => {
                     console.log(error)
@@ -163,10 +163,12 @@ export default {
 <style>
 h1 {
     text-align: center;
-
 }
 .v-application {
     font-family: 'Mitr', sans-serif !important;
+}
+.v-application--wrap {
+    background: white;
 }
 .theme--light.v-app-bar.v-toolbar.v-sheet {
     background-color: orange !important;
