@@ -1,47 +1,24 @@
 <template>
-    <div v-if="results">
-        <div class="ma-5">
-            <h1>
-                ผลโหวต
-            </h1>
-        </div>
-
-        <v-simple-table class="ma-5">
-            <template #default>
-                <thead>
-                    <tr>
-                        <th>
-                            <v-row
-                                class="ml-2 mb-8"
-                                justify-md="start"
-                            >
-                                <v-btn
-                                    fixed
-                                    color="primary"
-                                >
-                                    Start Voting
-                                </v-btn>
-                            </v-row>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr
-                        v-for="(data,index) in results "
-                        :key="index"
-                        @click="handleShowClicked(data._id)"
-                    >
-                        <td>โหวตครั้งที่ {{ index+1 }} , ({{ data.votingDate }})</td>
-                    </tr>
-                </tbody>
-            </template>
-        </v-simple-table>
+    <div>
+        <v-col cols="12">
+            <h1>Vote Results</h1>
+        </v-col>
+        <v-col cols="12">
+            <v-btn rounded class="w-100" color="orange">
+                Start Voting
+            </v-btn>
+        </v-col>
+        <voteComponant />
     </div>
 </template>
 
 <script>
+import voteComponant from "~/components/vote/index.vue"
 import * as voteAPI from "@/utils/voteAPI"
 export default {
+    components: {
+        voteComponant
+    },
     data () {
         return {
             results: [],
@@ -70,7 +47,7 @@ export default {
 </script>
 
 <style>
-h1 {
-    text-align: center;
+.v-btn {
+ height: 50px;
 }
 </style>

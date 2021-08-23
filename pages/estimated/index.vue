@@ -1,38 +1,16 @@
 <template>
-    <div v-if="estimateData">
-        <v-card
-            flat
-        >
-            <v-card-title class="ma-3 text-h4">
-                ผลการประมาณ
-                <v-spacer />
-                <v-text-field
-                    append-icon="mdi-magnify"
-                    flat
-                    v-model="search"
-                    label="Search"
-                    class="mx-4"
-                    solo-inverted
-                    single-line
-                    hide-details
-                />
-            </v-card-title>
-
-            <v-data-table
-                :headers="headers"
-                :items="estimateData"
-                :items-per-page="5"
-                class="elevation-0"
-                :search="search"
-                @click:row="handleListClicked(items)"
-            />
-        </v-card>
+    <div>
+        <estimateComponant />
     </div>
 </template>
 
 <script>
 import * as estimateAPI from "@/utils/estimateAPI"
+import estimateComponant from "~/components/estimated/index.vue"
 export default {
+    components: {
+        estimateComponant
+    },
     data () {
         return {
             search: '',
