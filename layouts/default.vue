@@ -1,8 +1,23 @@
 <template>
-    <v-app dark>
+    <v-app>
+        <v-app-bar
+            :clipped-left="clipped"
+            fixed
+            app
+        >
+            <v-app-bar-nav-icon @click="drawer = !drawer" />
+            <v-toolbar-title v-text="title" />
+            <v-spacer />
+
+            <v-btn
+                icon
+                @click="rightDrawer = !rightDrawer"
+            >
+                <v-icon>mdi-menu</v-icon>
+            </v-btn>
+        </v-app-bar>
         <v-navigation-drawer
             v-model="drawer"
-            :mini-variant="miniVariant"
             :clipped="clipped"
             fixed
             app
@@ -24,42 +39,7 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
-        <v-app-bar
-            :clipped-left="clipped"
-            fixed
-            app
-        >
-            <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-            <v-btn
-                icon
-                @click.stop="miniVariant = !miniVariant"
-            >
-                <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-            </v-btn>
-            <v-btn
-                icon
-                @click.stop="clipped = !clipped"
-            >
-                <v-icon>mdi-application</v-icon>
-            </v-btn>
-            <v-btn
-                icon
-                @click.stop="fixed = !fixed"
-            >
-                <v-icon>mdi-minus</v-icon>
-            </v-btn>
-            <v-toolbar-title v-text="title" />
-            <v-spacer />
-            <v-toolbar-title>
-                Admin, {{ userData.firstname }}
-            </v-toolbar-title>
-            <v-btn
-                icon
-                @click.stop="rightDrawer = !rightDrawer"
-            >
-                <v-icon>mdi-menu</v-icon>
-            </v-btn>
-        </v-app-bar>
+
         <v-main>
             <v-container>
                 <Nuxt />
@@ -70,24 +50,29 @@
             :right="right"
             temporary
             fixed
+            app
         >
             <v-list>
-                <v-row justify-md="center">
-                    <v-list-item-action>
+                <v-col cols="12">
+                    <v-list-item-title class="profile">
+                        Admin, {{ userData.firstname }}
+                    </v-list-item-title>
+                    <v-list-item-subtitle class="email">
+                        {{ userData.email }}
+                    </v-list-item-subtitle>
+                </v-col>
+                <v-list-item-action>
+                    <div>
                         <v-col cols="12">
-                            <div class="ma-2">
-                                <v-btn class="yellow" color="error" @click="changepassword">
-                                    change password
-                                </v-btn>
-                            </div>
-                            <div class="ma-2">
-                                <v-btn color="error" @click="logout">
-                                    Sign out
-                                </v-btn>
-                            </div>
+                            <v-btn class="btn-drawer" color="yellow" @click="changepassword">
+                                change password
+                            </v-btn>
+                            <v-btn class="btn-drawer" color="red" @click="logout">
+                                Sign out
+                            </v-btn>
                         </v-col>
-                    </v-list-item-action>
-                </v-row>
+                    </div>
+                </v-list-item-action>
             </v-list>
         </v-navigation-drawer>
         <v-footer
@@ -105,14 +90,17 @@ export default {
     data () {
         return {
             userData: [],
+            message: '',
             clipped: true,
             drawer: true,
             fixed: true,
             items: [
                 {
-                    icon: 'mdi-apps',
-                    title: 'Welcome',
-                    to: '/'
+                    icon: 'mdi-puzzle-outline',
+                    title: 'Functions',
+                    to: {
+                        name: 'function'
+                    }
                 },
                 {
                     icon: 'mdi-account-box',
@@ -121,13 +109,7 @@ export default {
                         name: 'user'
                     }
                 },
-                {
-                    icon: 'mdi-puzzle-outline',
-                    title: 'Functions',
-                    to: {
-                        name: 'function'
-                    }
-                },
+
                 {
                     icon: 'mdi-vote',
                     title: 'Vote Result',
@@ -151,11 +133,12 @@ export default {
     },
     mounted() {
         userAPI.getProfile()
-            .then(async response => {
+            .then(response => {
                 console.log('RESPONSE', response.data)
                 this.userData = response.data
             })
-            .catch(async error => {
+            .catch(error => {
+                console.log(error)
                 this.$router.replace({ name: 'login' })
             })
     },
@@ -177,3 +160,33 @@ export default {
     }
 }
 </script>
+<style>
+h1 {
+    text-align: center;
+
+}
+.v-application {
+    font-family: 'Mitr', sans-serif !important;
+}
+.theme--light.v-app-bar.v-toolbar.v-sheet {
+    background-color: orange !important;
+}
+.profile {
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+}
+.email {
+    padding-top: 0px;
+    text-align: center;
+    font-size: 16px;
+    opacity: 60%;
+}
+.btn-drawer {
+    width: 100%;
+    margin-top: 20px !important;
+}
+.w-100 {
+    width: 100% ;
+}
+</style>
