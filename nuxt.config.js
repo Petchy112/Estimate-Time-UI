@@ -15,7 +15,8 @@ export default {
             { name: 'format-detection', content: 'telephone=no' }
         ],
         link: [
-            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+            { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Mitr:wght@200;400;600&display=swap" }
         ]
     },
 
@@ -55,7 +56,7 @@ export default {
             dark: false,
             themes: {
                 dark: {
-                    primary: colors.blue.darken2,
+                    primary: colors.orange.darken1,
                     accent: colors.grey.darken3,
                     secondary: colors.amber.darken3,
                     info: colors.teal.lighten1,
