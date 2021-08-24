@@ -1,5 +1,21 @@
 <template>
     <div>
+        <v-card-title>
+            <div class="my-head ma-3">
+                ผลการประมาณ
+            </div>
+            <v-spacer />
+            <v-text-field
+                append-icon="mdi-magnify"
+                flat
+                v-model="search"
+                label="Search"
+                class="mx-4"
+                solo-inverted
+                single-line
+                hide-details
+            />
+        </v-card-title>
         <estimateComponant />
     </div>
 </template>
@@ -40,8 +56,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 h1 {
     text-align: center;
+}
+.my-head {
+    font-size: 32px !important;
 }
 </style>
