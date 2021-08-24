@@ -1,28 +1,44 @@
 <template>
     <div v-if="voteData">
-        <v-tabs
-            v-model="tab"
-            slider-color="yellow"
-            fixed-tabs
-        >
-            <v-tab
-                v-for="item in items"
-                :key="item.tab"
-            >
-                {{ item.tab }}
-            </v-tab>
-        </v-tabs>
+        <voteDetails />
     </div>
 </template>
 
 <script>
+import voteDetails from "~/components/vote/_id/index.vue"
+import * as voteAPI from "@/utils/voteAPI"
 export default {
-    layout: 'liff'
+    layout: 'liff',
+    components: { voteDetails },
+    data() {
+        return {
+            voteData: [],
+            tab: null,
+            items: [
+                { tab: 'web', },
+                { tab: 'mobile', },
 
-
+            ],
+        }
+    },
+    async mounted() {
+        console.log('router param', this.$route.params.id)
+        await voteAPI.show(this.$route.params.id)
+            .then(response => {
+                console.log('RESPONSE', response)
+                this.voteData = response.data
+            })
+            .catch(async error => {
+                console.log('ERROR', error.response)
+                this.message = error.response.data.error.message
+            })
+    }
 }
 </script>
 
 <style>
+h1 {
+    text-align: center;
 
+}
 </style>

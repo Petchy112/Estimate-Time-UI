@@ -17,13 +17,13 @@
                 {{ item.tab }}
             </v-tab>
         </v-tabs>
-        <v-text-field
+        <!-- <v-text-field
             class="mx-4 my-2"
             flat
             label="Search"
             prepend-inner-icon="mdi-magnify"
             solo-inverted
-        />
+        /> -->
         <v-card flat>
             <v-tabs-items v-model="tab">
                 <v-tab-item
@@ -36,8 +36,8 @@
                         v-for="i in 2"
                         :key="i"
                     >
-                        <v-card-title class="text-h5 justify-center">
-                            ชื่อกลุ่มฟังก์ชัน
+                        <v-card-title class="justify-center">
+                            Group
                         </v-card-title>
                         <div
                             class="d-flex flex-column"
@@ -56,11 +56,9 @@
                                     <v-list-item-title>name</v-list-item-title>
                                     <v-list-item-subtitle>description</v-list-item-subtitle>
                                 </v-list-item-content>
-                                <v-list-action>
-                                    <v-list-action-text>
-                                        <v-text-field width="20px" label="time" solo-inverted />
-                                    </v-list-action-text>
-                                </v-list-action>
+                                <div class="result-time">
+                                    time hours
+                                </div>
                             </v-list-item>
                         </div>
                     </v-card>
@@ -100,8 +98,14 @@ export default {
 </script>
 
 <style>
+
 h1 {
     text-align: center;
-
+}
+.input-time {
+    width: 20%;
+    justify-content: flex-end;
+    align-content: center;
+    height:50px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="results">
         <v-col cols="12">
             <h1>Vote Results</h1>
         </v-col>
@@ -36,13 +36,14 @@ export default {
     methods: {
         async handleShowClicked(id) {
             console.log(id)
-            this.$router.push({ name: 'vote-id', params: { id } })
+            this.$router.push({ name: 'liff-result-id', params: { id } })
         }
     }
 }
 </script>
 
-<style>
+<style scoped>
+
 .v-btn {
  height: 50px;
 }
