@@ -7,25 +7,27 @@
             max-width="100%"
         >
             <v-toolbar-title>
-                Estimate system
+                Result
             </v-toolbar-title>
         </v-app-bar>
 
 
         <v-col cols="12">
-            <div class="result">
-                Result
-            </div>
-        </v-col>
-        <v-col cols="12">
             <v-card>
                 <v-col cols="12">
                     <v-list>
-                        <v-list-title>
+                        <v-list-title class="mx-5">
                             Platform : Website
                         </v-list-title>
-                        <v-list-item dense v-for="i in 20" :key="i.index">
-                            - choice
+                        <v-list-item>
+                            <div class="my-card d-flex align-content-start flex-wrap ">
+                                <v-card class="mt-4 ma-2 pa-4" v-for="i in 20" :key="i.index ">
+                                    <div class="d-flex">
+                                        <v-img width="40px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Disc_Plain_red.svg/1200px-Disc_Plain_red.svg.png" />
+                                    </div>
+                                    choice
+                                </v-card>
+                            </div>
                         </v-list-item>
                     </v-list>
                 </v-col>
@@ -45,7 +47,7 @@
                 >
                     <v-col cols="12">
                         <v-card-action>
-                            <div><v-text-field flat class="mt-2 mb-0 px-3" solo label="input name of system" /></div>
+                            <div><v-text-field flat class="mt-2 mb-0 px-3" solo label="input name of system" placeholder="input name of system" /></div>
                             <div class="d-flex justify-space-around">
                                 <v-btn
                                     outlined
@@ -90,14 +92,11 @@ export default {
 .v-toolbar__title {
     width: 100%;
     text-align: center;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: bold;
 }
-.result {
-    font-size: 32px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+.my-card {
+    justify-content: space-around;
 }
 
 </style>
