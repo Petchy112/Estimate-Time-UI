@@ -1,28 +1,40 @@
 <template>
     <div v-if="functionData">
-        <v-card class="pb-2" flat color="orange">
+        <v-card class="pb-2" flat tile color="orange">
             <h1 class="mt-3">
                 {{ functionData.group }}
             </h1>
-            <v-card class="my-card">
+            <v-card-subtitle class="text-center">
+                input time with hour format
+            </v-card-subtitle>
+            <v-card
+                rounded="20"
+                class="my-5 mx-5"
+                v-for="i in 2"
+                :key="i"
+            >
                 <div
                     class="d-flex flex-column"
-                    v-for="choice in functionData.choice"
-                    :key="choice.index"
+                    v-for="n in 3"
+                    :key="n"
                 >
-                    <v-list-item>
+                    <v-list-item two-line>
                         <v-list-item-avatar>
-                            <v-avatar color="red" class="circle" />
+                            <v-avatar
+                                class="ma-3 ml-6"
+                                color="red"
+                                size="120px"
+                            />
                         </v-list-item-avatar>
                         <v-list-item-content>
-                            <v-list-item-title>{{ choice.name }}</v-list-item-title>
-                            <v-list-item-subtitle>{{ choice.description }}</v-list-item-subtitle>
-                            <v-list-item-action>
-                                <div class="input-time">
-                                    <v-text-field filled label="TIME" dense />
-                                </div>
-                            </v-list-item-action>
+                            <v-list-item-title>name</v-list-item-title>
+                            <v-list-item-subtitle>description</v-list-item-subtitle>
                         </v-list-item-content>
+                        <v-list-action class="input-time">
+                            <v-list-action-text>
+                                <v-text-field label="Time" solo-inverted />
+                            </v-list-action-text>
+                        </v-list-action>
                     </v-list-item>
                 </div>
             </v-card>
@@ -58,24 +70,16 @@ export default {
 </script>
 
 <style scoped>
+
 h1 {
  padding-top: 25px !important;
 
 }
-.my-card {
-    margin: 20px 20px;
-}
-.v-list-item {
-    margin: 10px 10px;
-}
-.v-list-item__action {
-    margin-left: 0px !important;
-}
 .input-time {
-    width: 30%;
-    text-align: center !important;
-    margin: 0;
-    height:55px;
+    width: 20%;
+    justify-content: flex-end;
+    align-content: center;
+    height:50px;
 }
 .circle {
     size: 50px;
