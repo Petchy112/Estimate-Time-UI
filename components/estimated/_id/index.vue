@@ -1,8 +1,8 @@
 <template>
     <div v-if="estimateDetails">
         <div class="mt-5 mx-5">
-            <h1>ชื่อระบบ: {{ estimateDetails.projectName }}</h1>
-            <h3>แพลตฟอร์ม: {{ estimateDetails.platform }}</h3>
+            <h1> {{ estimateDetails.projectName }}</h1>
+            <h3>Platform : {{ estimateDetails.platform }}</h3>
         </div>
         <v-row
             justify="start"
@@ -14,14 +14,14 @@
                 flat
             >
                 <v-card-content>
-                    <v-card-title class="text-h6 pa-2">
-                        จำนวนนักพัฒนา: {{ estimateDetails.qty }}
+                    <v-card-title class="pa-2 pb-1">
+                        Number of developer: {{ estimateDetails.qty }}
                     </v-card-title>
-                    <v-card-title class="text-h6 pt-0 pb-0 pl-2">
-                        เวลาการพัฒนา: {{ time/5 }} weeks
+                    <v-card-title class="pt-0 pb-0 pl-2">
+                        Estimated time : {{ time/5 }} weeks
                     </v-card-title>
-                    <v-card-title class="text-h6 pa-2">
-                        ขนาดระบบ: {{ estimateDetails.size }}
+                    <v-card-title class="pa-2 pt-1">
+                        System size: {{ estimateDetails.size }}
                     </v-card-title>
                 </v-card-content>
             </v-card>
@@ -81,12 +81,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 h1 {
     opacity: 70%;
+    font-size: 38px;
 }
 h3 {
-
+    font-size: 18px;
+    text-align: center;
     opacity: 70%;
 }
 </style>

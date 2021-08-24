@@ -17,15 +17,8 @@
                 {{ item.tab }}
             </v-tab>
         </v-tabs>
-        <!-- <v-text-field
-            class="mx-4 my-2"
-            flat
-            label="Search"
-            prepend-inner-icon="mdi-magnify"
-            solo-inverted
-        /> -->
-        <v-card flat>
-            <v-tabs-items v-model="tab">
+        <v-tabs-items v-model="tab">
+            <v-card flat>
                 <v-tab-item
                     v-for="item in items"
                     :key="item.tab"
@@ -63,8 +56,8 @@
                         </div>
                     </v-card>
                 </v-tab-item>
-            </v-tabs-items>
-        </v-card>
+            </v-card>
+        </v-tabs-items>
     </div>
 </template>
 
