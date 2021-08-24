@@ -4,6 +4,9 @@
             :clipped-left="clipped"
             fixed
             app
+            dark
+            flat
+            color="orange"
         >
             <v-app-bar-nav-icon @click="drawer = !drawer" />
             <v-toolbar-title v-text="title" />
@@ -13,7 +16,7 @@
                 icon
                 @click="rightDrawer = !rightDrawer"
             >
-                <v-icon>mdi-menu</v-icon>
+                <v-icon>mdi-account</v-icon>
             </v-btn>
         </v-app-bar>
         <v-navigation-drawer
@@ -51,6 +54,7 @@
             temporary
             fixed
             app
+            dark
         >
             <v-list>
                 <v-col cols="12">
@@ -64,10 +68,10 @@
                 <v-list-item-action>
                     <div>
                         <v-col cols="12">
-                            <v-btn class="btn-drawer" color="yellow" @click="changepassword">
+                            <v-btn class="btn-drawer" outlined dark color="primary" @click="changepassword">
                                 change password
                             </v-btn>
-                            <v-btn class="btn-drawer" color="red" @click="logout">
+                            <v-btn class="btn-drawer" outlined dark color="red" @click="logout">
                                 Sign out
                             </v-btn>
                         </v-col>
@@ -170,9 +174,7 @@ h1 {
 .v-application--wrap {
     background: white;
 }
-.theme--light.v-app-bar.v-toolbar.v-sheet {
-    background-color: orange !important;
-}
+
 .profile {
     text-align: center;
     font-weight: bold;
