@@ -12,7 +12,7 @@
         >
             <v-tab
                 v-for="item in items"
-                :key="item.index"
+                :key="item.tab"
             >
                 {{ item.tab }}
             </v-tab>
@@ -37,9 +37,8 @@
                     <div class="d-flex flex-wrap">
                         <v-card
                             class="ma-5"
-                            max-width="344"
+                            max-width="340"
                             @click="handleShowClicked(functions._id)"
-                            :search="search"
                         >
                             <v-img
                                 src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
