@@ -1,14 +1,14 @@
 <template>
     <div>
         <v-col cols="12">
-            <h1>Vote Results</h1>
+            <h1>Vote results</h1>
         </v-col>
         <v-col cols="12">
-            <v-btn rounded class="w-100" color="orange">
+            <v-btn dark rounded class="w-100" color="orange">
                 Start Voting
             </v-btn>
         </v-col>
-        <voteComponant />
+        <voteComponant :voteResults="voteResults" />
     </div>
 </template>
 
@@ -21,14 +21,14 @@ export default {
     },
     data () {
         return {
-            results: [],
+            voteResults: [],
         }
     },
     async mounted() {
         await voteAPI.index()
             .then(response => {
                 console.log('RESPONSE', response)
-                this.results = response.data
+                this.voteResults = response.data
             })
             .catch(async error => {
                 console.log('ERROR', error.response)

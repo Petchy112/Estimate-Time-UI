@@ -1,9 +1,9 @@
 <template>
-    <div v-if="results">
+    <div>
         <v-col cols="12">
-            <h1>Vote Results</h1>
+            <h1>Vote results</h1>
         </v-col>
-        <voteComponant />
+        <voteComponant :voteResults="voteResults" />
     </div>
 </template>
 
@@ -17,14 +17,14 @@ export default {
     },
     data () {
         return {
-            results: [],
+            voteResults: [],
         }
     },
     async mounted() {
         await voteAPI.index()
             .then(response => {
                 console.log('RESPONSE', response)
-                this.results = response.data
+                this.voteResults = response.data
             })
             .catch(async error => {
                 console.log('ERROR', error.response)

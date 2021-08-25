@@ -1,5 +1,5 @@
 <template>
-    <div v-if="results">
+    <div v-if="voteResults">
         <v-simple-table class="ma-5">
             <template #default>
                 <thead>
@@ -11,7 +11,7 @@
                 </thead>
                 <tbody>
                     <tr
-                        v-for="(data,index) in results "
+                        v-for="(data,index) in voteResults "
                         :key="index"
                         @click="handleShowClicked(data._id)"
                     >
@@ -24,37 +24,11 @@
 </template>
 
 <script>
-import * as voteAPI from "@/utils/voteAPI"
 export default {
-    data () {
-        return {
-            results: [],
-        }
+    props: {
+        voteResults: Array
     },
-    async mounted() {
-        await voteAPI.index()
-            .then(response => {
-                console.log('RESPONSE', response)
-                this.results = response.data
-            })
-            .catch(async error => {
-                console.log('ERROR', error.response)
-                this.message = error.response.data.error.message
-            })
-
-    },
-
-    methods: {
-        async handleShowClicked(id) {
-            console.log(id)
-            this.$router.push({ name: 'liff-result-vote-id', params: { id } })
-        }
-    }
 }
 </script>
 
-<style scoped>
-h1 {
-    text-align: center;
-}
-</style>
+
