@@ -1,7 +1,7 @@
 <template>
-    <div v-if="estimateData">
+    <div>
         <v-row>
-            <v-col cols="12" class="back">
+            <v-col cols="12">
                 <v-card-title class="card-title">
                     <div class="my-head my-5">
                         ผลการประมาณ
@@ -16,7 +16,7 @@
                         hide-details
                     />
                 </v-card-title>
-                <estimateComponant />
+                <estimateComponant :estimateData="estimateData" />
             </v-col>
         </v-row>
     </div>

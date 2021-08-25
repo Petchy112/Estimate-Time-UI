@@ -6,9 +6,9 @@
             </div>
             <v-spacer />
             <v-text-field
+                v-model="search"
                 append-icon="mdi-magnify"
                 flat
-                v-model="search"
                 label="Search"
                 class="mx-4"
                 solo-inverted
@@ -16,7 +16,7 @@
                 hide-details
             />
         </v-card-title>
-        <estimateComponant />
+        <estimateComponant :estimateData="estimateData" />
     </div>
 </template>
 
@@ -37,6 +37,13 @@ export default {
             ],
         }
     },
+    computed: {
+        data() {
+            return {
+
+            }
+        },
+    },
     async mounted() {
         await estimateAPI.index()
             .then(response => {
@@ -45,7 +52,7 @@ export default {
             })
             .catch(async error => {
                 console.log('ERROR', error.response)
-                this.message = error.response.data.error.message
+
             })
     },
     methods: {
@@ -57,9 +64,7 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-    text-align: center;
-}
+
 .my-head {
     font-size: 32px !important;
 }

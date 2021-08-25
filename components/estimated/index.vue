@@ -1,54 +1,34 @@
 <template>
-    <div v-if="estimateData">
+    <div>
         <v-card
             flat
         >
             <v-data-table
                 :headers="headers"
                 :items="estimateData"
-                :items-per-page="5"
-                class="elevation-0"
                 :search="search"
-                @click:row="handleListClicked(items)"
+                :disable-pagination="true"
             />
         </v-card>
     </div>
 </template>
 
 <script>
-import * as estimateAPI from "@/utils/estimateAPI"
+
 export default {
-    data () {
+    props: {
+        search: String,
+        estimateData: Array
+    },
+    data() {
         return {
-            search: '',
-            estimateData: [],
             headers: [
                 { text: 'Project Name', align: 'start', sortable: true, value: 'projectName' },
                 { text: 'Create by', align: 'start', sortable: true, value: 'createBy' }
             ],
         }
     },
-    async mounted() {
-        await estimateAPI.index()
-            .then(response => {
-                console.log('RESPONSE', response)
-                this.estimateData = response.data
-            })
-            .catch(async error => {
-                console.log('ERROR', error.response)
-                this.message = error.response.data.error.message
-            })
-    },
-    methods: {
-        handleListClicked(id) {
-            console.log(id)
-        }
-    },
 }
 </script>
 
-<style>
-h1 {
-    text-align: center;
-}
-</style>
+
