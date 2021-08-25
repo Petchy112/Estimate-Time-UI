@@ -16,7 +16,6 @@
             <v-tabs
                 v-model="tab"
                 slider-color="yellow"
-                fixed-tabs
                 color="orange"
             >
                 <v-tab
@@ -78,14 +77,12 @@
                 color="orange"
             >
                 <v-col cols="12">
-                    <v-card-action>
-                        <v-card-text class="pa-0 pb-4 pl-2">
-                            ** กรุณาตรวจสอบข้อมูลให้เรียบร้อย
-                        </v-card-text>
-                        <v-btn outlined rounded class="next-btn" @click="nextPage">
-                            Next
-                        </v-btn>
-                    </v-card-action>
+                    <v-card-text class="pa-0 pb-4 pl-2">
+                        ** กรุณาตรวจสอบข้อมูลให้เรียบร้อย
+                    </v-card-text>
+                    <v-btn outlined rounded class="next-btn" @click="nextPage">
+                        Next
+                    </v-btn>
                 </v-col>
             </v-card>
         </v-footer>
@@ -98,12 +95,13 @@ export default {
     layout: 'liff',
     data() {
         return {
+            tab: null,
             padless: true,
             variant: 'fixed',
             functionData: [],
             items: [
-                { tab: 'Web' },
-                { tab: 'Mobile' }
+                { tab: 'WEBSITE' },
+                { tab: 'MOBILE' }
             ]
         }
     },
