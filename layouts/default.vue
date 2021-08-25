@@ -118,14 +118,14 @@ export default {
                     icon: 'mdi-vote',
                     title: 'Vote Result',
                     to: {
-                        name: 'vote'
+                        name: 'result-vote'
                     }
                 },
                 {
                     icon: 'mdi-timer-sand',
                     title: 'Estimate Result',
                     to: {
-                        name: 'estimated'
+                        name: 'result-estimated'
                     }
                 },
             ],
