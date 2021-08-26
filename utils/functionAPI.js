@@ -1,8 +1,8 @@
 import { request } from "./API"
 const HOSTNAME = 'http://localhost:4000'
 
-export function index() {
-    const url =`${HOSTNAME}/function`
+export function index(platform) {
+    const url =`${HOSTNAME}/function?platform=${platform}`
     return request('get', url, {}, { Authorization: localStorage.getItem('token') })
 }
 export function show(id) {
