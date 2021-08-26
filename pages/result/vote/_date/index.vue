@@ -1,5 +1,5 @@
 <template>
-    <voteDetails />
+    <voteDetails :voteData="voteData" />
 </template>
 
 <script>
@@ -21,8 +21,8 @@ export default {
         }
     },
     async mounted() {
-        console.log('router param', this.$route.params.id)
-        await voteAPI.show(this.$route.params.id)
+        console.log('router param', this.$route.params.date)
+        await voteAPI.show(this.$route.params.date)
             .then(response => {
                 console.log('RESPONSE', response)
                 this.voteData = response.data
