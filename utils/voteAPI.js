@@ -5,7 +5,12 @@ export function index() {
     const url =`${HOSTNAME}/vote`
     return request('get', url, {}, { Authorization: localStorage.getItem('token') })
 }
-export function show(id) {
-    const url =`${HOSTNAME}/vote/${id}`
+export function show(date) {
+    const url =`${HOSTNAME}/vote/${date}`
     return request('get', url, {}, { Authorization: localStorage.getItem('token') })
+}
+export function sentVote(fid, body) {
+    const url =`${HOSTNAME}/vote/${fid}/save`
+    console.log(fid, body)
+    return request('post', url, { body }, { Authorization: localStorage.getItem('token') })
 }
