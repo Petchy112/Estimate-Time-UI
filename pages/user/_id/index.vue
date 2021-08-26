@@ -1,18 +1,13 @@
 <template>
     <div v-if="user">
-        <v-card
-            class="card-outter"
-            max-width="400px"
-        >
-            <v-col
-                cols="12"
-            >
-                <v-img
+        <v-col cols="12">
+            <v-card max-width="auto" class="mt-4 ma-2 pa-4">
+                <v-row justify="center">
+                    <div class="circle">
+                        <v-img max-width="100px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Disc_Plain_red.svg/1200px-Disc_Plain_red.svg.png" />
+                    </div>
+                </v-row>
 
-                    src=""
-                    height="100px"
-                    width="100px"
-                />
 
                 <v-card-title class="justify-start text-h5">
                     Firstname : {{ user.firstname }}
@@ -34,8 +29,9 @@
                         Delete
                     </v-btn>
                 </v-card-action>
-            </v-col>
-        </v-card>
+            </v-card>
+        </v-col>
+
         <v-dialog
             v-model="deleteDialog"
             max-width="500"
@@ -111,8 +107,5 @@ export default {
 </script>
 
 <style>
-.card-action {
-  position:relative;
-  bottom: 0;
-}
+
 </style>
