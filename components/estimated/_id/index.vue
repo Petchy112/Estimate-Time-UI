@@ -30,53 +30,40 @@
         <div class="pt-5">
             <h1>ฟังก์ชันที่เลือก</h1>
         </div>
-        <div class="d-flex flex-wrap">
-            <v-card
-                class="ma-5"
-                max-width="344"
-                v-for="selected in estimateDetails.choice"
-                :key="selected.index"
-            >
-                <v-img
-                    src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-                    height="200px"
-                />
+        <v-col cols="12">
+            <div class="d-flex flex-wrap">
+                <v-card
+                    class="ma-5"
+                    max-width="344"
+                    v-for="selected in estimateDetails.choice"
+                    :key="selected.index"
+                >
+                    <v-img
+                        src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                        height="200px"
+                    />
 
-                <v-card-title class="pa-0">
-                    <v-list-item two-line>
-                        <v-list-item-content>
-                            <v-list-item-title>{{ selected }}</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-card-title>
-            </v-card>
-        </div>
+                    <v-card-title class="pa-0">
+                        <v-list-item two-line>
+                            <v-list-item-content>
+                                <v-list-item-title>{{ selected }}</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-card-title>
+                </v-card>
+            </div>
+        </v-col>
     </div>
 </template>
 
 <script>
-import * as estimateAPI from "@/utils/estimateAPI"
-export default {
-    data() {
-        return {
-            estimateDetails: [],
-            time: ''
-        }
-    },
-    async mounted() {
-        console.log(this.$route.params.id)
-        await estimateAPI.show(this.$route.params.id)
-            .then(response => {
-                console.log('RESPONSE', response)
-                this.estimateDetails = response.data
-                this.time = response.data.estimatedTime
-            })
-            .catch(async error => {
-                console.log('ERROR', error.response)
-                this.message = error.response.data.error.message
-            })
 
-    }
+export default {
+    props: {
+        estimateDetails: Array,
+        time: Number
+    },
+
 
 }
 </script>
