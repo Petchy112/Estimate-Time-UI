@@ -17,6 +17,7 @@
                     <v-tab
                         v-for="item in items"
                         :key="item.index"
+                        @click="choosePlatform(item.tab)"
                     >
                         {{ item.tab }}
                     </v-tab>
@@ -31,7 +32,6 @@
                                 class="my-func"
                                 color="orange"
                                 elevation="1"
-                                :search="search"
                                 v-for="func in functionData"
                                 :key="func.index"
                                 @click="handleShowClicked(func._id)"
@@ -54,6 +54,7 @@ export default {
     layout: 'liff',
     data() {
         return {
+
             functionData: [],
             items: [
                 { tab: 'WEBSITE', },
@@ -62,7 +63,7 @@ export default {
         }
     },
     async mounted() {
-        await functionAPI.index()
+        await functionAPI.index('WEBSITE')
             .then(response => {
                 console.log('RESPONSE', response)
                 this.functionData = response.data
@@ -77,6 +78,14 @@ export default {
             console.log(id)
             this.$router.push({ name: 'liff-id', params: { id } })
         },
+        async choosePlatform(platform) {
+            console.log(platform)
+            await functionAPI.index(platform)
+                .then(response => {
+                    console.log('RESPONSE', response)
+                    this.functionData = response.data
+                })
+        }
     }
 }
 
