@@ -3,7 +3,7 @@
         <v-col cols="12">
             <h1>Vote results</h1>
         </v-col>
-        <voteComponant :voteResults="voteResults" />
+        <voteComponant @show-vote="handleShowClicked" :voteResults="voteResults" />
     </div>
 </template>
 

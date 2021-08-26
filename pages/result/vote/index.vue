@@ -5,10 +5,10 @@
         </v-col>
         <v-col cols="12">
             <v-btn dark rounded class="w-100" color="orange">
-                Start Voting
+                Start voting
             </v-btn>
         </v-col>
-        <voteComponant :voteResults="voteResults" />
+        <voteComponant @show-vote="handleShowClicked" :voteResults="voteResults" />
     </div>
 </template>
 
@@ -38,9 +38,9 @@ export default {
     },
 
     methods: {
-        async handleShowClicked(id) {
-            console.log(id)
-            this.$router.push({ name: 'vote-id', params: { id } })
+        async handleShowClicked(date) {
+            console.log(date)
+            this.$router.push({ name: 'result-vote-date', params: { date } })
         }
     }
 }
