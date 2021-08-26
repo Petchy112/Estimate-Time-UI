@@ -26,15 +26,15 @@
                     <v-card
                         tile
                         class="my-5 mx-5"
-                        v-for="i in 2"
-                        :key="i"
+                        v-for="results in voteData"
+                        :key="results.index"
                     >
                         <v-card-title class="justify-center">
-                            Group
+                            {{ results.group }}
                         </v-card-title>
                         <div
                             class="d-flex flex-column"
-                            v-for="n in 3"
+                            v-for="n in results.choice"
                             :key="n"
                         >
                             <v-list-item two-line>
@@ -62,43 +62,21 @@
 </template>
 
 <script>
-import * as voteAPI from "@/utils/voteAPI"
+
 export default {
+    props: {
+        voteData: Array
+    },
     data() {
         return {
-            voteData: [],
             tab: null,
             items: [
-                { tab: 'web', },
-                { tab: 'mobile', },
+                { tab: 'WEBSITE', },
+                { tab: 'MOBILE', },
 
             ],
         }
     },
-    async mounted() {
-        console.log('router param', this.$route.params.id)
-        await voteAPI.show(this.$route.params.id)
-            .then(response => {
-                console.log('RESPONSE', response)
-                this.voteData = response.data
-            })
-            .catch(async error => {
-                console.log('ERROR', error.response)
-                this.message = error.response.data.error.message
-            })
-    }
 }
 </script>
 
-<style>
-
-h1 {
-    text-align: center;
-}
-.input-time {
-    width: 20%;
-    justify-content: flex-end;
-    align-content: center;
-    height:50px;
-}
-</style>
