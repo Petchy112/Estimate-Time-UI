@@ -1,15 +1,16 @@
 <template>
     <div>
-        <v-card>
-            <v-card-title>
-                <div class="my-header">
-                    ESTIMATE TIME APP
-                </div>
-            </v-card-title>
-            <v-card-subtitle>
-                Please login to website
-            </v-card-subtitle>
-            <v-card-action>
+        <v-col cols="12">
+            <v-card>
+                <v-card-title>
+                    <div class="my-header">
+                        ESTIMATE TIME APP
+                    </div>
+                </v-card-title>
+                <v-card-subtitle>
+                    Please login to website
+                </v-card-subtitle>
+
                 <v-row>
                     <v-col cols="12">
                         <v-form
@@ -48,8 +49,8 @@
                         </v-form>
                     </v-col>
                 </v-row>
-            </v-card-action>
-        </v-card>
+            </v-card>
+        </v-col>
     </div>
 </template>
 
