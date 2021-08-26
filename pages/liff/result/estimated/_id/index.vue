@@ -1,5 +1,5 @@
 <template>
-    <estimateDetailsPage />
+    <estimateDetailsPage :estimateDetails="estimateDetails" :time="time" />
 </template>
 
 <script>

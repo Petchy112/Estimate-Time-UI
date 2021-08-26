@@ -1,6 +1,6 @@
 <template>
-    <div v-if="voteData">
-        <voteDetails />
+    <div>
+        <voteDetails :voteData="voteData" />
     </div>
 </template>
 
