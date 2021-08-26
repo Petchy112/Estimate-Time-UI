@@ -24,7 +24,7 @@
                 </v-tabs>
                 <v-tabs-items v-model="tab">
                     <v-tab-item
-                        v-for="i in 3"
+                        v-for="i in 2"
                         :key="i.tab"
                     >
                         <div class="d-flex flex-column">
@@ -54,7 +54,7 @@ export default {
     layout: 'liff',
     data() {
         return {
-
+            tab: '',
             functionData: [],
             items: [
                 { tab: 'WEBSITE', },

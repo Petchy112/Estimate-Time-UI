@@ -6,6 +6,7 @@
             {{ functionData.group }}
         </h1>
         <v-text-field
+            flat
             placeholder="Search"
             solo-inverted
             append-icon="mdi-magnify"
