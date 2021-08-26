@@ -2,7 +2,7 @@
     <div>
         <v-card-title>
             <div class="my-head ma-3">
-                ผลการประมาณ
+                Estimate result
             </div>
             <v-spacer />
             <v-text-field
@@ -16,7 +16,7 @@
                 hide-details
             />
         </v-card-title>
-        <estimateComponant :estimateData="estimateData" />
+        <estimateComponant @show-estimated="handleShowClicked" :estimateData="estimateData" />
     </div>
 </template>
 
@@ -37,13 +37,7 @@ export default {
             ],
         }
     },
-    computed: {
-        data() {
-            return {
 
-            }
-        },
-    },
     async mounted() {
         await estimateAPI.index()
             .then(response => {
@@ -56,8 +50,9 @@ export default {
             })
     },
     methods: {
-        handleListClicked(id) {
+        async handleShowClicked(id) {
             console.log(id)
+            // this.$router.push({ name: 'result-estimated-date', params: { id } })
         }
     },
 }
