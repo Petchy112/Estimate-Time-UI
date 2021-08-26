@@ -14,3 +14,7 @@ export function sentVote(fid, body) {
     console.log(fid, body)
     return request('post', url, { body }, { Authorization: localStorage.getItem('token') })
 }
+export function getDataForEstimate(platform) {
+    const url =`${HOSTNAME}/vote/?platform=${platform}`
+    return request('get', url, {}, { Authorization: localStorage.getItem('token') })
+}
