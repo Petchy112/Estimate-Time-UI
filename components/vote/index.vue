@@ -13,7 +13,7 @@
                     <tr
                         v-for="(data,index) in voteResults "
                         :key="index"
-                        @click="handleShowClicked(data._id)"
+                        @click="handleShowClicked(data.votingDate)"
                     >
                         <td>โหวตครั้งที่ {{ index+1 }} , ({{ data.votingDate }})</td>
                     </tr>
@@ -28,6 +28,11 @@ export default {
     props: {
         voteResults: Array
     },
+    methods: {
+        handleShowClicked(date) {
+            this.$emit('show-vote', date)
+        }
+    }
 }
 </script>
 
