@@ -10,13 +10,11 @@
             <v-card
                 rounded="20"
                 class="my-5 mx-5"
-                v-for="i in 2"
-                :key="i"
+                v-for="(choice,index) in data"
+                :key="index"
             >
                 <div
                     class="d-flex flex-column"
-                    v-for="n in 3"
-                    :key="n"
                 >
                     <v-list-item two-line>
                         <v-list-item-avatar>
@@ -27,20 +25,20 @@
                             />
                         </v-list-item-avatar>
                         <v-list-item-content>
-                            <v-list-item-title>name</v-list-item-title>
-                            <v-list-item-subtitle>description</v-list-item-subtitle>
+                            <v-list-item-title>{{ choice.name }}</v-list-item-title>
+                            <v-list-item-subtitle>{{ choice.description }}</v-list-item-subtitle>
                         </v-list-item-content>
-                        <v-list-action class="input-time">
-                            <v-list-action-text>
-                                <v-text-field label="Time" solo-inverted />
-                            </v-list-action-text>
-                        </v-list-action>
+                        <div class="input-time">
+                            <div>
+                                <v-text-field label="Time" @change="logs()" v-model="choice.time" solo-inverted />
+                            </div>
+                        </div>
                     </v-list-item>
                 </div>
             </v-card>
             <v-col cols="12">
                 <div>
-                    <v-btn rounded class="my-btn">
+                    <v-btn @click="handleNextClicked(data)" rounded class="my-btn">
                         Next
                     </v-btn>
                 </div>
@@ -51,11 +49,13 @@
 
 <script>
 import * as functionAPI from '@/utils/functionAPI'
+import * as voteAPI from "@/utils/voteAPI"
 export default {
     layout: 'blank',
     data() {
         return {
-            functionData: []
+            functionData: [],
+            data: []
         }
     },
 
@@ -64,8 +64,27 @@ export default {
         const response = await functionAPI.show(this.$route.params.id)
         console.log('RESPONSE', response)
         this.functionData = response.data
+        for (let i = 0; i < this.functionData.choice.length; i++) {
+            this.data.push({ choiceId: this.functionData.choice[i]._id, name: this.functionData.choice[i].name, description: this.functionData.choice[i].description, time: '' })
+        }
+        console.log('test', this.data)
+
     },
 
+    methods: {
+        logs() {
+            console.log(this.data)
+        },
+        async handleNextClicked(body) {
+            await voteAPI.sentVote(this.$route.params.id, body)
+                .then(response => {
+                    console.log(response)
+                    this.$router.push({ name: 'liff' })
+                }).catch(error => {
+                    console.log(error)
+                })
+        }
+    }
 }
 </script>
 
