@@ -21,14 +21,15 @@
                 <v-tab
                     v-for="item in items"
                     :key="item.tab"
+                    @click="choosePlatform(item.tab)"
                 >
                     {{ item.tab }}
                 </v-tab>
             </v-tabs>
             <v-tabs-items v-model="tab">
                 <v-tab-item
-                    v-for="item in items"
-                    :key="item.tab"
+                    v-for="i in 2"
+                    :key="i.tab"
                 >
                     <div class="subheader2 pa-0 pt-5">
                         Select Function that you need
@@ -36,26 +37,26 @@
                     <v-card
                         tile
                         class="my-5 mx-5"
-                        v-for="i in 2"
-                        :key="i"
+                        v-for="functions,index in functionData"
+                        :key="index"
                     >
                         <v-card-title class="justify-center">
-                            Group
+                            {{ functions.group }}
                         </v-card-title>
                         <div
                             class="d-flex flex-column"
-                            v-for="n in 3"
-                            :key="n"
+                            v-for="choice in functions.choices"
+                            :key="choice"
                         >
-                            <v-btn height="80px" class="mb-3 mx-3" @click="logs(n)">
+                            <v-btn height="80px" class="mb-3 mx-3" @click="logs(choice.name)">
                                 <v-list-item two-line>
                                     <v-list-item-avatar>
                                         <v-img max-width="50" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Disc_Plain_red.svg/1200px-Disc_Plain_red.svg.png" />
                                     </v-list-item-avatar>
 
                                     <v-list-item-content>
-                                        <v-list-item-title>name</v-list-item-title>
-                                        <v-list-item-subtitle>description</v-list-item-subtitle>
+                                        <v-list-item-title>{{ choice.name }}</v-list-item-title>
+                                        <v-list-item-subtitle>{{ choice.description }}</v-list-item-subtitle>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-btn>
@@ -65,7 +66,7 @@
             </v-tabs-items>
         </v-col>
 
-        <v-divider />
+
         <v-footer
             :padless="padless"
             fixed
@@ -90,11 +91,14 @@
 </template>
 
 <script>
-import * as functionAPI from "~/utils/functionAPI"
+import * as voteAPI from "~/utils/voteAPI"
+
 export default {
     layout: 'liff',
     data() {
+
         return {
+            platform: '',
             tab: null,
             padless: true,
             variant: 'fixed',
@@ -102,11 +106,22 @@ export default {
             items: [
                 { tab: 'WEBSITE' },
                 { tab: 'MOBILE' }
-            ]
+            ],
+
+            selected:
+                {
+                    selectedChoice: [],
+                    platform: '',
+                    estimateTime: '',
+                    projectName: '',
+                    qty: '',
+                    size: ''
+                }
+
         }
     },
     async mounted() {
-        await functionAPI.index()
+        await voteAPI.getDataForEstimate('WEBSITE')
             .then(response => {
                 console.log('RESPONSE', response)
                 this.functionData = response.data
@@ -117,8 +132,18 @@ export default {
             })
     },
     methods: {
-        logs(n) {
-            console.log(n)
+        async logs(choice) {
+            await this.selected.selectedChoice.push(choice)
+            console.log(this.selected)
+        },
+        async choosePlatform(platform) {
+            this.selected.platform = platform || 'WEBSITE'
+            console.log(this.selected)
+            await voteAPI.getDataForEstimate(platform)
+                .then(response => {
+                    console.log('RESPONSE', response)
+                    this.functionData = response.data
+                })
         },
         nextPage() {
             this.$router.push({ name: 'liff-estimate-page2' })

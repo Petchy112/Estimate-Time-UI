@@ -7,7 +7,7 @@
             max-width="100%"
         >
             <v-toolbar-title>
-                Result
+                result
             </v-toolbar-title>
         </v-app-bar>
 
@@ -20,7 +20,7 @@
                             Platform : Website
                         </v-list-title>
                         <v-list-item>
-                            <div class="my-card d-flex align-content-start flex-wrap ">
+                            <div class="my-card d-flex align-content-start flex-wrap">
                                 <v-card class="mt-4 ma-2 pa-4" v-for="i in 20" :key="i.index ">
                                     <div class="d-flex">
                                         <v-img width="40px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Disc_Plain_red.svg/1200px-Disc_Plain_red.svg.png" />
@@ -74,12 +74,29 @@
 </template>
 
 <script>
+import * as estimateAPI from "~/utils/estimateAPI"
 export default {
     layout: 'liff',
     data() {
         return {
             padless: true,
             variant: 'fixed',
+            selected: [ {
+                selectedChoice: [],
+                selectedPlatform: '',
+                estimateTime: '',
+                projectName: '',
+                qty: '',
+                size: ''
+            } ]
+        }
+    },
+    methods: {
+        async estimate() {
+            await estimateAPI.sentEstimate(selected)
+                .then(response => {
+                    console.log(response)
+                })
         }
     }
 }
