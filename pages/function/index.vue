@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="functionData">
         <div>
             <h1 class="ma-3">
                 จัดการฟังก์ชัน
@@ -12,7 +12,8 @@
         >
             <v-tab
                 v-for="item in items"
-                :key="item.tab"
+                :key="item.index"
+                @click="choosePlatform(item.tab)"
             >
                 {{ item.tab }}
             </v-tab>
@@ -32,7 +33,7 @@
             <v-tabs-items v-model="tab">
                 <v-tab-item
                     v-for="functions in functionData"
-                    :key="functions.tab"
+                    :key="functions"
                 >
                     <div class="d-flex flex-wrap">
                         <v-card
@@ -67,7 +68,7 @@ export default {
             search: '',
             message: '',
             functionData: [],
-            tab: null,
+            tab: '',
             items: [
                 { tab: 'WEBSITE', },
                 { tab: 'MOBILE', },
