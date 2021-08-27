@@ -1,16 +1,60 @@
 <template>
     <div>
-        <login @login-clicked="login" />
+        <v-col cols="12">
+            <v-card>
+                <v-card-title>
+                    <div class="my-header">
+                        ESTIMATE TIME APP
+                    </div>
+                </v-card-title>
+                <v-card-subtitle>
+                    Please login to website
+                </v-card-subtitle>
+
+                <v-row>
+                    <v-col cols="12">
+                        <v-form
+                            ref="form"
+                            v-model="valid"
+                            lazy-validation
+                        >
+                            <v-text-field
+                                v-model="body.email"
+                                :rules="emailRules"
+                                label="Email"
+                                solo-inverted
+                                required
+                            />
+                            <v-text-field
+                                v-model="body.password"
+                                :rules="passwordRules"
+                                :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                                :type="show ? 'text' : 'password'"
+                                @click:append="show = !show"
+                                label="Password"
+                                solo-inverted
+                                required
+                            />
+                            <v-btn
+                                class="width-100"
+                                color="orange"
+                                rounded
+                                @click="login()"
+                                dark
+                            >
+                                Sign in
+                            </v-btn>
+                        </v-form>
+                    </v-col>
+                </v-row>
+            </v-card>
+        </v-col>
     </div>
 </template>
 
 <script>
 import * as userAPI from "@/utils/userAPI"
-import login from "~/components/auth/login.vue"
 export default {
-    components: {
-        login
-    },
     layout: 'blank',
     data() {
         return {
@@ -36,23 +80,27 @@ export default {
         liff.init({
             liffId: '1656364274-8p9ZXm3e'
         }).then(() => {
-            if (liff.isLoggedIn()) {
-                liff.getProfile().then(profile => {
-                    this.body.lineUserId = profile.userId
-                })
-            }
-            else {
-                liff.login()
-            }
+            liff.getProfile().then(profile => {
+                this.body.lineUserId = profile.userId
+                console.log(this.body)
+            })
+
         })
     },
     methods: {
-        async login(body) {
-            await userAPI.login(body)
+        async login() {
+            this.$refs.form.validate()
+            await userAPI.login(this.body)
                 .then(async response => {
                     console.log('RESPONSE', response)
                     await localStorage.setItem('token', response.data.accessToken)
-                    console.log('closeWindow')
+                    if (response.data.role == 'ADMIN') {
+                        this.$router.push({ name: 'function' })
+                    }
+                    else {
+                        liff.closeWindow()
+                    }
+
                 })
                 .catch(async error => {
                     console.log('ERROR', error.response)
@@ -64,5 +112,18 @@ export default {
 </script>
 
 <style>
-
+.v-card-subtitle {
+    padding-bottom: 10px 0;
+}
+.width-100 {
+    width: 100%;
+    margin-bottom:9px ;
+}
+.v-form {
+    padding: 0 20px;
+}
+.my-header{
+    font-weight: bold;
+    font-size: x-large;
+}
 </style>

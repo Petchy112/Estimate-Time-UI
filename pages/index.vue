@@ -39,7 +39,7 @@
                                 class="width-100"
                                 color="orange"
                                 rounded
-                                @click="login()"
+                                @click="login"
                                 dark
                             >
                                 Sign in
@@ -63,7 +63,7 @@ export default {
             body: {
                 email: '',
                 password: '',
-                lineUserId: ''
+
             },
             show: false,
             passwordRules: [
@@ -76,34 +76,22 @@ export default {
             ],
         }
     },
-    mounted() {
-        liff.init({
-            liffId: '1656364274-8p9ZXm3e'
-        }).then(() => {
-            if (liff.isLoggedIn()) {
-                liff.getProfile().then(profile => {
-                    this.body.lineUserId = profile.userId
-                    console.log(this.body)
-                })
-            }
-            else {
-                liff.login()
-            }
-        })
-    },
+
     methods: {
         async login() {
             this.$refs.form.validate()
             await userAPI.login(this.body)
                 .then(async response => {
                     console.log('RESPONSE', response)
-                    await localStorage.setItem('token', response.data.accessToken)
+
                     if (response.data.role == 'ADMIN') {
+                        await localStorage.setItem('token', response.data.accessToken)
                         this.$router.push({ name: 'function' })
                     }
                     else {
-                        liff.closeWindow()
+                        console.log('NoT permission')
                     }
+
 
                 })
                 .catch(async error => {
