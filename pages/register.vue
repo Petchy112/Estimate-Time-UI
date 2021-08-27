@@ -66,6 +66,7 @@
                     label="Select Role"
                     required
                     solo-inverted
+                    v-model="body.role"
                 />
 
                 <v-btn
@@ -127,7 +128,9 @@ export default {
             lastname: '',
             email: '',
             password: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            role: ''
+
         }
     }),
 
