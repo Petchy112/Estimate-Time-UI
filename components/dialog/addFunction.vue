@@ -2,7 +2,8 @@
     <div>
         <v-btn
             fab
-            color="success"
+            dark
+            color="orange"
             bottom
             right
             fixed
@@ -16,47 +17,35 @@
             max-width="1000px"
         >
             <v-card>
-                <div v-if="message">
-                    <v-row justify-md="end">
-                        <v-col
-                            md="5"
-                            class="justify--end"
-                        >
-                            <v-alert
-                                dense
-                                elevation="5"
-                                type="error"
-                            >
-                                {{ message }}
-                            </v-alert>
-                        </v-col>
-                    </v-row>
-                </div>
-                <v-card-title class=" my-4 text-h4">
-                    เพิ่มฟังก์ชัน
-                </v-card-title>
+                <v-app-bar color="orange" flat>
+                    <v-toolbar-title>
+                        ADD FUNCTION
+                    </v-toolbar-title>
+                </v-app-bar>
+
                 <v-text-field
-                    class="input-group--focused px-6"
-                    placeholder="ชื่อกลุ่มฟังก์ชัน"
-                    hint="กรอกชื่อกลุ่มฟังก์ชัน"
+                    class="input-group--focused pa-6 pb-0"
+                    placeholder="Group of function name"
+                    hint="Group of function"
                     :rules="groupRules"
                     v-model="group"
                     required
                     solo
                 />
+
                 <v-radio-group
                     :rules="[v => !!v || 'Platform is required']"
                     class="pa-sm-5 pa-xs-1"
                     v-model="platform"
                     row
                 >
-                    <span class="ml-lg-6 mr-lg-6 text-h6">เลือกแพลตฟอร์ม</span>
+                    <span class="ml-lg-6 mr-lg-6">Choose platform</span>
                     <v-radio
-                        label="website"
+                        label="WEBSITE"
                         value="WEBSITE"
                     />
                     <v-radio
-                        label="mobile"
+                        label="MOBILE"
                         value="MOBILE"
                     />
                 </v-radio-group>
@@ -69,14 +58,16 @@
                         class="ma-2"
                         elevation="1"
                     >
-                        <v-btn
-                            fab
-                            @click="handleCloseClicked(choices.indexOf(choice))"
-                            color="error"
-                            v-if="choices.length>1"
-                        >
-                            <v-icon>mdi-close</v-icon>
-                        </v-btn>
+                        <div class="remove-btn">
+                            <v-btn
+                                rounded
+                                @click="handleCloseClicked(choices.indexOf(choice))"
+                                color="error"
+                                v-if="choices.length>1"
+                            >
+                                <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                        </div>
                         <v-col cols="12">
                             <v-card-title>
                                 <v-avatar
@@ -106,19 +97,22 @@
                             </v-card-subtitle>
                         </v-col>
                     </v-card>
-                    <v-btn
-                        fab
-                        @click="handleAddClicked"
-                        color="success"
-                    >
-                        <v-icon>mdi-plus</v-icon>
-                    </v-btn>
+                    <div class="d-flex justify-center">
+                        <v-btn
+                            rounded
+
+                            @click="handleAddClicked"
+                            color="success"
+                        >
+                            <v-icon>mdi-plus</v-icon>
+                        </v-btn>
+                    </div>
                 </v-card-text>
                 <v-divider />
                 <v-card-actions class="pa-7">
-                    <v-row justify="end">
+                    <v-row justify="center" justify-md="end">
                         <v-btn
-                            class="mx-md-2 pa-md-4 pa-lg-4 pa-xs-auto"
+                            class="mx-md-2 pa-md-3 mx-2 pa-3"
                             color="error"
 
                             @click="dialog = false"
@@ -126,7 +120,7 @@
                             Close
                         </v-btn>
                         <v-btn
-                            class="mx-md-2 pa-md-4 pa-lg-4 pa-xs-auto"
+                            class="mx-md-2 pa-md-3 mx-2 pa-3"
                             color="success"
 
                             @click="handleSaveClicked"
@@ -141,6 +135,7 @@
 </template>
 
 <script>
+import * as functionAPI from "~/utils/functionAPI"
 export default {
     data() {
         return {
@@ -152,6 +147,15 @@ export default {
                     name: '',
                     description: ''
                 }
+            ],
+            groupRules: [
+                v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน'
+            ],
+            choiceRules: [
+                v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน'
+            ],
+            descriptionRules: [
+                v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน'
             ],
         }
     },
@@ -186,5 +190,9 @@ export default {
 </script>
 
 <style>
-
+.remove-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 10px;
+}
 </style>
