@@ -6,8 +6,8 @@
             <v-data-table
                 :headers="headers"
                 :items="estimateData"
-                :search="search"
-                :disable-pagination="true"
+                class="elevation-0"
+                @click:row="handleShowClicked(item)"
             />
         </v-card>
     </div>
@@ -28,6 +28,13 @@ export default {
             ],
         }
     },
+    methods: {
+        handleShowClicked(row) {
+            console.log(row)
+            this.$emit('show-estimated', row)
+        }
+
+    }
 }
 </script>
 

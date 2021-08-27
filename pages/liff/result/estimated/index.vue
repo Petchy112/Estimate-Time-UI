@@ -4,7 +4,7 @@
             <v-col cols="12">
                 <v-card-title class="card-title">
                     <div class="my-head my-5">
-                        ผลการประมาณ
+                        Estimate result
                     </div>
                     <v-text-field
                         append-icon="mdi-magnify"

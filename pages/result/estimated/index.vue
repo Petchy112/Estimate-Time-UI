@@ -50,8 +50,8 @@ export default {
             })
     },
     methods: {
-        async handleShowClicked(id) {
-            console.log(id)
+        async handleShowClicked(row) {
+            console.log(row)
             // this.$router.push({ name: 'result-estimated-date', params: { id } })
         }
     },
