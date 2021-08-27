@@ -17,6 +17,9 @@ export default {
         link: [
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
             { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Mitr:wght@200;400;600&display=swap" }
+        ],
+        script: [
+            { src: "https://static.line-scdn.net/liff/edge/2.1/sdk.js" }
         ]
     },
 
