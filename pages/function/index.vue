@@ -36,21 +36,20 @@
                         v-for="i in 2"
                         :key="i.tab"
                     >
-                        {{ func }}
                         <div class="d-flex flex wrap">
                             <v-card
-                                v-for="func in functionData"
-                                :key="func.index"
+                                v-for="functions,index in functionData"
+                                :key="index"
                                 class="ma-5"
                                 max-width="340"
-                                @click="handleShowClicked(func._id)"
+                                @click="handleShowClicked(functions._id)"
                             >
                                 <v-img
                                     src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
                                     height="200px"
                                 />
                                 <v-card-title class="justify-center">
-                                    {{ func.group }}
+                                    {{ functions.group }}
                                 </v-card-title>
                             </v-card>
                         </div>

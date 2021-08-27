@@ -61,8 +61,9 @@
                         <div class="remove-btn">
                             <v-btn
                                 rounded
+                                dark
                                 @click="handleCloseClicked(choices.indexOf(choice))"
-                                color="error"
+                                color="red"
                                 v-if="choices.length>1"
                             >
                                 <v-icon>mdi-close</v-icon>
@@ -77,10 +78,10 @@
                                 />
 
                                 <v-text-field
-                                    placeholder="ชื่อฟังก์ชัน"
+                                    placeholder="Function choice"
                                     class="input-group--focused"
                                     :rules="choiceRules"
-                                    hint="ชื่อฟังก์ชัน"
+                                    hint="Function choice"
                                     v-model="choices[index].name"
                                     solo
                                 />
@@ -90,8 +91,8 @@
                                     v-model="choices[index].description"
                                     class="input-group--focused"
                                     :rules="descriptionRules"
-                                    placeholder="คำอธิบาย"
-                                    hint="คำอธิบายฟังก์ชัน"
+                                    placeholder="Description"
+                                    hint="Description"
                                     solo
                                 />
                             </v-card-subtitle>
@@ -193,6 +194,6 @@ export default {
 .remove-btn {
     display: flex;
     justify-content: flex-end;
-    margin-left: 10px;
+
 }
 </style>
