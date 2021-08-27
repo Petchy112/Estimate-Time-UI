@@ -60,7 +60,8 @@ export default {
             message: '',
             body: {
                 email: '',
-                password: ''
+                password: '',
+                lineUserId: ''
             },
             show: false,
             passwordRules: [

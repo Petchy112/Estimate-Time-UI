@@ -14,7 +14,22 @@ export default {
     layout: 'blank',
     data() {
         return {
-            lineUserId: ''
+            valid: true,
+            message: '',
+            body: {
+                email: '',
+                password: '',
+                lineUserId: ''
+            },
+            show: false,
+            passwordRules: [
+                v => !!v || 'Password is Required.',
+                v => (v && v.length >= 8) || 'Min 8 characters',
+            ],
+            emailRules: [
+                v => !!v || 'E-mail is required',
+                v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+            ],
         }
     },
     mounted() {
@@ -23,7 +38,7 @@ export default {
         }).then(() => {
             if (liff.isLoggedIn()) {
                 liff.getProfile().then(profile => {
-                    this.lineUserId = profile.userId
+                    this.body.lineUserId = profile.userId
                 })
             }
             else {
@@ -33,10 +48,10 @@ export default {
     },
     methods: {
         async login(body) {
-            await userAPI.login(body, lineUserId)
+            await userAPI.login(body)
                 .then(async response => {
                     console.log('RESPONSE', response)
-                    // await localStorage.setItem('token', response.data.accessToken)
+                    await localStorage.setItem('token', response.data.accessToken)
                     console.log('closeWindow')
                 })
                 .catch(async error => {
