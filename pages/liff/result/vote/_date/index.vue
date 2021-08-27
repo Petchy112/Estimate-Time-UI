@@ -1,14 +1,15 @@
 <template>
-    <voteDetails @choose-platform="choosePlatform" :voteData="voteData" />
+    <div>
+        <voteDetails @choose-platform="choosePlatform" :voteData="voteData" />
+    </div>
 </template>
 
 <script>
 import voteDetails from "~/components/vote/_id/index.vue"
 import * as voteAPI from "@/utils/voteAPI"
 export default {
-    components: {
-        voteDetails
-    },
+    layout: 'liff',
+    components: { voteDetails },
     data() {
         return {
             platform: 'WEBSITE',
