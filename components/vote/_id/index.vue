@@ -13,6 +13,7 @@
             <v-tab
                 v-for="item in items"
                 :key="item.tab"
+                @click="choosePlatform(item.tab)"
             >
                 {{ item.tab }}
             </v-tab>
@@ -77,6 +78,11 @@ export default {
             ],
         }
     },
+    methods: {
+        choosePlatform(platform) {
+            this.$emit('choose-platform', platform)
+        }
+    }
 }
 </script>
 
