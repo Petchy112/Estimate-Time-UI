@@ -2,7 +2,7 @@
     <div v-if="functionData">
         <div>
             <h1 class="ma-3">
-                จัดการฟังก์ชัน
+                ALL FUNCTION
             </h1>
         </div>
         <addFunction />
@@ -11,8 +11,8 @@
             slider-color="yellow"
         >
             <v-tab
-                v-for="item in items"
-                :key="item.index"
+                v-for="item,index in items"
+                :key="index"
                 @click="choosePlatform(item.tab)"
             >
                 {{ item.tab }}
@@ -26,33 +26,38 @@
             append-icon="mdi-magnify"
             class="mx-4 my-2"
         />
-        <v-card
-            flat
-            :search="search"
-        >
-            <v-tabs-items v-model="tab">
-                <v-tab-item
-                    v-for="functions in functionData"
-                    :key="functions"
-                >
-                    <div class="d-flex flex-wrap">
-                        <v-card
-                            class="ma-5"
-                            max-width="340"
-                            @click="handleShowClicked(functions._id)"
-                        >
-                            <v-img
-                                src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-                                height="200px"
-                            />
-                            <v-card-title class="justify-center">
-                                {{ functions.group }}
-                            </v-card-title>
-                        </v-card>
-                    </div>
-                </v-tab-item>
-            </v-tabs-items>
-        </v-card>
+        <v-col cols="12">
+            <v-card
+                flat
+                :search="search"
+            >
+                <v-tabs-items v-model="tab">
+                    <v-tab-item
+                        v-for="i in 2"
+                        :key="i.tab"
+                    >
+                        {{ func }}
+                        <div class="d-flex flex wrap">
+                            <v-card
+                                v-for="func in functionData"
+                                :key="func.index"
+                                class="ma-5"
+                                max-width="340"
+                                @click="handleShowClicked(func._id)"
+                            >
+                                <v-img
+                                    src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                                    height="200px"
+                                />
+                                <v-card-title class="justify-center">
+                                    {{ func.group }}
+                                </v-card-title>
+                            </v-card>
+                        </div>
+                    </v-tab-item>
+                </v-tabs-items>
+            </v-card>
+        </v-col>
     </div>
 </template>
 
@@ -65,8 +70,8 @@ export default {
     },
     data() {
         return {
+            platform: '',
             search: '',
-            message: '',
             functionData: [],
             tab: '',
             items: [
@@ -74,19 +79,11 @@ export default {
                 { tab: 'MOBILE', },
 
             ],
-            groupRules: [
-                v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน'
-            ],
-            choiceRules: [
-                v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน'
-            ],
-            descriptionRules: [
-                v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน'
-            ],
+
         }
     },
     async mounted() {
-        await functionAPI.index()
+        await functionAPI.index('WEBSITE')
             .then(response => {
                 console.log('RESPONSE', response)
                 this.functionData = response.data
@@ -101,6 +98,14 @@ export default {
             console.log(id)
             this.$router.push({ name: 'function-id', params: { id } })
         },
+        async choosePlatform(platform) {
+            this.platform = platform
+            await functionAPI.index(platform)
+                .then(response => {
+                    console.log('RESPONSE', response)
+                    this.functionData = response.data
+                })
+        }
     }
 
 
