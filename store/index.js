@@ -1,14 +1,17 @@
 export const state = () => ({
+    dialog: {
+        isShow: false,
+        title: '',
+        message: ''
+    },
     line: {
         pictureUrl: null,
         displayName: null,
         userId: null
     },
     user: {
-        firstname: '',
-        lastname: '',
         role: '',
-        email: '',
+        accessToken: ''
     },
     register: {
         firstname: '',
@@ -21,9 +24,13 @@ export const state = () => ({
     login: {
         email: '',
         password: '',
-    }
+    },
+    selectedEstimate: []
 })
 export const getters = {
+    getDialog(state) {
+        return state.dialog
+    },
     getUser(state) {
         return state.user
     },
@@ -35,9 +42,18 @@ export const getters = {
     },
     getLine(state) {
         return state.line
+    },
+    getSelectedEstimate(state) {
+        return state.selectedEstimate
     }
 }
 export const mutations = {
+    SET_DIALOG(state, data) {
+        state.dialog = {
+            ...state.dialog,
+            ...data
+        }
+    },
     SET_REGISTER(state, data) {
         state.register = {
             ...state.register,
@@ -61,6 +77,12 @@ export const mutations = {
             ...state.line,
             ...data
         }
+    },
+    SET_SELECTED_ESTIMATE(state, data) {
+        state.selectedEstimate = {
+            ...state.selectedEstimate,
+            ...data
+        }
     }
 }
 export const actions = {
@@ -75,5 +97,8 @@ export const actions = {
     },
     setLine({ commit }, data) {
         commit('SET_LINE', data)
+    },
+    setSelectedEstimate({ commit }, data) {
+        commit('SET_SELECTED_ESTIMATE', data)
     }
 }
