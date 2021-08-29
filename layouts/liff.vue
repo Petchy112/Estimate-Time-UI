@@ -3,11 +3,16 @@
         <v-container>
             <Nuxt />
         </v-container>
+        <alertDialog />
     </v-app>
 </template>
 
 <script>
+import alertDialog from "~/components/dialog/alertDialog.vue"
 export default {
+    components: {
+        alertDialog
+    },
 
 }
 </script>
