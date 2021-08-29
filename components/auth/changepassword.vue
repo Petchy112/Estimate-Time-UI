@@ -25,25 +25,25 @@
                     solo-inverted
                 />
                 <v-text-field
-                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="passwordRules"
-                    :type="show1 ? 'text' : 'password'"
+                    :type="show2 ? 'text' : 'password'"
                     label="New password"
                     hint="At least 8 characters"
                     v-model="body.newPassword"
                     class="input-group--focused"
-                    @click:append="show1 = !show1"
+                    @click:append="show2 = !show2"
                     solo-inverted
                 />
                 <v-text-field
-                    :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="confirmPasswordRules"
-                    :type="show2 ? 'text' : 'password'"
+                    :type="show3 ? 'text' : 'password'"
                     label="Re-enter new password"
                     hint="At least 8 characters"
                     v-model="body.confirmPassword"
                     class="input-group--focused"
-                    @click:append="show2 = !show2"
+                    @click:append="show3 = !show3"
                     solo-inverted
                 />
                 <v-col cols="12">
@@ -52,7 +52,7 @@
                         :disabled="!valid"
                         color="orange"
                         class="sm w-100"
-                        @click="handleChangeClicked"
+                        @click="handleChangeClicked(body)"
                     >
                         confirm
                     </v-btn>
@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import * as userAPI from "@/utils/userAPI"
 export default {
     data() {
         return {
@@ -75,6 +74,7 @@ export default {
             valid: true,
             show1: false,
             show2: false,
+            show3: false,
             passwordRules: [
                 v => !!v || 'Password is Required.',
                 v => (v && v.length >= 8) || 'Min 8 characters',
@@ -87,13 +87,8 @@ export default {
     },
     methods: {
         async handleChangeClicked() {
-            await userAPI.changepassword(this.body)
-                .then(response => {
-                    console.log('RESONSE', response)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            console.log(this.body)
+            this.$emit('change-password', this.body)
         }
     }
 }
