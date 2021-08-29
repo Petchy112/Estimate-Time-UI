@@ -18,7 +18,7 @@
                         Number of developer: {{ estimateDetails.qty }}
                     </v-card-title>
                     <v-card-title class="pt-0 pb-0 pl-2">
-                        Estimated time : {{ time/5 }} weeks
+                        Estimated time : {{ (time/8)/5 }} weeks
                     </v-card-title>
                     <v-card-title class="pa-2 pt-1">
                         System size: {{ estimateDetails.size }}
