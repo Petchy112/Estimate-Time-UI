@@ -11,6 +11,6 @@ export function show(id) {
 }
 export function sentEstimate(body) {
     const url =`${HOSTNAME}/estimate/save`
-    console.log(fid, body)
-    return request('post', url, { body }, { Authorization: localStorage.getItem('token') })
+
+    return request('post', url, body, { Authorization: localStorage.getItem('token') })
 }
