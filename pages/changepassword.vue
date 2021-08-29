@@ -1,6 +1,6 @@
 <template>
     <div>
-        <changepassword />
+        <changepassword @change-password="handleChangeClicked" />
     </div>
 </template>
 
@@ -9,31 +9,12 @@ import changepassword from "~/components/auth/changepassword.vue"
 import * as userAPI from "@/utils/userAPI"
 export default {
     components: { changepassword },
-    data() {
-        return {
-            body: {
-                oldPassword: '',
-                newPassword: '',
-                confirmPassword: ''
-            },
-            valid: true,
-            show1: false,
-            show2: false,
-            passwordRules: [
-                v => !!v || 'Password is Required.',
-                v => (v && v.length >= 8) || 'Min 8 characters',
-            ],
-            confirmPasswordRules: [
-                v => !!v || 'Password is Required.',
-                v => (v && v.length >= 8) || 'Min 8 characters',
-            ],
-        }
-    },
     methods: {
-        async handleChangeClicked() {
-            await userAPI.changepassword(this.body)
+        async handleChangeClicked(body) {
+            await userAPI.changepassword(body)
                 .then(response => {
                     console.log('RESONSE', response)
+                    this.$router.push({ name: 'function' })
                 })
                 .catch(error => {
                     console.log(error)
