@@ -157,11 +157,6 @@ export default {
         async logout() {
             await userAPI.logout()
                 .then(response => {
-                    this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Success',
-                        message: response.data.message
-                    })
                     localStorage.clear()
                     this.$router.replace({ name: 'index' })
                 })
