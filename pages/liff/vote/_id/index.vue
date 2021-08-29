@@ -79,7 +79,7 @@ export default {
             await voteAPI.sentVote(this.$route.params.id, body)
                 .then(response => {
                     console.log(response)
-                    this.$router.push({ name: 'liff' })
+                    this.$router.push({ name: 'liff-vote' })
                 }).catch(error => {
                     console.log(error)
                 })
