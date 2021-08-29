@@ -231,7 +231,11 @@ export default {
         async handleEditClicked () {
             await functionAPI.edit(this.functionData._id, this.functionData.group, this.functionData.choice)
                 .then(response => {
-                    console.log('res', response.data)
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Success',
+                        message: response.data.message
+                    })
                     this.editDialog = false
                     this.$router.replace({
                         name: 'function-id',
@@ -251,7 +255,11 @@ export default {
         async handleDeleteClicked(id) {
             await functionAPI.del(id)
                 .then(response => {
-                    console.log('RESPONSE', response)
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Success',
+                        message: response.data.message
+                    })
                     this.deleteDialog = false
                     this.$router.replace({
                         name: 'function'

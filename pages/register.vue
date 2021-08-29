@@ -138,8 +138,12 @@ export default {
         async register () {
             this.$refs.form.validate()
             await userAPI.register(this.body)
-                .then(response => {
-                    console.log('RESPONSE', response)
+                .then(async response => {
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Success',
+                        message: response.data.message
+                    })
                     this.$router.push({ name: 'user' })
                 })
                 .catch(async error => {

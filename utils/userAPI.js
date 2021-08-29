@@ -32,7 +32,7 @@ export function show(id) {
     const url = `${HOSTNAME}/user/${id}`
     return request('get', url, {}, { Authorization: localStorage.getItem('token') })
 }
-export function del(id) {
+export function remove(id) {
     const url = `${HOSTNAME}/user/${id}`
     return request('delete', url, {}, { Authorization: localStorage.getItem('token') })
 }

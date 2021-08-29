@@ -78,7 +78,11 @@ export default {
         async handleNextClicked(body) {
             await voteAPI.sentVote(this.$route.params.id, body)
                 .then(response => {
-                    console.log(response)
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Success',
+                        message: response.data.message
+                    })
                     this.$router.push({ name: 'liff-vote' })
                 }).catch(error => {
                     this.$store.dispatch('setDialog', {

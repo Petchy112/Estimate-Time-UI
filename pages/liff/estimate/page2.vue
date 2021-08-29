@@ -127,7 +127,11 @@ export default {
             console.log(body)
             await estimateAPI.sentEstimate(body)
                 .then(response => {
-                    console.log(response)
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Success',
+                        message: response.data.message
+                    })
                 })
         },
         back() {

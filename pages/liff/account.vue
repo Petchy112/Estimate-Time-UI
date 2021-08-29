@@ -32,7 +32,11 @@ export default {
         async logout() {
             await userAPI.logout(localStorage.getItem('lineUserId'))
                 .then(response => {
-                    console.log(response)
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Success',
+                        message: response.data.message
+                    })
                     localStorage.clear()
                     liff.closeWindow()
                 })

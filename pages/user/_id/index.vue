@@ -94,9 +94,13 @@ export default {
     methods: {
         async handleDelete(id) {
             console.log(id)
-            await userAPI.del(id)
+            await userAPI.remove(id)
                 .then(async response => {
-                    console.log('Response', response)
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Success',
+                        message: response.data.message
+                    })
                     this.deleteDialog = false
                     await this.$router.replace({ name: 'user' })
                 })

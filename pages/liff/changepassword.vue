@@ -22,7 +22,11 @@ export default {
             await liff.closeWindow()
             await userAPI.changepassword(body)
                 .then(async response => {
-                    console.log('RESONSE', response)
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Success',
+                        message: response.data.message
+                    })
 
                 })
                 .catch(error => {

@@ -12,9 +12,13 @@ export default {
     methods: {
         async handleChangeClicked(body) {
             await userAPI.changepassword(body)
-                .then(response => {
-                    console.log('RESONSE', response)
-                    this.$router.push({ name: 'function' })
+                .then(async response => {
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Success',
+                        message: response.data.message
+                    })
+                    await this.$router.push({ name: 'function' })
                 })
                 .catch(error => {
                     this.$store.dispatch('setDialog', {

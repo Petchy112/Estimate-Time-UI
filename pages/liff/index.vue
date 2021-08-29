@@ -100,7 +100,11 @@ export default {
                 .then(async response => {
                     console.log('RESPONSE', response)
                     if (response.data.role=='ADMIN') {
-                        alert('not permission')
+                        this.$store.dispatch('setDialog', {
+                            isShow: true,
+                            title: 'Error',
+                            message: 'User not in permission'
+                        })
                         liff.closeWindow()
                     }
                     else {
