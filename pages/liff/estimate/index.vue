@@ -34,7 +34,19 @@
                     <div class="subheader2 pa-0 pt-5">
                         Select Function that you need
                     </div>
-
+                    <v-card
+                        tile
+                        class="my-5 mx-5 pb-4"
+                    >
+                        <v-card-title class="justify-center">
+                            Select developer
+                        </v-card-title>
+                        <div class="input-time">
+                            <div>
+                                <v-text-field label="Number" v-model="selected.qty" solo-inverted />
+                            </div>
+                        </div>
+                    </v-card>
                     <v-card
                         v-for="data in estimateData"
                         :key="data._id"
@@ -46,7 +58,6 @@
                         </v-card-title>
                         <estimateCard
                             :choices="data.choices"
-                            :active="selected.selectedChoice != null"
                             @chooseChoice="chooseChoice"
                         />
                     </v-card>
@@ -98,10 +109,10 @@ export default {
             selected:
                 {
                     selectedChoice: [],
-                    platform: '',
-                    estimateTime: '',
+                    platform: '' || 'WEBSITE',
+                    estimateTime: 0,
                     projectName: '',
-                    qty: '',
+                    qty: 1,
                     size: ''
                 },
             estimateData: []
@@ -121,7 +132,9 @@ export default {
 
     methods: {
         async chooseChoice(choice) {
+            console.log(choice.name)
             if (this.selected.selectedChoice.includes(choice.name)) {
+                console.log('found')
                 const found = this.selected.selectedChoice.find(element => element == choice.name)
                 const inSelected = this.selected.selectedChoice.indexOf(found)
                 this.selected.selectedChoice.splice(inSelected, 1)
@@ -145,14 +158,16 @@ export default {
                 .then(response => {
                     console.log('RESPONSE', response)
                     this.estimateData = response.data
+
                 })
         },
         nextPage() {
             this.$store.dispatch('setSelectedEstimate', this.selected)
-            // this.$router.push({ name: 'liff-estimate-page2' })
+            this.$router.push({ name: 'liff-estimate-page2' })
         }
     }
 }
+
 </script>
 
 <style scoped>
@@ -176,6 +191,14 @@ export default {
 .subheader2 {
     text-align: center;
     opacity: 70%;
+}
+.input-time {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height:50px;
+
+
 }
 
 </style>

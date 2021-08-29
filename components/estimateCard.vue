@@ -6,7 +6,7 @@
             v-for="choice in choices"
             :key="choice.name"
         >
-            <v-card height="80px" class="mb-3 mx-3 choice-card" :class="active == true ? 'active': ''" @click="$emit('chooseChoice',choice)">
+            <v-card height="80px" class="mb-3 mx-3 choice-card" @click="$emit('chooseChoice',choice)">
                 <v-col cols="12">
                     <v-list-item>
                         <v-list-item-avatar>
@@ -25,14 +25,15 @@
 </template>
 <script>
 export default {
-    props: [ 'choices', 'active' ]
+    props: [ 'choices' ]
+
+
 }
+
 </script>
 <style lang="scss" scoped>
-.choice-card{
-    background-color: red !important ;
-}
-.choice-card.active {
+
+.choice-card-active {
     background-color: green !important ;
 
 }
