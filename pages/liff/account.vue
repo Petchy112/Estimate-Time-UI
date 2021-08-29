@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-col cols="12">
-            <v-card elevation="5">
+            <v-card elevation="0">
                 <v-list>
                     <v-col cols="12">
                         <div class="d-flex flex-column pa-2">
@@ -20,22 +20,28 @@
 </template>
 
 <script>
+import * as userAPI from "@/utils/userAPI"
 export default {
     layout: 'blank',
+    mounted() {
+        liff.init({
+            liffId: '1656364274-v0dGo98q'
+        })
+    },
     methods: {
         async logout() {
-            await userAPI.logout()
+            await userAPI.logout(localStorage.getItem('lineUserId'))
                 .then(response => {
                     console.log(response)
                     localStorage.clear()
-                    this.$router.replace({ name: 'login' })
+                    liff.closeWindow()
                 })
                 .catch(error => {
                     console.log(error)
                 })
         },
         async changepassword() {
-            await this.$router.push({ name: 'changepassword' })
+            await this.$router.push({ name: 'liff-changepassword' })
         }
 
     }
