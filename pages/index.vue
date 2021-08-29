@@ -80,19 +80,21 @@ export default {
     methods: {
         async login() {
             this.$refs.form.validate()
+            this.$store.dispatch('setLogin', this.body)
             await userAPI.login(this.body)
                 .then(async response => {
                     console.log('RESPONSE', response)
-
                     if (response.data.role == 'ADMIN') {
-                        await localStorage.setItem('token', response.data.accessToken)
+                        this.$store.dispatch('setUser', {
+                            role: response.data.role,
+                            accessToken: response.data.accessToken
+                        })
+                        localStorage.setItem('token', response.data.accessToken)
                         this.$router.push({ name: 'function' })
                     }
                     else {
-                        console.log('NoT permission')
+                        alert('User not in permission')
                     }
-
-
                 })
                 .catch(async error => {
                     console.log('ERROR', error.response)
