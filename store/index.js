@@ -25,7 +25,15 @@ export const state = () => ({
         email: '',
         password: '',
     },
-    selectedEstimate: []
+    selectedEstimate: {
+        selectedChoice: null,
+        platform: '',
+        estimateTime: '',
+        projectName: '',
+        qty: '',
+        size: ''
+    }
+
 })
 export const getters = {
     getDialog(state) {
