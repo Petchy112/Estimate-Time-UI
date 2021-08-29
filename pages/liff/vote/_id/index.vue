@@ -81,7 +81,11 @@ export default {
                     console.log(response)
                     this.$router.push({ name: 'liff-vote' })
                 }).catch(error => {
-                    console.log(error)
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Please try again',
+                        message: error.response.data.error.message
+                    })
                 })
         }
     }

@@ -50,7 +50,11 @@ export default {
                 this.userData = response.data
             })
             .catch(error => {
-                console.log(error)
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.data.error.message
+                })
                 // this.$router.push({ name: 'liff' })
             })
     },

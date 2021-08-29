@@ -164,7 +164,11 @@ export default {
         async handleSaveClicked () {
             await functionAPI.create(this.group, this.platform, this.choices)
                 .then(async response => {
-                    console.log('res', response.data)
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Success',
+                        message: response.data.message
+                    })
                     this.dialog = false
                     await this.$router.push({
                         name: 'function-id',
@@ -175,7 +179,12 @@ export default {
                 })
                 .catch(async error => {
                     console.log('ERROR', error.response)
-                    this.message = error.response.data.error.message
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Please try again',
+                        message: error.response.data.error.message
+                    })
+
                 })
         },
         async handleAddClicked() {

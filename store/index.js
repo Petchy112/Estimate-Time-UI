@@ -94,6 +94,9 @@ export const mutations = {
     }
 }
 export const actions = {
+    setDialog({ commit }, data) {
+        commit('SET_DIALOG', data)
+    },
     setUser({ commit }, data) {
         commit('SET_USER', data)
     },

@@ -17,7 +17,11 @@ export default {
                     this.$router.push({ name: 'function' })
                 })
                 .catch(error => {
-                    console.log(error)
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Please try again',
+                        message: error.response.data.error.message
+                    })
                 })
         }
     }

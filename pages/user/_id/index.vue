@@ -83,8 +83,11 @@ export default {
                 this.user = response.data
             })
             .catch(async error => {
-                console.log('ERROR', error.response)
-                this.message = error.response.data.error.message
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.data.error.message
+                })
             })
 
     },
@@ -98,8 +101,11 @@ export default {
                     await this.$router.replace({ name: 'user' })
                 })
                 .catch(async error => {
-                    console.log('ERROR', error.response)
-                    this.message = error.response.data.error.message
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Please try again',
+                        message: error.response.data.error.message
+                    })
                 })
         }
     }

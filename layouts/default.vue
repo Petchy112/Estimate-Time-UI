@@ -47,6 +47,7 @@
             <v-container>
                 <Nuxt />
             </v-container>
+            <alertDialog />
         </v-main>
         <v-navigation-drawer
             v-model="rightDrawer"
@@ -89,15 +90,17 @@
 </template>
 
 <script>
+import alertDialog from "~/components/dialog/alertDialog.vue"
 import * as userAPI from "@/utils/userAPI"
 export default {
+    components: {
+        alertDialog
+    },
     data () {
         return {
             userData: [],
-            message: '',
             clipped: true,
             drawer: true,
-            fixed: true,
             items: [
                 {
                     icon: 'mdi-puzzle-outline',
@@ -141,9 +144,13 @@ export default {
                 console.log('RESPONSE', response.data)
                 this.userData = response.data
             })
-            .catch(error => {
-                console.log(error)
-                this.$router.push({ name: 'index' })
+            .catch(async error => {
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.data.error.message
+                })
+                await this.$router.push({ name: 'index' })
             })
     },
     methods: {
@@ -155,7 +162,11 @@ export default {
                     this.$router.replace({ name: 'index' })
                 })
                 .catch(error => {
-                    console.log(error)
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Please try again',
+                        message: error.response.data.error.message
+                    })
                 })
         },
         async changepassword() {

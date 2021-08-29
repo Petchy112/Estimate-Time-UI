@@ -28,8 +28,11 @@ export default {
                 this.voteData = response.data
             })
             .catch(async error => {
-                console.log('ERROR', error.response)
-                this.message = error.response.data.error.message
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.data.error.message
+                })
             })
     },
     methods: {
@@ -41,8 +44,11 @@ export default {
                     this.voteData = response.data
                 })
                 .catch(async error => {
-                    console.log('ERROR', error.response)
-                    this.message = error.response.data.error.message
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Please try again',
+                        message: error.response.data.error.message
+                    })
                 })
         }
     }

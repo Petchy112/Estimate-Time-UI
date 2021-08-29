@@ -45,8 +45,11 @@ export default {
                 this.estimateData = response.data
             })
             .catch(async error => {
-                console.log('ERROR', error.response)
-
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.data.error.message
+                })
             })
     },
     methods: {

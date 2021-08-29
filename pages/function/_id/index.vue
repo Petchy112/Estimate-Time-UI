@@ -241,8 +241,11 @@ export default {
                     })
                 })
                 .catch(async error => {
-                    console.log('ERROR', error.response)
-                    this.message = error.response.data.error.message
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Please try again',
+                        message: error.response.data.error.message
+                    })
                 })
         },
         async handleDeleteClicked(id) {
@@ -255,8 +258,11 @@ export default {
                     })
                 })
                 .catch(async error => {
-                    console.log('ERROR', error.response)
-                    this.message = error.response.data.error.message
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Please try again',
+                        message: error.response.data.error.message
+                    })
                 })
         },
         async handleAddClicked () {
