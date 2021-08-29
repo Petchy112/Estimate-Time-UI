@@ -1,5 +1,5 @@
 <template>
-    <div v-if="functionData">
+    <div v-if="estimateData">
         <v-app-bar
             color="orange"
             flat
@@ -34,45 +34,31 @@
                     <div class="subheader2 pa-0 pt-5">
                         Select Function that you need
                     </div>
+
                     <v-card
+                        v-for="data in estimateData"
+                        :key="data._id"
                         tile
                         class="my-5 mx-5"
-                        v-for="functions,index in functionData"
-                        :key="index"
                     >
                         <v-card-title class="justify-center">
-                            {{ functions.group }}
+                            {{ data.group }}
                         </v-card-title>
-                        <div
-                            class="d-flex flex-column"
-                            v-for="choice in functions.choices"
-                            :key="choice"
-                        >
-                            <v-btn height="80px" class="mb-3 mx-3" @click="logs(choice.name)">
-                                <v-list-item two-line>
-                                    <v-list-item-avatar>
-                                        <v-img max-width="50" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Disc_Plain_red.svg/1200px-Disc_Plain_red.svg.png" />
-                                    </v-list-item-avatar>
-
-                                    <v-list-item-content>
-                                        <v-list-item-title>{{ choice.name }}</v-list-item-title>
-                                        <v-list-item-subtitle>{{ choice.description }}</v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
-                            </v-btn>
-                        </div>
+                        <estimateCard
+                            :choices="data.choices"
+                            :active="selected.selectedChoice != null"
+                            @chooseChoice="chooseChoice"
+                        />
                     </v-card>
                 </v-tab-item>
             </v-tabs-items>
         </v-col>
-
 
         <v-footer
             :padless="padless"
             fixed
         >
             <v-card
-
                 tile
                 width="100%"
                 color="orange"
@@ -92,17 +78,18 @@
 
 <script>
 import * as voteAPI from "~/utils/voteAPI"
-
+import estimateCard from "~/components/estimateCard.vue"
 export default {
     layout: 'liff',
+    components: {
+        estimateCard
+    },
     data() {
-
         return {
             platform: '',
             tab: null,
             padless: true,
             variant: 'fixed',
-            functionData: [],
             items: [
                 { tab: 'WEBSITE' },
                 { tab: 'MOBILE' }
@@ -116,25 +103,40 @@ export default {
                     projectName: '',
                     qty: '',
                     size: ''
-                }
-
+                },
+            estimateData: []
         }
     },
     async mounted() {
         await voteAPI.getDataForEstimate('WEBSITE')
-            .then(response => {
+            .then(async response => {
                 console.log('RESPONSE', response)
-                this.functionData = response.data
+                this.estimateData = response.data
             })
             .catch(async error => {
                 console.log('ERROR', error.response)
                 this.message = error.response.data.error.message
             })
     },
+
     methods: {
-        async logs(choice) {
-            await this.selected.selectedChoice.push(choice)
-            console.log(this.selected)
+        async chooseChoice(choice) {
+            if (this.selected.selectedChoice.includes(choice.name)) {
+                const found = this.selected.selectedChoice.find(element => element == choice.name)
+                const inSelected = this.selected.selectedChoice.indexOf(found)
+                this.selected.selectedChoice.splice(inSelected, 1)
+                console.log(this.selected.selectedChoice)
+                this.selected.estimateTime = this.selected.estimateTime - choice.time
+                console.log(this.selected.estimateTime)
+            }
+            else {
+                this.selected.selectedChoice.push(choice.name)
+                console.log(this.selected.selectedChoice)
+                this.selected.estimateTime = this.selected.estimateTime + choice.time
+                console.log(this.selected.estimateTime)
+            }
+
+
         },
         async choosePlatform(platform) {
             this.selected.platform = platform || 'WEBSITE'
@@ -142,11 +144,12 @@ export default {
             await voteAPI.getDataForEstimate(platform)
                 .then(response => {
                     console.log('RESPONSE', response)
-                    this.functionData = response.data
+                    this.estimateData = response.data
                 })
         },
         nextPage() {
-            this.$router.push({ name: 'liff-estimate-page2' })
+            this.$store.dispatch('setSelectedEstimate', this.selected)
+            // this.$router.push({ name: 'liff-estimate-page2' })
         }
     }
 }
