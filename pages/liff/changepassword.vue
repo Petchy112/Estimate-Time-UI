@@ -20,13 +20,17 @@ export default {
     methods: {
         async handleChangeClicked() {
             await liff.closeWindow()
-            // await userAPI.changepassword(body)
-            //     .then(async response => {
-            //         console.log('RESONSE', response)
+            await userAPI.changepassword(body)
+                .then(async response => {
+                    console.log('RESONSE', response)
 
-            //     })
+                })
                 .catch(error => {
-                    console.log(error)
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Please try again',
+                        message: error.response.data.error.message
+                    })
                 })
         }
     }
