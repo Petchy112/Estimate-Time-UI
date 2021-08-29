@@ -55,7 +55,7 @@
 <script>
 import * as userAPI from "@/utils/userAPI"
 export default {
-    layout: 'blank',
+    layout: 'liff',
     data() {
         return {
             valid: true,
@@ -80,10 +80,16 @@ export default {
         liff.init({
             liffId: '1656364274-8p9ZXm3e'
         }).then(() => {
-            liff.getProfile().then(profile => {
-                this.body.lineUserId = profile.userId
-                console.log(this.body)
-            })
+            if (liff.isLoggedIn()) {
+                liff.getProfile().then(profile => {
+                    this.body.lineUserId = profile.userId
+                    localStorage.setItem('lineUserId', profile.userId)
+                })
+            }
+            else {
+                liff.login()
+            }
+
 
         })
     },
@@ -93,14 +99,14 @@ export default {
             await userAPI.login(this.body)
                 .then(async response => {
                     console.log('RESPONSE', response)
-                    await localStorage.setItem('token', response.data.accessToken)
-                    if (response.data.role == 'ADMIN') {
-                        this.$router.push({ name: 'function' })
-                    }
-                    else {
+                    if (response.data.role=='ADMIN') {
+                        alert('not permission')
                         liff.closeWindow()
                     }
-
+                    else {
+                        await localStorage.setItem('token', response.data.accessToken)
+                        this.$router.push({ name: 'liff-role' })
+                    }
                 })
                 .catch(async error => {
                     console.log('ERROR', error.response)

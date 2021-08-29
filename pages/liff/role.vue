@@ -5,17 +5,17 @@
                 <v-list>
                     <v-list-title>
                         <div class="my-text ml-5 mt-4">
-                            เลือกประเภทบัญชี :
+                            SELECT ROLE :
                         </div>
                     </v-list-title>
 
                     <v-col cols="12">
                         <div class="d-flex flex-column pa-2">
-                            <v-btn rounded class="role-btn" color="orange">
-                                พนักงาน
+                            <v-btn v-if="userData.role =='VOTER' " @click="close" rounded class="role-btn" color="orange">
+                                VOTER
                             </v-btn>
-                            <v-btn rounded class="role-btn" color="orange">
-                                ผู้ประสานงาน
+                            <v-btn v-else-if="userData.role =='COORDINATOR'" @click="close" rounded class="role-btn" color="orange">
+                                COORDINATOR
                             </v-btn>
                         </div>
                     </v-col>
@@ -26,8 +26,34 @@
 </template>
 
 <script>
+import * as userAPI from "@/utils/userAPI"
 export default {
-    layout: 'blank'
+    layout: 'liff',
+    data() {
+        return {
+            userData: []
+        }
+    },
+    methods: {
+        close() {
+            liff.closeWindow()
+        }
+
+    },
+    mounted() {
+        liff.init({
+            liffId: '1656364274-nRNAprOK'
+        })
+        userAPI.getProfile()
+            .then(response => {
+                console.log('RESPONSE', response.data)
+                this.userData = response.data
+            })
+            .catch(error => {
+                console.log(error)
+                // this.$router.push({ name: 'liff' })
+            })
+    },
 }
 </script>
 
