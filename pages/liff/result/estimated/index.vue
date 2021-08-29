@@ -16,7 +16,7 @@
                         hide-details
                     />
                 </v-card-title>
-                <estimateComponant :estimateData="estimateData" />
+                <estimateComponant :headers="headers" :estimateData="estimateData" @show-estimated="handleShowClicked" />
             </v-col>
         </v-row>
     </div>
@@ -52,8 +52,9 @@ export default {
             })
     },
     methods: {
-        handleListClicked(id) {
-            console.log(id)
+        async handleShowClicked(data) {
+            var id = data._id
+            this.$router.push({ name: 'liff-result-estimated-id', params: { id } })
         }
     },
 }

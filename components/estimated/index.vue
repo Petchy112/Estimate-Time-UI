@@ -7,7 +7,7 @@
                 :headers="headers"
                 :items="estimateData"
                 class="elevation-0"
-                @click:row="handleShowClicked(item)"
+                @click:row="handleShowClicked"
             />
         </v-card>
     </div>
@@ -16,21 +16,14 @@
 <script>
 
 export default {
-    props: {
-        search: String,
-        estimateData: Array
-    },
-    data() {
-        return {
-            headers: [
-                { text: 'Project Name', align: 'start', sortable: true, value: 'projectName' },
-                { text: 'Create by', align: 'start', sortable: true, value: 'createBy' }
-            ],
-        }
-    },
+    props: [
+        'search',
+        'estimateData',
+        'headers'
+    ],
+
     methods: {
         handleShowClicked(row) {
-            console.log(row)
             this.$emit('show-estimated', row)
         }
 

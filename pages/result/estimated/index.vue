@@ -16,7 +16,7 @@
                 hide-details
             />
         </v-card-title>
-        <estimateComponant @show-estimated="handleShowClicked" :estimateData="estimateData" />
+        <estimateComponant :headers="headers" :estimateData="estimateData" @show-estimated="handleShowClicked" />
     </div>
 </template>
 
@@ -50,9 +50,9 @@ export default {
             })
     },
     methods: {
-        async handleShowClicked(row) {
-            console.log(row)
-            // this.$router.push({ name: 'result-estimated-date', params: { id } })
+        async handleShowClicked(data) {
+            var id = data._id
+            this.$router.push({ name: 'result-estimated-id', params: { id } })
         }
     },
 }
