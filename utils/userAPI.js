@@ -1,6 +1,7 @@
 import { request } from "./API"
 const HOSTNAME = 'http://localhost:4000'
 
+
 export function index() {
     const url = `${HOSTNAME}/user`
     return request('get', url, {}, { Authorization: localStorage.getItem('token') })
@@ -18,12 +19,13 @@ export function getProfile() {
     return request('get', url, {}, { Authorization: localStorage.getItem('token') })
 }
 export function changepassword(body) {
+    console.log(body)
     const url = `${HOSTNAME}/user/changePassword`
-    return request('post', url, body, null)
+    return request('post', url, body, { Authorization: localStorage.getItem('token') })
 }
-export function logout() {
+export function logout(body) {
     const url = `${HOSTNAME}/user/logout`
-    return request('post', url, {}, { Authorization: localStorage.getItem('token') })
+    return request('post', url, { body }, { Authorization: localStorage.getItem('token') })
 }
 export function show(id) {
     console.log(id)
