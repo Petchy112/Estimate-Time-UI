@@ -104,7 +104,6 @@ export default {
             this.platform = platform
             await functionAPI.index(platform)
                 .then(response => {
-                    console.log('RESPONSE', response)
                     this.functionData = response.data
                 })
         }
