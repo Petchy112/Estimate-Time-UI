@@ -16,17 +16,35 @@
             <v-card>
                 <v-col cols="12">
                     <v-list>
-                        <v-list-title class="mx-5">
-                            Platform : Website
+                        <v-list-title class="mx-5 platform">
+                            Platform: {{ getSelectedEstimate.platform }}
+                        </v-list-title>
+                        <br>
+                        <div>
+                            <div v-if="getSelectedEstimate.estimateTime<40">
+                                <v-list-title class="mx-5 time">
+                                    Estimate Time: {{ getSelectedEstimate.estimateTime }}  Hours
+                                </v-list-title>
+                            </div>
+                            <div v-else>
+                                <v-list-title class="mx-5 time">
+                                    Estimate Time: {{ getSelectedEstimate.estimateTime }}  Hours ({{ (getSelectedEstimate.estimateTime/8)/5 }} week)
+                                </v-list-title>
+                            </div>
+                        </div>
+                        <v-list-title class="mx-5 time">
+                            Developer Quantity: {{ getSelectedEstimate.qty }}
                         </v-list-title>
                         <v-list-item>
                             <div class="my-card d-flex align-content-start flex-wrap">
-                                <v-card class="mt-4 ma-2 pa-4" v-for="i in 20" :key="i.index ">
-                                    <div class="d-flex">
-                                        <v-img width="40px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Disc_Plain_red.svg/1200px-Disc_Plain_red.svg.png" />
-                                    </div>
-                                    choice
-                                </v-card>
+                                <v-col cols="12">
+                                    <v-card class="mt-4 ma-2 pa-4" v-for="item in getSelectedEstimate.selectedChoice" :key="item.name ">
+                                        <div class="d-flex">
+                                            <v-img width="40px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Disc_Plain_red.svg/1200px-Disc_Plain_red.svg.png" />
+                                        </div>
+                                        {{ item }}
+                                    </v-card>
+                                </v-col>
                             </div>
                         </v-list-item>
                     </v-list>
@@ -47,12 +65,22 @@
                 >
                     <v-col cols="12">
                         <v-card-action>
-                            <div><v-text-field flat class="mt-2 mb-0 px-3" solo label="input name of system" placeholder="input name of system" /></div>
+                            <div>
+                                <v-text-field
+                                    flat
+                                    class="mt-2 mb-0 px-3"
+                                    solo
+                                    v-model="projectName"
+                                    label="input name of system"
+                                    placeholder="input name of system"
+                                />
+                            </div>
                             <div class="d-flex justify-space-around">
                                 <v-btn
                                     outlined
                                     rounded
                                     width="40%"
+                                    @click="back"
                                 >
                                     back
                                 </v-btn>
@@ -61,6 +89,7 @@
                                     outlined
                                     rounded
                                     width="40%"
+                                    @click="estimate"
                                 >
                                     save
                                 </v-btn>
@@ -81,22 +110,28 @@ export default {
         return {
             padless: true,
             variant: 'fixed',
-            selected: [ {
-                selectedChoice: [],
-                selectedPlatform: '',
-                estimateTime: '',
-                projectName: '',
-                qty: '',
-                size: ''
-            } ]
+            projectName: ''
+        }
+    },
+    computed: {
+        getSelectedEstimate() {
+            return this.$store.getters.getSelectedEstimate
         }
     },
     methods: {
         async estimate() {
-            await estimateAPI.sentEstimate(selected)
+            await this.$store.dispatch('setSelectedEstimate', {
+                projectName: this.projectName,
+            })
+            var body = await this.$store.getters.getSelectedEstimate
+            console.log(body)
+            await estimateAPI.sentEstimate(body)
                 .then(response => {
                     console.log(response)
                 })
+        },
+        back() {
+            this.$router.push({ name: 'liff-estimate' })
         }
     }
 }
@@ -115,5 +150,11 @@ export default {
 .my-card {
     justify-content: space-around;
 }
-
+.time {
+    font-size: 16px;
+    opacity: 70%;
+}
+.platform{
+    font-size: 20px;
+}
 </style>
