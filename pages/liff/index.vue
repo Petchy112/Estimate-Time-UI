@@ -39,7 +39,7 @@
                                 class="width-100"
                                 color="orange"
                                 rounded
-                                @click="login()"
+                                @click="login"
                                 dark
                             >
                                 Sign in

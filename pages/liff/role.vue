@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import * as userAPI from "@/utils/userAPI"
+
 export default {
     layout: 'liff',
     data() {
@@ -40,21 +40,7 @@ export default {
         }
 
     },
-    mounted() {
-        userAPI.getProfile()
-            .then(response => {
-                console.log('RESPONSE', response.data)
-                this.userData = response.data
-            })
-            .catch(error => {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.data.error.message
-                })
-                // this.$router.push({ name: 'liff' })
-            })
-    },
+
 }
 </script>
 
