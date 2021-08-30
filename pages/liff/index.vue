@@ -105,7 +105,6 @@ export default {
                             title: 'Error',
                             message: 'User not in permission'
                         })
-                        liff.closeWindow()
                     }
                     else {
                         await localStorage.setItem('token', response.data.accessToken)

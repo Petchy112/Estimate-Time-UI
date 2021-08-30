@@ -41,9 +41,6 @@ export default {
 
     },
     mounted() {
-        liff.init({
-            liffId: '1656364274-nRNAprOK'
-        })
         userAPI.getProfile()
             .then(response => {
                 console.log('RESPONSE', response.data)
