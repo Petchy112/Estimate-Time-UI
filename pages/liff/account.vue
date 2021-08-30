@@ -31,14 +31,14 @@ export default {
     methods: {
         async logout() {
             await userAPI.logout(localStorage.getItem('lineUserId'))
-                .then(response => {
+                .then(async response => {
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
                         message: response.data.message
                     })
-                    localStorage.clear()
-                    liff.closeWindow()
+                    await localStorage.clear()
+                    await liff.closeWindow()
                 })
                 .catch(error => {
                     this.$store.dispatch('setDialog', {

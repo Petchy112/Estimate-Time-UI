@@ -23,9 +23,9 @@ export function changepassword(body) {
     const url = `${HOSTNAME}/user/changePassword`
     return request('post', url, body, { Authorization: localStorage.getItem('token') })
 }
-export function logout(body) {
+export function logout() {
     const url = `${HOSTNAME}/user/logout`
-    return request('post', url, { body }, { Authorization: localStorage.getItem('token') })
+    return request('post', url, {}, { lineUserId: localStorage.getItem('lineUserId'), Authorization: localStorage.getItem('token') })
 }
 export function show(id) {
     console.log(id)
