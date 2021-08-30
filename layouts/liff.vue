@@ -8,10 +8,16 @@
 </template>
 
 <script>
+import * as userAPI from "~/utils/userAPI"
 import alertDialog from "~/components/dialog/alertDialog.vue"
 export default {
     components: {
         alertDialog
+    },
+    data() {
+        return {
+            userData: [],
+        }
     },
     mounted() {
         userAPI.getProfile()
