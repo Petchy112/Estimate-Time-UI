@@ -31,7 +31,7 @@ export default {
                     title: 'Please try again',
                     message: error.response.data.error.message
                 })
-                await this.$router.push({ name: 'liff-index' })
+                await this.$router.push({ name: 'liff' })
             })
     },
 }

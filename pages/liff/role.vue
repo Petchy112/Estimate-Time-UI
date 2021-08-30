@@ -29,10 +29,26 @@
 
 export default {
     layout: 'liff',
+
     data() {
         return {
             userData: []
         }
+    },
+    mounted() {
+        userAPI.getProfile()
+            .then(response => {
+                console.log('RESPONSE', response.data)
+                this.userData = response.data
+            })
+            .catch(async error => {
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.data.error.message
+                })
+                await this.$router.push({ name: 'liff' })
+            })
     },
     methods: {
         close() {
