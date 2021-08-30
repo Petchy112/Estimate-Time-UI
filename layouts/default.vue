@@ -2,7 +2,7 @@
     <v-app>
         <v-app-bar
             :clipped-left="clipped"
-            fixed
+
             app
             dark
             flat
@@ -22,7 +22,7 @@
         <v-navigation-drawer
             v-model="drawer"
             :clipped="clipped"
-            fixed
+
             app
         >
             <v-list>
@@ -53,7 +53,7 @@
             v-model="rightDrawer"
             :right="right"
             temporary
-            fixed
+
             app
             dark
         >
@@ -101,6 +101,7 @@ export default {
             userData: [],
             clipped: true,
             drawer: true,
+            fixed: true,
             items: [
                 {
                     icon: 'mdi-puzzle-outline',

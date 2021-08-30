@@ -21,12 +21,15 @@
                             <v-text-field
                                 v-model="body.email"
                                 :rules="emailRules"
+                                type="email"
+                                hint="Email"
                                 label="Email"
                                 solo-inverted
                                 required
                             />
                             <v-text-field
                                 v-model="body.password"
+                                hint="Password"
                                 :rules="passwordRules"
                                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                                 :type="show ? 'text' : 'password'"

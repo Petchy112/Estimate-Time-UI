@@ -98,24 +98,24 @@ export default {
         show1: false,
         show2: false,
         passwordRules: [
-            v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน.',
-            v => (v && v.length >= 8) || 'ขั้นต่ำ 8 อักษร',
+            v => !!v || 'Required.',
+            v => (v && v.length >= 8) || 'Min 8 characters',
         ],
         confirmPasswordRules: [
-            v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน',
-            v => (v && v.length >= 8) || 'ขั้นต่ำ 8 อักษร',
+            v => !!v || 'Required',
+            v => (v && v.length >= 8) || 'Min 8 characters',
         ],
         firstnameRules: [
-            v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน',
-            v => (v && v.length <= 10) || 'ชื่อต้องมีขั้นต่ำ 10 อักษร',
+            v => !!v || 'Required',
+
         ],
         lastnameRules: [
-            v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน',
-            v => (v && v.length <= 10) || 'นามสกุลต้องมีขั้นต่ำ 10 อักษร',
+            v => !!v || 'Required',
+
         ],
         emailRules: [
-            v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน',
-            v => /.+@.+\..+/.test(v) || 'กรุณากรอกให้เป็นรูปแบบอีเมล',
+            v => !!v || 'Required',
+            v => /.+@.+\..+/.test(v) || 'Email is invalid format',
         ],
         select: null,
         items: [
@@ -164,7 +164,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 h1 {
     text-align: center;
 }

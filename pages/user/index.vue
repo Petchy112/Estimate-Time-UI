@@ -18,7 +18,7 @@
         </div>
         <div class="ma-5">
             <h1>
-                ระบบจัดการผู้ใช้
+                USER MANAGEMENT
             </h1>
         </div>
         <v-btn
