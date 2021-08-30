@@ -22,7 +22,7 @@
 <script>
 import * as userAPI from "@/utils/userAPI"
 export default {
-    layout: 'blank',
+    layout: 'liff',
     mounted() {
         liff.init({
             liffId: '1656364274-v0dGo98q'
