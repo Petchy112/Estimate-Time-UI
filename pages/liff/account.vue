@@ -30,13 +30,8 @@ export default {
     },
     methods: {
         async logout() {
-            await userAPI.logout(localStorage.getItem('lineUserId'))
+            await userAPI.logout()
                 .then(async response => {
-                    this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Success',
-                        message: response.data.message
-                    })
                     await localStorage.clear()
                     await liff.closeWindow()
                 })
