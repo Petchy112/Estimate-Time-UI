@@ -83,7 +83,7 @@ export default {
             if (liff.isLoggedIn()) {
                 liff.getProfile().then(profile => {
                     this.body.lineUserId = profile.userId
-
+                    localStorage.setItem('lineUserId', profile.userId)
                 })
             }
             else {
@@ -107,7 +107,6 @@ export default {
                         })
                     }
                     else {
-                        await localStorage.setItem('lineUserId', profile.userId)
                         await localStorage.setItem('token', response.data.accessToken)
                         this.$router.push({ name: 'liff-role' })
                     }
