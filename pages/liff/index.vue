@@ -8,7 +8,7 @@
                     </div>
                 </v-card-title>
                 <v-card-subtitle>
-                    Please login to website
+                    Please login to liff
                 </v-card-subtitle>
 
                 <v-row>
