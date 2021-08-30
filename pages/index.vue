@@ -38,6 +38,7 @@
                                 solo-inverted
                                 required
                             />
+                            {{ email }}
                             <v-btn
                                 class="width-100"
                                 color="orange"
@@ -61,6 +62,7 @@ export default {
     layout: 'blank',
     data() {
         return {
+            token: '',
             valid: true,
             message: '',
             body: {
@@ -79,7 +81,16 @@ export default {
             ],
         }
     },
+    mounted() {
+        this.token = localStorage.getItem('token')
+    },
+    computed: {
+        email() {
+            return this.token
+        }
 
+
+    },
     methods: {
         async login() {
             this.$refs.form.validate()
@@ -93,7 +104,8 @@ export default {
                             accessToken: response.data.accessToken
                         })
                         localStorage.setItem('token', response.data.accessToken)
-                        this.$router.push({ name: 'function' })
+                        this.token = localStorage.getItem('token')
+                        // this.$router.push({ name: 'function' })
                     }
                     else {
                         alert('User not in permission')

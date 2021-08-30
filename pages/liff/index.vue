@@ -35,6 +35,7 @@
                                 solo-inverted
                                 required
                             />
+                            {{ email }}
                             <v-btn
                                 class="width-100"
                                 color="orange"
@@ -60,6 +61,7 @@ export default {
         return {
             valid: true,
             message: '',
+            token: '',
             body: {
                 email: '',
                 password: '',
@@ -84,14 +86,18 @@ export default {
                 liff.getProfile().then(profile => {
                     this.body.lineUserId = profile.userId
                     localStorage.setItem('lineUserId', profile.userId)
+                    this.token = localStorage.getItem('lineUserId')
                 })
             }
             else {
                 liff.login()
             }
-
-
         })
+    },
+    computed: {
+        email() {
+            return this.token
+        }
     },
     methods: {
         async login() {
