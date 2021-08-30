@@ -19,7 +19,6 @@ export function getProfile() {
     return request('get', url, {}, { Authorization: localStorage.getItem('token') })
 }
 export function changepassword(body) {
-    console.log(body)
     const url = `${HOSTNAME}/user/changePassword`
     return request('post', url, body, { Authorization: localStorage.getItem('token') })
 }

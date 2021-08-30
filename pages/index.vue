@@ -43,7 +43,7 @@
                                 class="width-100"
                                 color="orange"
                                 rounded
-                                @click="login"
+                                @click="login(body)"
                                 dark
                             >
                                 Sign in
@@ -92,10 +92,9 @@ export default {
 
     },
     methods: {
-        async login() {
+        async login(body) {
             this.$refs.form.validate()
-            this.$store.dispatch('setLogin', this.body)
-            await userAPI.login(this.body)
+            await userAPI.login(body)
                 .then(async response => {
                     console.log('RESPONSE', response)
                     if (response.data.role == 'ADMIN') {

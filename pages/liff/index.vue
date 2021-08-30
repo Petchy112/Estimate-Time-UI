@@ -40,7 +40,7 @@
                                 class="width-100"
                                 color="orange"
                                 rounded
-                                @click="login"
+                                @click="login(body)"
                                 dark
                             >
                                 Sign in
@@ -100,9 +100,9 @@ export default {
         }
     },
     methods: {
-        async login() {
+        async login(body) {
             this.$refs.form.validate()
-            await userAPI.login(this.body)
+            await userAPI.login(body)
                 .then(async response => {
                     console.log('RESPONSE', response)
                     if (response.data.role=='ADMIN') {
@@ -112,10 +112,9 @@ export default {
                             message: 'User not in permission'
                         })
                     }
-                    else {
-                        await localStorage.setItem('token', response.data.accessToken)
-                        this.$router.push({ name: 'liff-role' })
-                    }
+                    await localStorage.setItem('token', response.data.accessToken)
+                    this.$router.push({ name: 'liff-result-vote' })
+
                 })
                 .catch(async error => {
                     console.log('ERROR page', error.response)

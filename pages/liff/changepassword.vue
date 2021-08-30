@@ -12,14 +12,9 @@ import * as userAPI from "@/utils/userAPI"
 export default {
     layout: 'liff',
     components: { changepassword },
-    mounted() {
-        liff.init({
-            liffId: '1656364274-YZBz8oV3'
-        })
-    },
     methods: {
-        async handleChangeClicked() {
-            await liff.closeWindow()
+        async handleChangeClicked(body) {
+            console.log(body)
             await userAPI.changepassword(body)
                 .then(async response => {
                     this.$store.dispatch('setDialog', {
@@ -27,7 +22,7 @@ export default {
                         title: 'Success',
                         message: response.data.message
                     })
-
+                    await liff.closeWindow()
                 })
                 .catch(error => {
                     this.$store.dispatch('setDialog', {
