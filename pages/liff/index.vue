@@ -96,7 +96,7 @@ export default {
     },
     computed: {
         email() {
-            return this.token
+            return this.body
         }
     },
     methods: {

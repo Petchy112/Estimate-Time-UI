@@ -26,8 +26,9 @@
 </template>
 
 <script>
-
+import * as userAPI from "~/utils/userAPI"
 export default {
+
     layout: 'liff',
 
     data() {
