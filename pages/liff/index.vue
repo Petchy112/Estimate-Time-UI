@@ -82,17 +82,17 @@ export default {
         liff.init({
             liffId: '1656364274-8p9ZXm3e'
         })
-        // if (liff.isLoggedIn()) {
-        //     liff.getProfile().then(profile => {
-        //         this.body.lineUserId = profile.userId
-        //         localStorage.setItem('lineUserId', profile.userId)
-        //         this.token = localStorage.getItem('lineUserId')
-        //     })
-        // }
-        // else {
-        //     liff.login()
-        // }
-    //     })
+        if (liff.isLoggedIn()) {
+            liff.getProfile().then(profile => {
+                this.body.lineUserId = profile.userId
+                localStorage.setItem('lineUserId', profile.userId)
+                this.token = localStorage.getItem('lineUserId')
+            })
+        }
+        else {
+            liff.login()
+        }
+
     },
 
     methods: {
