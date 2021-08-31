@@ -33,7 +33,7 @@ export default {
             await userAPI.logout()
                 .then(async response => {
                     await localStorage.clear()
-                    await liff.closeWindow()
+                    liff.closeWindow()
                 })
                 .catch(error => {
                     this.$store.dispatch('setDialog', {
