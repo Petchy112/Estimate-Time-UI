@@ -35,12 +35,12 @@
                                 solo-inverted
                                 required
                             />
-                            {{ email }}
+
                             <v-btn
                                 class="width-100"
                                 color="orange"
                                 rounded
-                                @click="login"
+                                @click="login()"
                                 dark
                             >
                                 Sign in
@@ -81,28 +81,24 @@ export default {
     mounted() {
         liff.init({
             liffId: '1656364274-8p9ZXm3e'
-        }).then(() => {
-            if (liff.isLoggedIn()) {
-                liff.getProfile().then(profile => {
-                    this.body.lineUserId = profile.userId
-                    localStorage.setItem('lineUserId', profile.userId)
-                    this.token = localStorage.getItem('lineUserId')
-                })
-            }
-            else {
-                liff.login()
-            }
         })
-    },
-    computed: {
-        email() {
-            return this.body
+        if (liff.isLoggedIn()) {
+            liff.getProfile().then(profile => {
+                this.body.lineUserId = profile.userId
+                localStorage.setItem('lineUserId', profile.userId)
+                this.token = localStorage.getItem('lineUserId')
+            })
         }
+        else {
+            liff.login()
+        }
+    //     })
     },
+
     methods: {
-        async login() {
+        async login(body) {
             this.$refs.form.validate()
-            await userAPI.login(this.body)
+            await userAPI.login(body)
                 .then(async response => {
                     console.log('RESPONSE', response)
                     if (response.data.role=='ADMIN') {
@@ -112,12 +108,15 @@ export default {
                             message: 'User not in permission'
                         })
                     }
-                    await localStorage.setItem('token', response.data.accessToken)
-                    this.$router.push({ name: 'liff-account' })
+                    else {
+                        await localStorage.setItem('token', response.data.accessToken)
+                        this.$router.push({ name: 'liff-account' })
+                    }
+
 
                 })
-                .catch(async error => {
-                    console.log('ERROR page', error.response)
+                .catch(error => {
+                    console.log('ERROR page', error.response.data)
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',

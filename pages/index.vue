@@ -38,7 +38,6 @@
                                 solo-inverted
                                 required
                             />
-                            {{ email }}
                             <v-btn
                                 class="width-100"
                                 color="orange"
@@ -81,16 +80,7 @@ export default {
             ],
         }
     },
-    mounted() {
-        this.token = localStorage.getItem('token')
-    },
-    computed: {
-        email() {
-            return this.body
-        }
 
-
-    },
     methods: {
         logs(body) {
             return this.body = body
@@ -101,18 +91,19 @@ export default {
                 .then(async response => {
                     console.log('RESPONSE', response)
                     if (response.data.role == 'ADMIN') {
-                        this.$store.dispatch('setUser', {
-                            role: response.data.role,
-                            accessToken: response.data.accessToken
-                        })
                         localStorage.setItem('token', response.data.accessToken)
                         this.$router.push({ name: 'function' })
                     }
                     else {
-                        alert('User not in permission')
+                        this.$store.dispatch('setDialog', {
+                            isShow: true,
+                            title: 'Please try again',
+                            message: 'User not in permission'
+                        })
                     }
                 })
                 .catch(async error => {
+                    console.log('ERROR page', error.response.data.error.message)
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
