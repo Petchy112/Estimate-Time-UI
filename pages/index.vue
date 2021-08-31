@@ -82,12 +82,10 @@ export default {
     },
 
     methods: {
-        logs(body) {
-            return this.body = body
-        },
         async login(body) {
             this.$refs.form.validate()
-            await userAPI.login(body)
+            console.log(body)
+            await userAPI.login(this.body)
                 .then(async response => {
                     console.log('RESPONSE', response)
                     if (response.data.role == 'ADMIN') {

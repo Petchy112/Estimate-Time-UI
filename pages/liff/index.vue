@@ -40,7 +40,7 @@
                                 class="width-100"
                                 color="orange"
                                 rounded
-                                @click="login()"
+                                @click="login"
                                 dark
                             >
                                 Sign in
@@ -82,23 +82,23 @@ export default {
         liff.init({
             liffId: '1656364274-8p9ZXm3e'
         })
-        if (liff.isLoggedIn()) {
-            liff.getProfile().then(profile => {
-                this.body.lineUserId = profile.userId
-                localStorage.setItem('lineUserId', profile.userId)
-                this.token = localStorage.getItem('lineUserId')
-            })
-        }
-        else {
-            liff.login()
-        }
+        // if (liff.isLoggedIn()) {
+        //     liff.getProfile().then(profile => {
+        //         this.body.lineUserId = profile.userId
+        //         localStorage.setItem('lineUserId', profile.userId)
+        //         this.token = localStorage.getItem('lineUserId')
+        //     })
+        // }
+        // else {
+        //     liff.login()
+        // }
     //     })
     },
 
     methods: {
-        async login(body) {
+        async login() {
             this.$refs.form.validate()
-            await userAPI.login(body)
+            await userAPI.login(this.body)
                 .then(async response => {
                     console.log('RESPONSE', response)
                     if (response.data.role=='ADMIN') {
