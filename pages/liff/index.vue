@@ -61,7 +61,6 @@ export default {
         return {
             valid: true,
             message: '',
-            token: '',
             body: {
                 email: '',
                 password: '',
@@ -82,16 +81,15 @@ export default {
         liff.init({
             liffId: '1656364274-8p9ZXm3e'
         })
-        if (liff.isLoggedIn()) {
-            liff.getProfile().then(profile => {
-                this.body.lineUserId = profile.userId
-                localStorage.setItem('lineUserId', profile.userId)
-                this.token = localStorage.getItem('lineUserId')
-            })
-        }
-        else {
-            liff.login()
-        }
+        // if (liff.isLoggedIn()) {
+        liff.getProfile().then(profile => {
+            this.body.lineUserId = profile.userId
+            localStorage.setItem('lineUserId', profile.userId)
+        })
+        // }
+        // else {
+        //     liff.login()
+        // }
 
     },
 
@@ -110,10 +108,8 @@ export default {
                     }
                     else {
                         await localStorage.setItem('token', response.data.accessToken)
-                        this.$router.push({ name: 'liff-account' })
+                        this.$router.push({ name: 'liff-role' })
                     }
-
-
                 })
                 .catch(error => {
                     console.log('ERROR page', error.response.data)
