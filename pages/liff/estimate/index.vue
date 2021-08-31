@@ -119,6 +119,9 @@ export default {
         }
     },
     async mounted() {
+        await liff.init({
+            liffId: '1656364274-vZ69KELG'
+        }),
         await voteAPI.getDataForEstimate('WEBSITE')
             .then(async response => {
                 console.log('RESPONSE', response)
