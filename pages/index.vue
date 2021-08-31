@@ -92,6 +92,9 @@ export default {
 
     },
     methods: {
+        logs(body) {
+            return this.body = body
+        },
         async login(body) {
             this.$refs.form.validate()
             await userAPI.login(body)
@@ -103,8 +106,7 @@ export default {
                             accessToken: response.data.accessToken
                         })
                         localStorage.setItem('token', response.data.accessToken)
-                        this.token = localStorage.getItem('token')
-                        // this.$router.push({ name: 'function' })
+                        this.$router.push({ name: 'function' })
                     }
                     else {
                         alert('User not in permission')

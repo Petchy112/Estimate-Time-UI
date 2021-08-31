@@ -40,7 +40,7 @@
                                 class="width-100"
                                 color="orange"
                                 rounded
-                                @click="login(body)"
+                                @click="login"
                                 dark
                             >
                                 Sign in
@@ -100,9 +100,9 @@ export default {
         }
     },
     methods: {
-        async login(body) {
+        async login() {
             this.$refs.form.validate()
-            await userAPI.login(body)
+            await userAPI.login(this.body)
                 .then(async response => {
                     console.log('RESPONSE', response)
                     if (response.data.role=='ADMIN') {
@@ -113,7 +113,7 @@ export default {
                         })
                     }
                     await localStorage.setItem('token', response.data.accessToken)
-                    this.$router.push({ name: 'liff-result-vote' })
+                    this.$router.push({ name: 'liff-account' })
 
                 })
                 .catch(async error => {

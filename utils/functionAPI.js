@@ -1,5 +1,5 @@
 import { request } from "./API"
-const HOSTNAME = 'http://localhost:4000'
+const HOSTNAME = 'https://estimate-time.herokuapp.com'
 
 export function index(platform) {
     const url =`${HOSTNAME}/function?platform=${platform}`
