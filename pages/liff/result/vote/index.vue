@@ -21,6 +21,9 @@ export default {
         }
     },
     async mounted() {
+        await liff.init({
+            liffId: '1656364274-AGm9jZ4x'
+        })
         await voteAPI.index()
             .then(response => {
                 console.log('RESPONSE', response)

@@ -63,6 +63,9 @@ export default {
         }
     },
     async mounted() {
+        liff.init({
+            liffId: '1656364274-OB6Pd9Rp'
+        })
         await functionAPI.index('WEBSITE')
             .then(response => {
                 console.log('RESPONSE', response)
