@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-col cols="12">
-            <h1>Vote results</h1>
+            <h1>VOTE RESULTS</h1>
         </v-col>
         <v-col cols="12">
             <v-btn dark rounded class="w-100" color="orange">
