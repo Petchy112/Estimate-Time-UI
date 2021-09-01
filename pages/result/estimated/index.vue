@@ -2,7 +2,7 @@
     <div>
         <v-card-title>
             <div class="my-head ma-3">
-                Estimate result
+                ESTIMATE RESULTS
             </div>
             <v-spacer />
             <v-text-field
@@ -65,5 +65,6 @@ export default {
 
 .my-head {
     font-size: 32px !important;
+    font-weight: bold;
 }
 </style>

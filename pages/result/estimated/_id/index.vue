@@ -36,12 +36,4 @@ export default {
 }
 </script>
 
-<style>
-h1 {
-    opacity: 70%;
-}
-h3 {
 
-    opacity: 70%;
-}
-</style>

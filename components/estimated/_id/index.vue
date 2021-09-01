@@ -1,8 +1,12 @@
 <template>
     <div v-if="estimateDetails">
         <div class="mt-5 mx-5">
-            <h1> {{ estimateDetails.projectName }}</h1>
-            <h3>Platform : {{ estimateDetails.platform }}</h3>
+            <div class="head">
+                {{ estimateDetails.projectName }}
+            </div>
+            <div class="selected-platform">
+                Platform : {{ estimateDetails.platform }}
+            </div>
         </div>
         <v-row
             justify="start"
@@ -14,23 +18,24 @@
                 flat
             >
                 <v-card-content>
-                    <v-card-title class="pa-2 pb-1">
+                    <v-card-title class="ml-2 py-0">
                         Number of developer: {{ estimateDetails.qty }}
                     </v-card-title>
-                    <v-card-title class="pt-0 pb-0 pl-2">
+                    <v-card-title class="ml-2 py-1">
                         Estimated time : {{ (time/8)/5 }} weeks
                     </v-card-title>
-                    <v-card-title class="pa-2 pt-1">
+                    <v-card-title class="ml-2 py-0">
                         System size: {{ estimateDetails.size }}
                     </v-card-title>
                 </v-card-content>
             </v-card>
         </v-row>
         <v-divider />
-        <div class="pt-5">
-            <h1>ฟังก์ชันที่เลือก</h1>
-        </div>
+
         <v-col cols="12">
+            <div class="head pt-5">
+                SELECTED FUNCTION
+            </div>
             <div class="d-flex flex-wrap">
                 <v-card
                     class="ma-5"
@@ -69,13 +74,16 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-    opacity: 70%;
+.head {
+    font-weight: bold;
+    text-align: center;
     font-size: 38px;
+    text-transform: uppercase;
 }
-h3 {
+.selected-platform {
     font-size: 18px;
     text-align: center;
-    opacity: 70%;
+    font-weight:400;
+
 }
 </style>
