@@ -2,11 +2,8 @@
     <div>
         <div
             class="d-flex flex-column"
-
-            v-for="choice in choices"
-            :key="choice.name"
         >
-            <v-card height="80px" class="mb-3 mx-3 choice-card" @click="$emit('chooseChoice',choice)">
+            <v-card rounded="sm" flat class="mb-3 mx-3 choice-card" :class="active == true ? 'active': ''" @click="$emit('chooseChoice',choices)">
                 <v-col cols="12">
                     <v-list-item>
                         <v-list-item-avatar>
@@ -14,8 +11,8 @@
                         </v-list-item-avatar>
 
                         <v-list-item-content>
-                            <v-list-item-title>{{ choice.name }}</v-list-item-title>
-                            <v-list-item-subtitle>{{ choice.description }}</v-list-item-subtitle>
+                            <v-list-item-title>{{ choices.name }}</v-list-item-title>
+                            <v-list-item-subtitle>{{ choices.description }}</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
                 </v-col>
@@ -25,7 +22,7 @@
 </template>
 <script>
 export default {
-    props: [ 'choices' ]
+    props: [ 'choices', 'active' ]
 
 
 }
@@ -33,9 +30,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 
-.choice-card-active {
-    background-color: green !important ;
+.choice-card{
+    background-color:#e3e3e3  !important ;
+    &.active {
+    background-color: #7BE891 !important ;
 
+}
+}
+.v-list-item__title {
+    font-weight:400;
+
+}
+.v-list-item__subtitle {
+    font-weight:300;
+    opacity: 80%;
 }
 
 </style>

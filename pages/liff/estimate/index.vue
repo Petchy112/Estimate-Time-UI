@@ -1,89 +1,102 @@
 <template>
     <div v-if="estimateData">
-        <v-app-bar
-            color="orange"
-            flat
-            max-width="100%"
-        >
-            <v-toolbar-title>
-                Estimate system
-            </v-toolbar-title>
-        </v-app-bar>
-        <v-col cols="12">
-            <div class="subheader1 pa-0 pt-5">
-                Select Platform
-            </div>
-            <v-tabs
-                v-model="tab"
-                slider-color="yellow"
+        <v-app>
+            <v-app-bar
                 color="orange"
+                flat
+                fixed
+                max-width="100%"
             >
-                <v-tab
-                    v-for="item in items"
-                    :key="item.tab"
-                    @click="choosePlatform(item.tab)"
+                <v-toolbar-title>
+                    Estimate system
+                </v-toolbar-title>
+            </v-app-bar>
+            <v-col cols="12">
+                <div class="subheader1 pa-0 pt-5">
+                    Select Platform
+                </div>
+                <v-tabs
+                    v-model="tab"
+                    slider-color="yellow"
+                    color="orange"
                 >
-                    {{ item.tab }}
-                </v-tab>
-            </v-tabs>
-            <v-tabs-items v-model="tab">
-                <v-tab-item
-                    v-for="i in 2"
-                    :key="i.tab"
-                >
-                    <div class="subheader2 pa-0 pt-5">
-                        Select Function that you need
-                    </div>
-                    <v-card
-                        tile
-                        class="my-5 mx-5 pb-4"
+                    <v-tab
+                        v-for="item in items"
+                        :key="item.tab"
+                        @click="choosePlatform(item.tab)"
                     >
-                        <v-card-title class="justify-center">
-                            Select developer
-                        </v-card-title>
-                        <div class="input-time">
-                            <div>
-                                <v-text-field label="Number" v-model="selected.qty" solo-inverted />
+                        {{ item.tab }}
+                    </v-tab>
+                </v-tabs>
+                <v-tabs-items v-model="tab">
+                    <v-tab-item
+                        v-for="i in 2"
+                        :key="i.tab"
+                    >
+                        <div class="subheader2 pa-0 pt-5">
+                            Select Function that you need
+                        </div>
+                        <v-card
+                            rounded="50%"
+                            class="my-5 mx-5 pb-4"
+                        >
+                            <v-card-title class="justify-center">
+                                Select developer
+                            </v-card-title>
+                            <div class="input-time">
+                                <div>
+                                    <v-text-field label="Number" v-model="selected.qty" solo-inverted />
+                                </div>
+                            </div>
+                        </v-card>
+                        <div
+                            v-for="data in estimateData"
+                            :key="data._id"
+                        >
+                            <div v-if="data.choices.length != 0">
+                                <v-card
+                                    rounded="50%"
+                                    class="my-5 mx-5 py-3"
+                                >
+                                    <v-card-title class="justify-center mb-3">
+                                        {{ data.group }}
+                                    </v-card-title>
+
+                                    <estimateCard
+                                        v-for="choice in data.choices"
+                                        :choices="choice"
+                                        :key="choice.name"
+                                        :active="selected.selectedChoice.includes(choice.name)"
+                                        @chooseChoice="chooseChoice"
+                                    />
+                                </v-card>
                             </div>
                         </div>
-                    </v-card>
-                    <v-card
-                        v-for="data in estimateData"
-                        :key="data._id"
-                        tile
-                        class="my-5 mx-5"
-                    >
-                        <v-card-title class="justify-center">
-                            {{ data.group }}
-                        </v-card-title>
-                        <estimateCard
-                            :choices="data.choices"
-                            @chooseChoice="chooseChoice"
-                        />
-                    </v-card>
-                </v-tab-item>
-            </v-tabs-items>
-        </v-col>
+                    </v-tab-item>
+                </v-tabs-items>
+            </v-col>
 
-        <v-footer
-            :padless="padless"
-            fixed
-        >
-            <v-card
-                tile
-                width="100%"
-                color="orange"
+            <v-footer
+                :padless="padless"
+                fixed
+                app
             >
-                <v-col cols="12">
-                    <v-card-text class="pa-0 pb-4 pl-2">
-                        ** กรุณาตรวจสอบข้อมูลให้เรียบร้อย
-                    </v-card-text>
-                    <v-btn outlined rounded class="next-btn" @click="nextPage">
-                        Next
-                    </v-btn>
-                </v-col>
-            </v-card>
-        </v-footer>
+                <v-card
+                    tile
+                    width="100%"
+                    color="orange"
+                >
+                    <v-col cols="12">
+                        <v-card-text class="pa-0 pb-4 pl-2">
+                            ** Please make sure your selection is correct.
+                        </v-card-text>
+                        <v-btn outlined rounded class="next-btn" @click="nextPage">
+                            Next
+                        </v-btn>
+                    </v-col>
+                </v-card>
+            </v-footer>
+        </v-app>
     </div>
 </template>
 
@@ -100,7 +113,6 @@ export default {
             platform: '',
             tab: null,
             padless: true,
-            variant: 'fixed',
             items: [
                 { tab: 'WEBSITE' },
                 { tab: 'MOBILE' }
@@ -141,7 +153,6 @@ export default {
         async chooseChoice(choice) {
             console.log(choice.name)
             if (this.selected.selectedChoice.includes(choice.name)) {
-                console.log('found')
                 const found = this.selected.selectedChoice.find(element => element == choice.name)
                 const inSelected = this.selected.selectedChoice.indexOf(found)
                 this.selected.selectedChoice.splice(inSelected, 1)
@@ -162,10 +173,9 @@ export default {
             this.selected.platform = platform || 'WEBSITE'
             console.log(this.selected)
             await voteAPI.getDataForEstimate(platform)
-                .then(response => {
+                .then(async response => {
                     console.log('RESPONSE', response)
                     this.estimateData = response.data
-
                 })
         },
         nextPage() {
@@ -179,7 +189,10 @@ export default {
 
 <style scoped>
 .v-application--wrap {
-    background-color: orange;
+    background-color: red;
+}
+.v-tabs-items {
+    background-color:rgb(255, 148, 55) !important;
 }
 .v-toolbar__title {
     width: 100%;
