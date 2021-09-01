@@ -66,12 +66,12 @@ export default {
         liff.init({
             liffId: '1656364274-OB6Pd9Rp'
         })
-        await functionAPI.index('WEBSITE')
+        functionAPI.index('WEBSITE')
             .then(response => {
                 console.log('RESPONSE', response)
                 this.functionData = response.data
             })
-            .catch(async error => {
+            .catch(error => {
                 this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
@@ -80,13 +80,13 @@ export default {
             })
     },
     methods: {
-        async handleShowClicked(id) {
+        handleShowClicked(id) {
             console.log(id)
             this.$router.push({ name: 'liff-vote-id', params: { id } })
         },
-        async choosePlatform(platform) {
+        choosePlatform(platform) {
             console.log(platform)
-            await functionAPI.index(platform)
+            functionAPI.index(platform)
                 .then(response => {
                     console.log('RESPONSE', response)
                     this.functionData = response.data
