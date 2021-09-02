@@ -12,7 +12,7 @@ export default {
     components: { voteDetails },
     data() {
         return {
-            platform: 'WEBSITE',
+            platform: '',
             voteData: [],
             tab: null,
             items: [
@@ -23,7 +23,7 @@ export default {
         }
     },
     async mounted() {
-        await voteAPI.show(this.$route.params.date, this.platform)
+        await voteAPI.show(this.$route.params.round, this.platform || 'WEBSITE')
             .then(response => {
                 console.log('RESPONSE', response)
                 this.voteData = response.data
@@ -40,7 +40,7 @@ export default {
     methods: {
         async choosePlatform(platform) {
             this.platform = platform
-            await voteAPI.show(this.$route.params.date, platform)
+            await voteAPI.show(this.$route.params.round, platform)
                 .then(response => {
                     console.log('RESPONSE', response)
                     this.voteData = response.data

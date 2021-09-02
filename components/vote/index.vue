@@ -11,11 +11,11 @@
                 </thead>
                 <tbody>
                     <tr
-                        v-for="(data,index) in voteResults "
-                        :key="index"
-                        @click="handleShowClicked(data.votingDate)"
+                        v-for="data in voteResults "
+                        :key="data.index"
+                        @click="handleShowClicked(data)"
                     >
-                        <td>โหวตครั้งที่ {{ index+1 }} , ({{ data.votingDate }})</td>
+                        <td>Vote round {{ data }}</td>
                     </tr>
                 </tbody>
             </template>

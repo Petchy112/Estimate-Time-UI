@@ -1,8 +1,10 @@
 <template>
-    <div v-if="voteData">
-        <div class="ma-5">
+    <div>
+        <div
+            class="ma-5"
+        >
             <h1>
-                โหวตครั้งที่ 1
+                VOTE RESULTS
             </h1>
         </div>
         <v-tabs
@@ -19,24 +21,24 @@
             </v-tab>
         </v-tabs>
         <v-tabs-items v-model="tab">
-            <v-card flat>
+            <div>
                 <v-tab-item
                     v-for="item in items"
                     :key="item.tab"
                 >
                     <v-card
+                        v-for="(i,index) in voteData"
+                        :key="index"
                         tile
                         class="my-5 mx-5"
-                        v-for="results in voteData"
-                        :key="results.index"
                     >
                         <v-card-title class="justify-center">
-                            {{ results.group }}
+                            {{ i.data.group }}
                         </v-card-title>
                         <div
                             class="d-flex flex-column"
-                            v-for="n in results.choice"
-                            :key="n"
+                            v-for="name in i.data.choices"
+                            :key="name.name"
                         >
                             <v-list-item two-line>
                                 <v-list-item-avatar>
@@ -47,17 +49,17 @@
                                     />
                                 </v-list-item-avatar>
                                 <v-list-item-content>
-                                    <v-list-item-title>name</v-list-item-title>
-                                    <v-list-item-subtitle>description</v-list-item-subtitle>
+                                    <v-list-item-title>{{ name.name }}</v-list-item-title>
+                                    <v-list-item-subtitle>{{ name.description }}</v-list-item-subtitle>
                                 </v-list-item-content>
                                 <div class="result-time">
-                                    time hours
+                                    {{ name.time.toFixed(1) }} Hours
                                 </div>
                             </v-list-item>
                         </div>
                     </v-card>
                 </v-tab-item>
-            </v-card>
+            </div>
         </v-tabs-items>
     </div>
 </template>
@@ -86,3 +88,6 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+
+</style>
