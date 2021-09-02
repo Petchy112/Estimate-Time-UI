@@ -41,9 +41,8 @@ export default {
     },
 
     methods: {
-        async handleShowClicked(id) {
-            console.log(id)
-            this.$router.push({ name: 'liff-result-vote-id', params: { id } })
+        async handleShowClicked(round) {
+            this.$router.push({ name: 'liff-result-vote-round', params: { round } })
         }
     }
 }

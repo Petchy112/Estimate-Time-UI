@@ -41,9 +41,8 @@ export default {
     },
 
     methods: {
-        async handleShowClicked(date) {
-            console.log(date)
-            this.$router.push({ name: 'result-vote-date', params: { date } })
+        async handleShowClicked(round) {
+            this.$router.push({ name: 'result-vote-round', params: { round } })
         }
     }
 }
