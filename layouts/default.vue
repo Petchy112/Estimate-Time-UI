@@ -81,6 +81,7 @@
         </v-navigation-drawer>
         <v-footer
             :absolute="!fixed"
+            color="rgb(55, 208, 255)"
             app
         >
             <span>&copy; {{ new Date().getFullYear() }}</span>

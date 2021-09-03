@@ -17,7 +17,7 @@
             max-width="1000px"
         >
             <v-card>
-                <v-app-bar color="rgb(55, 208, 255)" flat>
+                <v-app-bar color="rgb(55, 208, 255)" flat dark>
                     <v-toolbar-title>
                         ADD FUNCTION
                     </v-toolbar-title>
@@ -116,7 +116,7 @@
                         <v-btn
                             class="mx-md-2 pa-md-3 mx-2 pa-3"
                             color="error"
-
+                            width="100px"
                             @click="dialog = false"
                         >
                             Close
@@ -124,7 +124,7 @@
                         <v-btn
                             class="mx-md-2 pa-md-3 mx-2 pa-3"
                             color="success"
-
+                            width="100px"
                             @click="handleSaveClicked"
                         >
                             Save
