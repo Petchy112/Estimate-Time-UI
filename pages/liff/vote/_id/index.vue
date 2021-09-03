@@ -30,7 +30,7 @@
                         </v-list-item-content>
                         <div class="input-time">
                             <div>
-                                <v-text-field label="Time" @change="logs()" v-model="choice.time" solo-inverted />
+                                <v-text-field label="Time" v-model="choice.time" outlined />
                             </div>
                         </div>
                     </v-list-item>

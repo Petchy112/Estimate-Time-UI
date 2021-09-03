@@ -22,7 +22,7 @@
                                 v-model="body.email"
                                 :rules="emailRules"
                                 label="Email"
-                                solo-inverted
+                                filled
                                 required
                             />
                             <v-text-field
@@ -32,7 +32,7 @@
                                 :type="show ? 'text' : 'password'"
                                 @click:append="show = !show"
                                 label="Password"
-                                solo-inverted
+                                filled
                                 required
                             />
 

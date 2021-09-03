@@ -17,12 +17,12 @@
                     :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="passwordRules"
                     :type="show1 ? 'text' : 'password'"
-                    label="Old password"
+                    label="Current password"
                     hint="At least 8 characters"
                     v-model="body.oldPassword"
                     class="input-group--focused"
                     @click:append="show1 = !show1"
-                    solo-inverted
+                    outlined
                 />
                 <v-text-field
                     :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -33,7 +33,7 @@
                     v-model="body.newPassword"
                     class="input-group--focused"
                     @click:append="show2 = !show2"
-                    solo-inverted
+                    outlined
                 />
                 <v-text-field
                     :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -44,7 +44,7 @@
                     v-model="body.confirmPassword"
                     class="input-group--focused"
                     @click:append="show3 = !show3"
-                    solo-inverted
+                    outlined
                 />
                 <v-col cols="12">
                     <v-btn

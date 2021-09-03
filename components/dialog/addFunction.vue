@@ -25,12 +25,11 @@
 
                 <v-text-field
                     class="input-group--focused pa-6 pb-0"
-                    placeholder="Group of function name"
-                    hint="Group of function"
+                    label="Group of function is"
                     :rules="groupRules"
                     v-model="group"
                     required
-                    solo
+                    outlined
                 />
 
                 <v-radio-group
@@ -73,17 +72,20 @@
                             <v-card-title>
                                 <v-avatar
                                     class="mr-3 mb-3"
-                                    color="primary"
+                                    color="secondary"
                                     size="80"
                                 />
-
+                                <!-- <v-file-input
+                                    hide-input
+                                    truncate-length="1"
+                                    chips
+                                /> -->
                                 <v-text-field
-                                    placeholder="Function choice"
+                                    label="Function choice"
                                     class="input-group--focused"
                                     :rules="choiceRules"
-                                    hint="Function choice"
                                     v-model="choices[index].name"
-                                    solo
+                                    outlined
                                 />
                             </v-card-title>
                             <v-card-subtitle>
@@ -91,9 +93,8 @@
                                     v-model="choices[index].description"
                                     class="input-group--focused"
                                     :rules="descriptionRules"
-                                    placeholder="Description"
-                                    hint="Description"
-                                    solo
+                                    label="Description"
+                                    outlined
                                 />
                             </v-card-subtitle>
                         </v-col>

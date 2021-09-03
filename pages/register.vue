@@ -19,7 +19,7 @@
                     :rules="firstnameRules"
                     label="Firstname"
                     required
-                    solo-inverted
+                    outlined
                 />
                 <v-text-field
                     v-model="body.lastname"
@@ -27,7 +27,7 @@
                     :rules="lastnameRules"
                     label="Lastname"
                     required
-                    solo-inverted
+                    outlined
                 />
 
                 <v-text-field
@@ -35,7 +35,7 @@
                     :rules="emailRules"
                     label="E-mail"
                     required
-                    solo-inverted
+                    outlined
                 />
                 <v-text-field
                     :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -46,7 +46,7 @@
                     v-model="body.password"
                     class="input-group--focused"
                     @click:append="show1 = !show1"
-                    solo-inverted
+                    outlined
                 />
                 <v-text-field
                     :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -57,7 +57,7 @@
                     v-model="body.confirmPassword"
                     class="input-group--focused"
                     @click:append="show2 = !show2"
-                    solo-inverted
+                    outlined
                 />
 
                 <v-select
@@ -65,7 +65,7 @@
                     :rules="[v => !!v || 'Role is required']"
                     label="Select Role"
                     required
-                    solo-inverted
+                    outlined
                     v-model="body.role"
                 />
 
