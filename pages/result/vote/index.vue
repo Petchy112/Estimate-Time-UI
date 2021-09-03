@@ -4,8 +4,11 @@
             <h1>VOTE RESULTS</h1>
         </v-col>
         <v-col cols="12">
-            <v-btn dark rounded class="w-100" color="rgb(55, 208, 255)">
+            <v-btn dark @click="handleVote('OPEN')" rounded class="w-100" color="rgb(55, 208, 255)">
                 Start voting
+            </v-btn>
+            <v-btn dark @click="handleVote('CLOSE')" rounded class="w-100 mt-6" color="rgb(55, 208, 255)">
+                Stop voting
             </v-btn>
         </v-col>
         <voteComponant @show-vote="handleShowClicked" :voteResults="voteResults" />
@@ -43,7 +46,18 @@ export default {
     methods: {
         async handleShowClicked(round) {
             this.$router.push({ name: 'result-vote-round', params: { round } })
+        },
+        async handleVote(action) {
+            await voteAPI.handleVote(action)
+                .then(response => {
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Success',
+                        message: response.data.message
+                    })
+                })
         }
+
     }
 }
 </script>

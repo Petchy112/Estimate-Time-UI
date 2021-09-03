@@ -18,3 +18,7 @@ export function getDataForEstimate(platform) {
     const url =`${HOSTNAME}/vote/result/?platform=${platform}`
     return request('get', url, {}, { Authorization: localStorage.getItem('token') })
 }
+export function handleVote(action) {
+    const url =`${HOSTNAME}/vote/controlVote/?${action}`
+    return request('post', url, { body }, { Authorization: localStorage.getItem('token') })
+}
