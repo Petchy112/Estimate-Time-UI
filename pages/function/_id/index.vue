@@ -51,7 +51,7 @@
                     :key="choice.index"
                 >
                     <v-img
-                        src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                        src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUPEhIVFRUVFxcVFRUVFRcVFRUVFRUXFxUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDQ0NFQ8PFS0ZFRkrLTcrKystKystNystLS0tNzc3NzctLTc3LS0tNy03LSsrNysrLS03KzcrLSsrKysrK//AABEIAOEA4QMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAAAAQcC/8QAGhABAQEAAwEAAAAAAAAAAAAAAAEREiHhAv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A00BAAUBUAAAVFBAAVFQAAAAABABVEBQQUBBaAgqIAAACgAAaAAAAAAAAAACAAAAoAAAtBAAMDkiCqgoAAAAAAKICoAAACoAAABFBAAAAUQAAAAAAQFQUAEABQAAwAAVAVAQVAABVBAAFQBUAAAQUAAQBUigAAqAAAAABQAoKCAIACgAAKAioAAAoAIAgCooBVBAAVABUAAVAAEABQFRAAUAAAAAoChoCAIACgAAACoAAACoAAoCCoIACiCgUKAABVQAAAgCAAoUAAVAAAAAAUEVFBAABUQAFDFqAAqAUAF0MQAVABUAAAAQBUUUQAAAUQBQAQEAVFANAAABUA7DQAFBAAKqAEAAAAABUFBAAWICAAoqAAAAqACoAuCIChFBAAAAAABaAgAAqAqFKgAAAqiBAAAAooIAgoCiQAFQIAUABUAAAABUAAAFSKkQAFAIIACioFAAQXBNFAAABAAAAAAUAAAAAEAACAAAVQAAAAAQXUVAAFAAAAAAFQAVAAAAgCAAAoigAAqAAAACC4JooqIA6KgC1IAHoAHytAEgAFVAAABUAUAAqACwAIACRaAKAD//Z"
                         height="200px"
                     />
 
@@ -77,12 +77,12 @@
                         v-model="functionData.group"
                         placeholder="Group of function"
                         required
-                        solo
+                        outlined
                     />
 
 
                     <v-divider />
-                    <v-card-text style="height: 300px;">
+                    <v-card-text style="height: 500px;">
                         <v-card
                             v-for="(choice,index) in functionData.choice"
                             :key="index"
@@ -111,14 +111,14 @@
                                     <v-text-field
                                         placeholder="Function choice"
                                         v-model="choice.name"
-                                        solo
+                                        outlined
                                     />
                                 </v-card-title>
                                 <v-card-subtitle>
                                     <v-text-field
                                         placeholder="Description"
                                         v-model="choice.description"
-                                        solo
+                                        outlined
                                     />
                                 </v-card-subtitle>
                             </v-col>
@@ -158,13 +158,13 @@
             </v-dialog>
             <v-dialog
                 v-model="deleteDialog"
-                max-width="500"
+                max-width="500px"
             >
                 <v-card class="pa-5">
                     <v-card-title class="justify-center mx-4 mb-4">
                         Do you want to delete {{ functionData.group }} ?
                     </v-card-title>
-                    <v-card-action>
+                    <div>
                         <v-row justify="space-between">
                             <v-col
                                 cols="12"
@@ -186,7 +186,7 @@
                                 </v-row>
                             </v-col>
                         </v-row>
-                    </v-card-action>
+                    </div>
                 </v-card>
             </v-dialog>
         </v-col>
@@ -206,6 +206,13 @@ export default {
             ],
             group: null,
             choices: [
+                {
+                    name: null,
+                    description: null
+                }
+            ],
+            groupEdit: null,
+            choicesEdit: [
                 {
                     name: null,
                     description: null

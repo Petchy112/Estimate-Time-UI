@@ -4,7 +4,7 @@
             <v-card max-width="500px" class="mt-4 ma-2 pa-4 user-card">
                 <v-row justify="center">
                     <div class="circle my-7">
-                        <v-img max-width="100px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Disc_Plain_red.svg/1200px-Disc_Plain_red.svg.png" />
+                        <v-img max-width="100px" src="https://i.pinimg.com/originals/55/6c/38/556c381559c59fd2231498de3014e7c2.png" />
                     </div>
                 </v-row>
 
