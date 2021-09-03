@@ -38,7 +38,7 @@
 
                             <v-btn
                                 class="width-100"
-                                color="orange"
+                                color="rgb(55, 208, 255)"
                                 rounded
                                 @click="login"
                                 dark

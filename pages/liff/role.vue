@@ -11,10 +11,10 @@
 
                     <v-col cols="12">
                         <div class="d-flex flex-column pa-2">
-                            <v-btn v-if="userData.role =='VOTER' " @click="close" rounded class="role-btn" color="orange">
+                            <v-btn v-if="userData.role =='VOTER' " @click="close" rounded class="role-btn" color="rgb(55, 208, 255)">
                                 VOTER
                             </v-btn>
-                            <v-btn v-else-if="userData.role =='COORDINATOR'" @click="close" rounded class="role-btn" color="orange">
+                            <v-btn v-else-if="userData.role =='COORDINATOR'" @click="close" rounded class="role-btn" color="rgb(55, 208, 255)">
                                 COORDINATOR
                             </v-btn>
                         </div>

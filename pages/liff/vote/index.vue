@@ -12,7 +12,7 @@
             <v-col cols="12">
                 <v-tabs
                     v-model="tab"
-                    slider-color="orange"
+                    slider-color="rgb(55, 208, 255)"
                 >
                     <v-tab
                         v-for="item in items"
@@ -30,7 +30,7 @@
                         <div class="d-flex flex-column">
                             <v-card
                                 class="my-func"
-                                color="orange"
+                                color="rgb(55, 208, 255)"
                                 elevation="1"
                                 v-for="func in functionData"
                                 :key="func.index"

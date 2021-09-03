@@ -1,6 +1,6 @@
 <template>
     <div v-if="functionData">
-        <v-card class="pb-2" flat tile color="orange">
+        <v-card class="pb-2" flat tile color="rgb(55, 208, 255)">
             <h1 class="mt-3">
                 {{ functionData.group }}
             </h1>

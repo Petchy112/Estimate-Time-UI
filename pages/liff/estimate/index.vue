@@ -3,7 +3,7 @@
         <v-app>
             <v-container>
                 <v-app-bar
-                    color="orange"
+                    color="rgb(55, 208, 255)"
                     flat
                     fixed
                     max-width="100%"
@@ -20,7 +20,7 @@
                         <v-tabs
                             v-model="tab"
                             slider-color="yellow"
-                            color="orange"
+                            color="rgb(55, 208, 255)"
                         >
                             <v-tab
                                 v-for="item in items"
@@ -87,7 +87,7 @@
                     <v-card
                         tile
                         width="100%"
-                        color="orange"
+                        color="rgb(55, 208, 255)"
                     >
                         <v-col cols="12">
                             <v-card-text class="pa-0 pb-4 pl-2">
@@ -193,7 +193,7 @@ export default {
 
 <style scoped>
 .v-application--wrap {
-    background-color: red;
+    background-color:rgb(55, 208, 255);
 }
 .v-tabs-items {
     background-color:rgb(55, 208, 255) !important;
@@ -225,6 +225,6 @@ export default {
 
 }
 .container {
-    height: calc(100% - 100px) !important;
+    margin-bottom: 54px;
 }
 </style>

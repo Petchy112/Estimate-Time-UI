@@ -46,17 +46,17 @@
                     @click:append="show3 = !show3"
                     outlined
                 />
-                <v-col cols="12">
-                    <v-btn
-                        elevation="0"
-                        :disabled="!valid"
-                        color="orange"
-                        class="sm w-100"
-                        @click="handleChangeClicked(body)"
-                    >
-                        confirm
-                    </v-btn>
-                </v-col>
+
+                <v-btn
+                    elevation="0"
+                    :disabled="!valid"
+                    color="rgb(55, 208, 255)"
+                    class="sm w-100"
+                    height="50px"
+                    @click="handleChangeClicked(body)"
+                >
+                    confirm
+                </v-btn>
             </v-col>
         </v-form>
     </div>

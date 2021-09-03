@@ -6,7 +6,7 @@
             app
             dark
             flat
-            color="orange"
+            color="rgb(55, 208, 255)"
         >
             <v-app-bar-nav-icon @click="drawer = !drawer" />
             <v-toolbar-title v-text="title" />

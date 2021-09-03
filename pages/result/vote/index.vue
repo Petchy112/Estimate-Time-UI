@@ -4,7 +4,7 @@
             <h1>VOTE RESULTS</h1>
         </v-col>
         <v-col cols="12">
-            <v-btn dark rounded class="w-100" color="orange">
+            <v-btn dark rounded class="w-100" color="rgb(55, 208, 255)">
                 Start voting
             </v-btn>
         </v-col>

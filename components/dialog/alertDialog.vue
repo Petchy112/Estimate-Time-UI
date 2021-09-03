@@ -10,7 +10,7 @@
             <v-card-actions>
                 <v-spacer />
                 <v-btn
-                    color="orange"
+                    color="rgb(55, 208, 255)"
                     text
                     @click="hideDialog"
                 >

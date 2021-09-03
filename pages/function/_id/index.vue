@@ -67,7 +67,7 @@
                 max-width="1000px"
             >
                 <v-card>
-                    <v-app-bar color="orange" flat>
+                    <v-app-bar color="rgb(55, 208, 255)" flat>
                         <v-toolbar-title>
                             EDIT FUNCTION
                         </v-toolbar-title>

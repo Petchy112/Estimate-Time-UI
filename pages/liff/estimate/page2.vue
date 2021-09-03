@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-app-bar
-            color="orange"
+            color="rgb(55, 208, 255)"
             flat
             tile
             max-width="100%"
@@ -63,7 +63,7 @@
                 <v-card
                     tile
                     width="100%"
-                    color="orange"
+                    color="rgb(55, 208, 255)"
                     height="80px"
                 >
                     <v-col cols="12">
@@ -119,7 +119,7 @@
                                         dark
                                         rounded
                                         width="40%"
-                                        color="orange"
+                                        color="rgb(55, 208, 255)"
                                         @click="nameDialog = false"
                                     >
                                         Cancel
@@ -128,7 +128,7 @@
                                         class="pa-2 mb-4"
                                         dark
                                         rounded
-                                        color="orange"
+                                        color="rgb(55, 208, 255)"
                                         width="40%"
                                         @click="estimate"
                                     >
@@ -186,7 +186,7 @@ export default {
 
 <style scoped>
 .v-application {
-    background-color: orange !important;
+    background-color: rgb(55, 208, 255) !important;
 }
 .v-toolbar__title {
     width: 100%;
