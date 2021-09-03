@@ -1,7 +1,10 @@
 <template>
     <div>
         <v-col cols="12">
-            <v-card>
+            <v-card
+                max-width="1500px"
+                class="card-round pa-6 py-7"
+            >
                 <v-card-title>
                     <div class="my-header">
                         ESTIMATE TIME APP
@@ -112,13 +115,24 @@ export default {
 </script>
 
 <style>
+.v-application--wrap {
+    justify-content: center;
+    align-content: center !important;
+}
 .v-card-subtitle {
     padding-bottom: 10px 0;
+}
+.v-card__title {
+    margin-top: 0 !important;
+}
+.card-round {
+    margin: 0 auto;
 }
 .width-100 {
     width: 100%;
     margin-bottom:9px ;
 }
+
 .v-form {
     padding: 0 20px;
 }

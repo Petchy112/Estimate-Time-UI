@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container>
+        <v-container class="container">
             <Nuxt />
         </v-container>
         <alertDialog />
@@ -25,7 +25,6 @@ export default {
     justify-content: center ;
     background: gray;
 }
-
 .w-100{
  width: 100%;
 }

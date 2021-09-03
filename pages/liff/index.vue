@@ -21,6 +21,7 @@
                             <v-text-field
                                 v-model="body.email"
                                 :rules="emailRules"
+                                type="email"
                                 label="Email"
                                 filled
                                 required

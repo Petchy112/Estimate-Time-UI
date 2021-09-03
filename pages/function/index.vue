@@ -41,7 +41,7 @@
                                 v-for="functions,index in functionData"
                                 :key="index"
                                 class="ma-5"
-                                max-width="340"
+                                width="300px"
                                 @click="handleShowClicked(functions._id)"
                             >
                                 <v-img

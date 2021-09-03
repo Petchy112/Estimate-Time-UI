@@ -27,7 +27,7 @@
                     <div class="d-flex justify-content flex-end">
                         <v-btn
                             class="mt-4"
-                            rounded
+
                             color="error"
                             @click="deleteDialog = !deleteDialog"
                         >
@@ -52,13 +52,13 @@
                     <v-btn
                         class="pa-2"
                         color="error"
-                        rounded
+                        width="100px"
                         @click="deleteDialog = false"
                     >
                         Cancel
                     </v-btn>
                     <v-btn
-                        rounded
+                        width="100px"
                         class="pa-2"
                         color="success"
                         @click="handleDelete(user._id)"
