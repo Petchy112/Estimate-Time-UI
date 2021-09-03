@@ -16,36 +16,38 @@
             <v-card>
                 <v-col cols="12">
                     <v-list>
-                        <v-list-title class="mx-5 platform">
+                        <v-list-item-title class="mx-5 platform">
                             Platform: {{ getSelectedEstimate.platform }}
-                        </v-list-title>
+                        </v-list-item-title>
                         <br>
                         <div>
                             <div v-if="getSelectedEstimate.estimateTime<40">
-                                <v-list-title class="mx-5 time">
+                                <v-list-item-title class="mx-5 time">
                                     Estimate Time: {{ getSelectedEstimate.estimateTime }}  Hours
-                                </v-list-title>
+                                </v-list-item-title>
                             </div>
                             <div v-else>
-                                <v-list-title class="mx-5 time">
-                                    Estimate Time: {{ getSelectedEstimate.estimateTime }}  Hours ({{ (getSelectedEstimate.estimateTime/8)/5 }} week)
-                                </v-list-title>
+                                <v-list-item-title class="mx-5 time">
+                                    Estimate Time: {{ getSelectedEstimate.estimateTime.toFixed(0) }}  Hours ({{ ((getSelectedEstimate.estimateTime/8)/5).toFixed(1) }} week)
+                                </v-list-item-title>
                             </div>
                         </div>
-                        <v-list-title class="mx-5 time">
+                        <v-list-item-title class="mx-5 time">
                             Developer Quantity: {{ getSelectedEstimate.qty }}
-                        </v-list-title>
+                        </v-list-item-title>
                         <v-list-item>
-                            <div class="my-card d-flex align-content-start flex-wrap">
+                            <v-list-item-content>
                                 <v-col cols="12">
-                                    <v-card class="mt-4 ma-2 pa-4" v-for="item in getSelectedEstimate.selectedChoice" :key="item.name ">
-                                        <div class="d-flex">
-                                            <v-img width="40px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Disc_Plain_red.svg/1200px-Disc_Plain_red.svg.png" />
-                                        </div>
-                                        {{ item }}
-                                    </v-card>
+                                    <div class="my-card d-flex flex-wrap ">
+                                        <v-card max-width="100px" class="mt-4 ma-2 pa-4" v-for="item in getSelectedEstimate.selectedChoice" :key="item.name ">
+                                            <v-avater size="80px" class="d-flex justify-center mb-3">
+                                                <v-img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUPEhIVFRUVFxcVFRUVFRcVFRUVFRUXFxUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDQ0NFQ8PFS0ZFRkrLTcrKystKystNystLS0tNzc3NzctLTc3LS0tNy03LSsrNysrLS03KzcrLSsrKysrK//AABEIAOEA4QMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAAAAQcC/8QAGhABAQEAAwEAAAAAAAAAAAAAAAEREiHhAv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A00BAAUBUAAAVFBAAVFQAAAAABABVEBQQUBBaAgqIAAACgAAaAAAAAAAAAACAAAAoAAAtBAAMDkiCqgoAAAAAAKICoAAACoAAABFBAAAAUQAAAAAAQFQUAEABQAAwAAVAVAQVAABVBAAFQBUAAAQUAAQBUigAAqAAAAABQAoKCAIACgAAKAioAAAoAIAgCooBVBAAVABUAAVAAEABQFRAAUAAAAAoChoCAIACgAAACoAAACoAAoCCoIACiCgUKAABVQAAAgCAAoUAAVAAAAAAUEVFBAABUQAFDFqAAqAUAF0MQAVABUAAAAQBUUUQAAAUQBQAQEAVFANAAABUA7DQAFBAAKqAEAAAAABUFBAAWICAAoqAAAAqACoAuCIChFBAAAAAABaAgAAqAqFKgAAAqiBAAAAooIAgoCiQAFQIAUABUAAAABUAAAFSKkQAFAIIACioFAAQXBNFAAABAAAAAAUAAAAAEAACAAAVQAAAAAQXUVAAFAAAAAAFQAVAAAAgCAAAoigAAqAAAACC4JooqIA6KgC1IAHoAHytAEgAFVAAABUAUAAqACwAIACRaAKAD//Z" />
+                                            </v-avater>
+                                            {{ item }}
+                                        </v-card>
+                                    </div>
                                 </v-col>
-                            </div>
+                            </v-list-item-content>
                         </v-list-item>
                     </v-list>
                 </v-col>
@@ -62,23 +64,15 @@
                     tile
                     width="100%"
                     color="orange"
+                    height="80px"
                 >
                     <v-col cols="12">
-                        <v-card-action>
-                            <div>
-                                <v-text-field
-                                    flat
-                                    class="mt-2 mb-0 px-3"
-                                    solo
-                                    v-model="projectName"
-                                    label="input name of system"
-                                    placeholder="input name of system"
-                                />
-                            </div>
+                        <div>
                             <div class="d-flex justify-space-around">
                                 <v-btn
                                     outlined
                                     rounded
+                                    dark
                                     width="40%"
                                     @click="back"
                                 >
@@ -88,16 +82,64 @@
                                 <v-btn
                                     outlined
                                     rounded
+                                    dark
                                     width="40%"
-                                    @click="estimate"
+                                    @click="nameDialog = !nameDialog"
                                 >
-                                    save
+                                    next
                                 </v-btn>
                             </div>
-                        </v-card-action>
+                        </div>
                     </v-col>
                 </v-card>
             </v-footer>
+            <v-dialog
+                v-model="nameDialog"
+                max-width="500px"
+            >
+                <v-card class="pa-5">
+                    <v-card-title class="justify-center">
+                        <v-text-field
+                            flat
+                            class=""
+                            outlined
+                            v-model="projectName"
+                            label="input name of system"
+                            placeholder="input name of system"
+                        />
+                    </v-card-title>
+                    <div>
+                        <v-row justify="space-between">
+                            <v-col
+                                cols="12"
+                            >
+                                <v-row justify="space-around">
+                                    <v-btn
+                                        class="pa-2 mb-4"
+                                        dark
+                                        rounded
+                                        width="40%"
+                                        color="orange"
+                                        @click="nameDialog = false"
+                                    >
+                                        Cancel
+                                    </v-btn>
+                                    <v-btn
+                                        class="pa-2 mb-4"
+                                        dark
+                                        rounded
+                                        color="orange"
+                                        width="40%"
+                                        @click="estimate"
+                                    >
+                                        Save
+                                    </v-btn>
+                                </v-row>
+                            </v-col>
+                        </v-row>
+                    </div>
+                </v-card>
+            </v-dialog>
         </v-col>
     </div>
 </template>
@@ -110,7 +152,8 @@ export default {
         return {
             padless: true,
             variant: 'fixed',
-            projectName: ''
+            projectName: '',
+            nameDialog: false
         }
     },
     computed: {
@@ -151,9 +194,7 @@ export default {
     font-size: 32px;
     font-weight: bold;
 }
-.my-card {
-    justify-content: space-around;
-}
+
 .time {
     font-size: 16px;
     opacity: 70%;
