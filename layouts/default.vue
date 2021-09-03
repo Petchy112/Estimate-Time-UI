@@ -53,7 +53,6 @@
             v-model="rightDrawer"
             :right="right"
             temporary
-
             app
             dark
         >
@@ -195,7 +194,6 @@ h1 {
     padding-top: 0px;
     text-align: center;
     font-size: 16px;
-    opacity: 60%;
 }
 .btn-drawer {
     width: 100%;
