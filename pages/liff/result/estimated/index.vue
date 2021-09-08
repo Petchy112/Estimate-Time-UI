@@ -7,6 +7,7 @@
                         ESTIMATE RESULTS
                     </div>
                     <v-text-field
+                        dense
                         append-icon="mdi-magnify"
                         flat
                         v-model="search"
@@ -16,20 +17,71 @@
                         hide-details
                     />
                 </v-card-title>
-                <estimateComponant :headers="headers" :estimateData="estimateData" @show-estimated="handleShowClicked" />
+                <v-divider class="mt-3 mb-5" />
+                <div class="grid-container">
+                    <div
+                        class="pl-3 content-column"
+                        v-for="(item,index) in estimateData"
+                        :key="index"
+                    >
+                        <v-expansion-panels>
+                            <v-expansion-panel
+                                class="panel"
+                            >
+                                <v-expansion-panel-header>
+                                    <div class="proj-header">
+                                        {{ item.projectName }}
+                                    </div>
+                                </v-expansion-panel-header>
+                                <v-expansion-panel-content>
+                                    <div class="left-box">
+                                        Create by : {{ item.createBy }}
+                                        <br>
+                                        Platform : {{ item.platform }}
+                                        <br>
+                                        Number of developer : {{ item.qty }}
+                                        <br>
+                                        System size : {{ item.size }}
+                                        <br>
+                                        Estimated Time : {{ item.estimatedTime }}
+                                    </div>
+                                    <v-divider class="my-5" />
+                                    <div class="right-box mt-5">
+                                        <template>
+                                            <v-expansion-panels flat focusable>
+                                                <v-expansion-panel>
+                                                    <v-expansion-panel-header expand-icon="mdi-menu-down">
+                                                        <div class="proj-header">
+                                                            SELECTED FUNCTION
+                                                        </div>
+                                                    </v-expansion-panel-header>
+                                                    <v-expansion-panel-content>
+                                                        <div
+                                                            v-for="select in item.choice"
+                                                            :key="select.index"
+                                                        >
+                                                            {{ select }}
+                                                        </div>
+                                                    </v-expansion-panel-content>
+                                                </v-expansion-panel>
+                                            </v-expansion-panels>
+                                        </template>
+                                    </div>
+                                </v-expansion-panel-content>
+                            </v-expansion-panel>
+                        </v-expansion-panels>
+                    </div>
+                </div>
             </v-col>
         </v-row>
     </div>
 </template>
 
+
 <script>
 import * as estimateAPI from "@/utils/estimateAPI"
-import estimateComponant from "~/components/estimated/index.vue"
 export default {
     layout: 'liff',
-    components: {
-        estimateComponant
-    },
     data () {
         return {
             search: '',
@@ -79,5 +131,17 @@ h1 {
 .card-title {
     justify-content: center;
 }
+.proj-header{
+    font-size: 18px;
+    font-weight: bold;
+}
+.selected {
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 </style>

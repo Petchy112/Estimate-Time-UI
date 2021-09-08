@@ -6,6 +6,7 @@
             </div>
             <v-spacer />
             <v-text-field
+                dense
                 v-model="search"
                 append-icon="mdi-magnify"
                 flat
@@ -16,17 +17,72 @@
                 hide-details
             />
         </v-card-title>
-        <estimateComponant :headers="headers" :estimateData="estimateData" @show-estimated="handleShowClicked" />
+        <v-divider class="ma-5" />
+        <div class="grid-container">
+            <div
+                class="pl-3 content-column"
+                v-for="(item,index) in estimateData"
+                :key="index"
+            >
+                <v-expansion-panels>
+                    <v-expansion-panel
+                        class="panel"
+                    >
+                        <v-expansion-panel-header>
+                            <div class="proj-header">
+                                {{ item.projectName }}
+                            </div>
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                            <div class="left-box">
+                                Create by : {{ item.createBy }}
+                                <br>
+                                Platform : {{ item.platform }}
+                                <br>
+                                Number of developer : {{ item.qty }}
+                                <br>
+                                System size : {{ item.size }}
+                                <br>
+                                Estimated Time : {{ item.estimatedTime }}
+                            </div>
+                            <v-divider class="my-5" />
+                            <div class="right-box mt-5">
+                                <template>
+                                    <v-expansion-panels flat focusable>
+                                        <v-expansion-panel>
+                                            <v-expansion-panel-header expand-icon="mdi-menu-down">
+                                                <div class="proj-header">
+                                                    SELECTED FUNCTION
+                                                </div>
+                                            </v-expansion-panel-header>
+                                            <v-expansion-panel-content>
+                                                <div
+                                                    v-for="select in item.choice"
+                                                    :key="select.index"
+                                                >
+                                                    {{ select }}
+                                                </div>
+                                            </v-expansion-panel-content>
+                                        </v-expansion-panel>
+                                    </v-expansion-panels>
+                                </template>
+                            </div>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+            </div>
+        </div>
+        <div v-if="voteResult==null" class="text-data">
+            No data
+        </div>
     </div>
 </template>
 
+
 <script>
 import * as estimateAPI from "@/utils/estimateAPI"
-import estimateComponant from "~/components/estimated/index.vue"
 export default {
-    components: {
-        estimateComponant
-    },
+
     data () {
         return {
             search: '',
@@ -67,4 +123,30 @@ export default {
     font-size: 32px !important;
     font-weight: bold;
 }
+.proj-header{
+    font-size: 18px;
+    font-weight: bold;
+}
+.selected {
+    font-size: 16px;
+    font-weight: bold;
+}
+.v-expansion-panels {
+    width: 400px;
+}
+
+.panel {
+    margin: 5px 5px ;
+    padding: 5px 5px;
+}
+.grid-container {
+    display: flex;
+
+    flex-wrap: wrap;
+}
+.text-data {
+    text-align: center;
+    color: rgba(000,000, 000, 0.3);
+}
+
 </style>
