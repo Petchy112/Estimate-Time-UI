@@ -11,7 +11,11 @@
                 Stop voting
             </v-btn>
         </v-col>
+
         <voteComponant @show-vote="handleShowClicked" :voteResults="voteResults" />
+        <div v-if="voteResult==null" class="text-data">
+            No data
+        </div>
     </div>
 </template>
 
@@ -65,5 +69,9 @@ export default {
 <style>
 .v-btn {
  height: 50px;
+}
+.text-data {
+    text-align: center;
+    color: rgba(000, 000, 000, 0.3);
 }
 </style>
