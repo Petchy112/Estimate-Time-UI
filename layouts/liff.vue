@@ -41,6 +41,10 @@ export default {
 .v-application{
     font-family: 'Mitr', sans-serif !important;
 }
+.v-application--wrap {
+    background-color: rgb(55, 208, 255);
+
+}
 .w-100{
  width: 100%;
 }
