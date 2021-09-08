@@ -11,10 +11,10 @@
 
                     <v-col cols="12">
                         <div class="d-flex flex-column pa-2">
-                            <v-btn v-if="userData.role =='VOTER' " @click="close" rounded class="role-btn" color="rgb(55, 208, 255)">
+                            <v-btn v-if="role.includes('VOTER')" @click="close('VOTER')" rounded class="role-btn" color="rgb(55, 208, 255)">
                                 VOTER
                             </v-btn>
-                            <v-btn v-else-if="userData.role =='COORDINATOR'" @click="close" rounded class="role-btn" color="rgb(55, 208, 255)">
+                            <v-btn v-if="role.includes('COORDINATOR')" @click="close('COORDINATOR')" rounded class="role-btn" color="rgb(55, 208, 255)">
                                 COORDINATOR
                             </v-btn>
                         </div>
@@ -33,14 +33,31 @@ export default {
 
     data() {
         return {
-            userData: []
+            userData: [],
+            role: [],
         }
     },
     mounted() {
         userAPI.getProfile()
-            .then(response => {
+            .then(async response => {
                 console.log('RESPONSE', response.data)
                 this.userData = response.data
+                if (this.userData.role.length == 1) {
+                    await userAPI.selectRole(this.userData.role[0])
+                        .then(response => {
+                            liff.closeWindow()
+                        })
+                        .catch(error => {
+                            this.$store.dispatch('setDialog', {
+                                isShow: true,
+                                title: 'Please try again',
+                                message: error.response.data.error.message
+                            })
+                        })
+                }
+                if (this.userData.role.length != 1) {
+                    this.role = this.userData.role
+                }
             })
             .catch(async error => {
                 this.$store.dispatch('setDialog', {
@@ -52,8 +69,19 @@ export default {
             })
     },
     methods: {
-        close() {
-            liff.closeWindow()
+        async close(role) {
+            await userAPI.selectRole(role)
+                .then(response => {
+                    liff.closeWindow()
+                })
+                .catch(error => {
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Please try again',
+                        message: error.response.data.error.message
+                    })
+                })
+
         }
 
     },

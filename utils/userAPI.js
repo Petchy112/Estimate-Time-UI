@@ -14,6 +14,10 @@ export function login(body) {
     const url = `${HOSTNAME}/user/login`
     return request('post', url, body, null)
 }
+export function selectRole(role) {
+    const url = `${HOSTNAME}/user/selectRole`
+    return request('post', url, { role }, { lineUserId: localStorage.getItem('lineUserId') })
+}
 export function getProfile() {
     const url = `${HOSTNAME}/user/data`
     return request('get', url, {}, { Authorization: localStorage.getItem('token') })

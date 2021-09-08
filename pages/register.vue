@@ -14,16 +14,16 @@
                 sm="12"
             >
                 <v-text-field
+                    dense
                     v-model="body.firstname"
-                    :counter="10"
                     :rules="firstnameRules"
                     label="Firstname"
                     required
                     outlined
                 />
                 <v-text-field
+                    dense
                     v-model="body.lastname"
-                    :counter="10"
                     :rules="lastnameRules"
                     label="Lastname"
                     required
@@ -31,6 +31,7 @@
                 />
 
                 <v-text-field
+                    dense
                     v-model="body.email"
                     :rules="emailRules"
                     label="E-mail"
@@ -38,6 +39,7 @@
                     outlined
                 />
                 <v-text-field
+                    dense
                     :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="passwordRules"
                     :type="show1 ? 'text' : 'password'"
@@ -49,6 +51,7 @@
                     outlined
                 />
                 <v-text-field
+                    dense
                     :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="confirmPasswordRules"
                     :type="show2 ? 'text' : 'password'"
@@ -59,15 +62,26 @@
                     @click:append="show2 = !show2"
                     outlined
                 />
-
-                <v-select
-                    :items="items"
-                    :rules="[v => !!v || 'Role is required']"
-                    label="Select Role"
-                    required
-                    outlined
-                    v-model="body.role"
-                />
+                <div class="checkbox">
+                    <v-checkbox
+                        dense
+                        v-model="body.role"
+                        label="ADMIN"
+                        value="ADMIN"
+                    />
+                    <v-checkbox
+                        dense
+                        v-model="body.role"
+                        label="VOTER"
+                        value="VOTER"
+                    />
+                    <v-checkbox
+                        dense
+                        v-model="body.role"
+                        label="COORDINATOR"
+                        value="COORDINATOR"
+                    />
+                </div>
 
                 <v-btn
                     color="error"
@@ -117,19 +131,14 @@ export default {
             v => !!v || 'Required',
             v => /.+@.+\..+/.test(v) || 'Email is invalid format',
         ],
-        select: null,
-        items: [
-            'ADMIN',
-            'VOTER',
-            'COORDINATOR',
-        ],
+
         body: {
             firstname: '',
             lastname: '',
             email: '',
             password: '',
             confirmPassword: '',
-            role: ''
+            role: []
 
         }
     }),
