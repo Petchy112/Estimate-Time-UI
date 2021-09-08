@@ -29,7 +29,6 @@
         <v-col cols="12">
             <v-card
                 flat
-                :search="search"
             >
                 <v-tabs-items v-model="tab">
                     <v-tab-item
@@ -38,8 +37,9 @@
                     >
                         <div class="d-flex flex-wrap">
                             <v-card
-                                v-for="functions,index in functionData"
+                                v-for="functions,index in filteredItems"
                                 :key="index"
+
                                 class="ma-5"
                                 width="300px"
                                 @click="handleShowClicked(functions._id)"
@@ -95,6 +95,13 @@ export default {
                 })
             })
     },
+    computed: {
+        filteredItems() {
+            return this.functionData.filter(item => {
+                return item.group.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            })
+        }
+    },
     methods: {
         async handleShowClicked(id) {
             console.log(id)
@@ -116,7 +123,9 @@ export default {
 h1{
     text-align: center;
 }
-v-btn.center {
-    align-items: center;
+.text-data {
+    text-align: center;
+    color: rgba(000,000, 000, 0.3);
 }
+
 </style>
