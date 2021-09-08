@@ -19,21 +19,23 @@
                             lazy-validation
                         >
                             <v-text-field
+                                dense
                                 v-model="body.email"
                                 :rules="emailRules"
                                 type="email"
                                 label="Email"
-                                filled
+                                outlined
                                 required
                             />
                             <v-text-field
+                                dense
                                 v-model="body.password"
                                 :rules="passwordRules"
                                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                                 :type="show ? 'text' : 'password'"
                                 @click:append="show = !show"
                                 label="Password"
-                                filled
+                                outlined
                                 required
                             />
 
@@ -85,6 +87,7 @@ export default {
         // if (liff.isLoggedIn()) {
         liff.getProfile().then(profile => {
             this.body.lineUserId = profile.userId
+            //image
             localStorage.setItem('lineUserId', profile.userId)
         })
         // }

@@ -6,6 +6,7 @@
             {{ functionData.group }}
         </h1>
         <v-text-field
+            dense
             flat
             placeholder="Search"
             solo-inverted
@@ -73,6 +74,7 @@
                         </v-toolbar-title>
                     </v-app-bar>
                     <v-text-field
+                        dense
                         class="pa-6 pb-0"
                         v-model="functionData.group"
                         placeholder="Group of function"
@@ -109,6 +111,7 @@
                                     />
 
                                     <v-text-field
+                                        dense
                                         placeholder="Function choice"
                                         v-model="choice.name"
                                         outlined
@@ -116,6 +119,7 @@
                                 </v-card-title>
                                 <v-card-subtitle>
                                     <v-text-field
+                                        dense
                                         placeholder="Description"
                                         v-model="choice.description"
                                         outlined

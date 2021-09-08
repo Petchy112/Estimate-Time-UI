@@ -24,6 +24,7 @@
                 </v-app-bar>
 
                 <v-text-field
+                    dense
                     class="input-group--focused pa-6 pb-0"
                     label="Group of function is"
                     :rules="groupRules"
@@ -72,15 +73,15 @@
                             <v-card-title>
                                 <v-avatar
                                     class="mr-3 mb-3"
-                                    color="secondary"
-                                    size="80"
-                                />
-                                <!-- <v-file-input
-                                    hide-input
-                                    truncate-length="1"
-                                    chips
-                                /> -->
+                                    size="80px"
+                                >
+                                    <v-img
+                                        :src="picture"
+                                    />
+                                </v-avatar>
+                                <!-- <v-file-input @input="picture()" hide-input v-model="images" /> -->
                                 <v-text-field
+                                    dense
                                     label="Function choice"
                                     class="input-group--focused"
                                     :rules="choiceRules"
@@ -90,6 +91,7 @@
                             </v-card-title>
                             <v-card-subtitle>
                                 <v-text-field
+                                    dense
                                     v-model="choices[index].description"
                                     class="input-group--focused"
                                     :rules="descriptionRules"
@@ -102,7 +104,6 @@
                     <div class="d-flex justify-center">
                         <v-btn
                             rounded
-
                             @click="handleAddClicked"
                             color="success"
                         >
@@ -150,6 +151,7 @@ export default {
                     description: ''
                 }
             ],
+            images: null,
             groupRules: [
                 v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน'
             ],
@@ -159,6 +161,11 @@ export default {
             descriptionRules: [
                 v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน'
             ],
+        }
+    },
+    computed: {
+        picture() {
+            return this.images
         }
     },
     methods: {

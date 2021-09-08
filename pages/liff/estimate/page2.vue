@@ -100,6 +100,7 @@
                 <v-card class="pa-5">
                     <v-card-title class="justify-center">
                         <v-text-field
+                            dense
                             flat
                             class=""
                             outlined

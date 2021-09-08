@@ -47,7 +47,12 @@
                                     </v-card-title>
                                     <div class="input-time">
                                         <div>
-                                            <v-text-field label="Number" v-model="selected.qty" solo-inverted />
+                                            <v-text-field
+                                                dense
+                                                label="Number"
+                                                v-model="selected.qty"
+                                                solo-inverted
+                                            />
                                         </div>
                                     </div>
                                 </v-card>

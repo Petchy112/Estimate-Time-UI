@@ -10,10 +10,9 @@
                         ESTIMATE TIME APP
                     </div>
                 </v-card-title>
-                <v-card-subtitle>
+                <p class="ml-4">
                     Please login to website
-                </v-card-subtitle>
-
+                </p>
                 <v-row>
                     <v-col cols="12">
                         <v-form
@@ -22,25 +21,28 @@
                             lazy-validation
                         >
                             <v-text-field
+                                dense
                                 v-model="body.email"
                                 :rules="emailRules"
                                 type="email"
                                 label="Email"
-                                filled
+                                outlined
                                 required
                             />
                             <v-text-field
+                                dense
                                 v-model="body.password"
                                 :rules="passwordRules"
                                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                                 :type="show ? 'text' : 'password'"
                                 @click:append="show = !show"
                                 label="Password"
-                                filled
+                                outlined
                                 required
                             />
                             <v-btn
-                                class="width-100"
+                                class="width-100 btn-signin"
+                                height="40px"
                                 color="rgb(55, 208, 255)"
                                 rounded
                                 @click="login(body)"
@@ -119,11 +121,12 @@ export default {
     justify-content: center;
     align-content: center !important;
 }
-.v-card-subtitle {
+p {
     padding-bottom: 10px 0;
 }
 .v-card__title {
     margin-top: 0 !important;
+    padding-bottom: 0 !important;
 }
 .card-round {
     margin: 0 auto;
@@ -137,7 +140,11 @@ export default {
     padding: 0 20px;
 }
 .my-header{
+    padding-bottom: 10px;
     font-weight: bold;
-    font-size: x-large;
+    font-size:28px;
+}
+.btn-signin {
+    font-size: 18px !important;
 }
 </style>
