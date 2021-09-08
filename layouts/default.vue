@@ -58,6 +58,17 @@
         >
             <v-list>
                 <v-col cols="12">
+                    <div class="picture">
+                        <v-avatar
+                            class=" ma-3 ml-12"
+                            size="100px"
+                        >
+                            <v-img
+                                src="https://pbs.twimg.com/profile_images/924682339258470401/HbmOMfzW_400x400.jpg"
+                            />
+                        </v-avatar>
+                    </div>
+
                     <v-list-item-title class="profile">
                         Admin, {{ userData.firstname }}
                     </v-list-item-title>
@@ -183,9 +194,14 @@ h1 {
     font-family: 'Mitr', sans-serif !important;
 }
 .v-application--wrap {
-    background: white;
+    background-color: white !important;
 }
-
+.picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px;
+}
 .profile {
     text-align: center;
     font-weight: bold;
