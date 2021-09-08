@@ -1,77 +1,89 @@
 <template>
-    <div v-if="functionData">
-        <v-list>
-            <v-col cols="12">
-                <v-list-item-title class="head">
-                    Vote
-                </v-list-item-title>
-                <v-list-item-subtitle class="subhead">
-                    input time that you make that function
-                </v-list-item-subtitle>
-            </v-col>
-            <v-col cols="12">
-                <v-tabs
-                    v-model="tab"
-                    slider-color="rgb(55, 208, 255)"
+    <div v-if="list">
+        <h1 class="mb-10">
+            VOTE SYSTEM
+        </h1>
+        <div v-for="item in list" :key="item._id">
+            <v-card class="pb-4 ma-5">
+                <h1>
+                    {{ item.group }}
+                </h1>
+                <p class="text-center">
+                    input time with hour format
+                </p>
+                <v-card
+                    color="rgba(55, 208, 255, 0.8)"
+                    rounded="20"
+                    class="my-5 mx-5"
+                    v-for="input in item.choices"
+                    :key="input.name"
                 >
-                    <v-tab
-                        v-for="item in items"
-                        :key="item.index"
-                        @click="choosePlatform(item.tab)"
+                    <div
+                        class="d-flex flex-column"
                     >
-                        {{ item.tab }}
-                    </v-tab>
-                </v-tabs>
-                <v-tabs-items v-model="tab">
-                    <v-tab-item
-                        v-for="i in 2"
-                        :key="i.tab"
-                    >
-                        <div class="d-flex flex-column">
-                            <v-card
-                                class="my-func"
-                                color="rgb(55, 208, 255)"
-                                elevation="1"
-                                v-for="func in functionData"
-                                :key="func.index"
-                                @click="handleShowClicked(func._id)"
-                            >
-                                <v-card-title class="justify-center">
-                                    {{ func.group }}
-                                </v-card-title>
-                            </v-card>
-                        </div>
-                    </v-tab-item>
-                </v-tabs-items>
-            </v-col>
-        </v-list>
+                        <v-list-item two-line>
+                            <v-list-item-avatar>
+                                <v-avatar
+                                    class="ma-3 ml-6"
+                                    color="red"
+                                    size="120px"
+                                />
+                            </v-list-item-avatar>
+                            <v-list-item-content class="choice-card">
+                                <v-list-item-title>{{ input.name }}</v-list-item-title>
+                                <p>{{ input.description }}</p>
+                            </v-list-item-content>
+                            <div class="input-time">
+                                <div>
+                                    <v-text-field
+                                        dense
+                                        label="Time"
+                                        v-model="input.time"
+                                        outlined
+                                    />
+                                </div>
+                            </div>
+                        </v-list-item>
+                    </div>
+                </v-card>
+            </v-card>
+        </div>
+        <v-col cols="12">
+            <div>
+                <v-btn rounded @click="next">
+                    Next
+                </v-btn>
+            </div>
+        </v-col>
     </div>
 </template>
 
 <script>
-import * as functionAPI from '@/utils/functionAPI'
+import * as functionAPI from "~/utils/functionAPI"
+import * as voteAPI from "@/utils/voteAPI"
 export default {
     layout: 'liff',
     data() {
         return {
-            tab: '',
+            index: 0,
             functionData: [],
-            items: [
-                { tab: 'WEBSITE', },
-                { tab: 'MOBILE', },
-            ],
+            list: [],
+            data: []
         }
     },
-    async mounted() {
-        liff.init({
-            liffId: '1656364274-OB6Pd9Rp'
-        })
+    mounted() {
         functionAPI.index('WEBSITE')
-            .then(response => {
-                console.log('RESPONSE', response)
+            .then(async response => {
+                console.log('res', response)
                 this.functionData = response.data
+                this.functionData.forEach(async element => {
+                    await this.list.push({ fid: element._id, group: element.group, choices: element.choice })
+                })
+
+
             })
             .catch(error => {
+                console.log(error)
                 this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
@@ -80,46 +92,67 @@ export default {
             })
     },
     methods: {
-        handleShowClicked(id) {
-            console.log(id)
-            this.$router.push({ name: 'liff-vote-id', params: { id } })
-        },
-        choosePlatform(platform) {
-            console.log(platform)
-            functionAPI.index(platform)
+        async next() {
+            for (let j = 0; j < this.list.length; j++) {
+                for (let i = 0; i < this.list[j].choices.length; i++) {
+                    await this.data.push({ fid: this.list[j].fid, choiceId: this.list[j].choices[i]._id, name: this.list[j].choices[i].name, description: this.list[j].choices[i].description, time: this.list[j].choices[i].time })
+                }
+            }
+
+            await voteAPI.sentVote(this.data)
                 .then(response => {
-                    console.log('RESPONSE', response)
-                    this.functionData = response.data
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Success',
+                        message: response.data.message
+                    })
+                }).catch(error => {
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Please try again',
+                        message: error.response.data.error.message
+                    })
                 })
-        }
+
+        },
+
     }
 }
-
 </script>
 
-<style>
-.v-application--wrap {
-    color: white;
-}
-.head {
-    text-align: center;
-    font-weight: bold;
-    font-size: 36px;
-}
-.subhead {
-    padding-top: 0px;
-    text-align: center;
-    font-size: 16px;
-    opacity: 60%;
-}
-.d-flex flex columns{
-    margin-top: 14px;
+<style scoped>
+
+h1 {
+ padding-top: 25px !important;
 
 }
-.my-func {
-    margin-top: 10px;
-    margin-bottom: 10px;
+.input-time {
+    width: 70px;
+    justify-content: flex-end;
+    height: 40px;
+
+}
+.circle {
+    size: 50px;
+}
+.v-btn {
+    height: 50px !important ;
+    margin-left:10px ;
+    width: 95%;
+    font-size: 18px;
+    font-weight: 600;
+}
+.my-back {
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
 }
 
 
+p {
+    color: rgba(000, 000, 000, 0.5);
+    font-size: 14px;
+    margin:  0 auto;
+}
 </style>
