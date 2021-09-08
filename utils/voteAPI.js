@@ -9,9 +9,9 @@ export function show(round, platform) {
     const url =`${HOSTNAME}/vote/${round}?platform=${platform}`
     return request('get', url, {}, { Authorization: localStorage.getItem('token') })
 }
-export function sentVote(fid, body) {
-    const url =`${HOSTNAME}/vote/${fid}/save`
-    console.log(fid, body)
+export function sentVote(body) {
+    const url =`${HOSTNAME}/vote/save`
+    console.log(body)
     return request('post', url, { body }, { Authorization: localStorage.getItem('token') })
 }
 export function getDataForEstimate(platform) {
