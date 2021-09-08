@@ -14,35 +14,38 @@
                 sm="12"
             >
                 <v-text-field
+                    dense
                     :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="passwordRules"
                     :type="show1 ? 'text' : 'password'"
                     label="Current password"
                     hint="At least 8 characters"
                     v-model="body.oldPassword"
-                    class="input-group--focused"
+                    class="input-group--focused mx-16"
                     @click:append="show1 = !show1"
                     outlined
                 />
                 <v-text-field
+                    dense
                     :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="passwordRules"
                     :type="show2 ? 'text' : 'password'"
                     label="New password"
                     hint="At least 8 characters"
                     v-model="body.newPassword"
-                    class="input-group--focused"
+                    class="input-group--focused mx-16"
                     @click:append="show2 = !show2"
                     outlined
                 />
                 <v-text-field
+                    dense
                     :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="confirmPasswordRules"
                     :type="show3 ? 'text' : 'password'"
                     label="Re-enter new password"
                     hint="At least 8 characters"
                     v-model="body.confirmPassword"
-                    class="input-group--focused"
+                    class="input-group--focused mx-16"
                     @click:append="show3 = !show3"
                     outlined
                 />
@@ -51,8 +54,9 @@
                     elevation="0"
                     :disabled="!valid"
                     color="rgb(55, 208, 255)"
-                    class="sm w-100"
-                    height="50px"
+                    class="sm ml-16"
+                    width="92%"
+
                     @click="handleChangeClicked(body)"
                 >
                     confirm

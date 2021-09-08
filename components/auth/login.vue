@@ -19,6 +19,7 @@
                             lazy-validation
                         >
                             <v-text-field
+                                dense
                                 v-model="body.email"
                                 :rules="emailRules"
                                 label="Email"
@@ -26,6 +27,7 @@
                                 required
                             />
                             <v-text-field
+                                dense
                                 v-model="body.password"
                                 :rules="passwordRules"
                                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
