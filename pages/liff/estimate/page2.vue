@@ -7,7 +7,7 @@
             max-width="100%"
         >
             <v-toolbar-title>
-                result
+                RESULTS
             </v-toolbar-title>
         </v-app-bar>
 
@@ -19,7 +19,6 @@
                         <v-list-item-title class="mx-5 platform">
                             Platform: {{ getSelectedEstimate.platform }}
                         </v-list-item-title>
-                        <br>
                         <div>
                             <div v-if="getSelectedEstimate.estimateTime<40">
                                 <v-list-item-title class="mx-5 time">
@@ -39,9 +38,9 @@
                             <v-list-item-content>
                                 <v-col cols="12">
                                     <div class="my-card d-flex flex-wrap ">
-                                        <v-card max-width="100px" class="mt-4 ma-2 pa-4" v-for="item in getSelectedEstimate.selectedChoice" :key="item.name ">
-                                            <v-avater size="80px" class="d-flex justify-center mb-3">
-                                                <v-img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUPEhIVFRUVFxcVFRUVFRcVFRUVFRUXFxUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDQ0NFQ8PFS0ZFRkrLTcrKystKystNystLS0tNzc3NzctLTc3LS0tNy03LSsrNysrLS03KzcrLSsrKysrK//AABEIAOEA4QMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAAAAQcC/8QAGhABAQEAAwEAAAAAAAAAAAAAAAEREiHhAv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A00BAAUBUAAAVFBAAVFQAAAAABABVEBQQUBBaAgqIAAACgAAaAAAAAAAAAACAAAAoAAAtBAAMDkiCqgoAAAAAAKICoAAACoAAABFBAAAAUQAAAAAAQFQUAEABQAAwAAVAVAQVAABVBAAFQBUAAAQUAAQBUigAAqAAAAABQAoKCAIACgAAKAioAAAoAIAgCooBVBAAVABUAAVAAEABQFRAAUAAAAAoChoCAIACgAAACoAAACoAAoCCoIACiCgUKAABVQAAAgCAAoUAAVAAAAAAUEVFBAABUQAFDFqAAqAUAF0MQAVABUAAAAQBUUUQAAAUQBQAQEAVFANAAABUA7DQAFBAAKqAEAAAAABUFBAAWICAAoqAAAAqACoAuCIChFBAAAAAABaAgAAqAqFKgAAAqiBAAAAooIAgoCiQAFQIAUABUAAAABUAAAFSKkQAFAIIACioFAAQXBNFAAABAAAAAAUAAAAAEAACAAAVQAAAAAQXUVAAFAAAAAAFQAVAAAAgCAAAoigAAqAAAACC4JooqIA6KgC1IAHoAHytAEgAFVAAABUAUAAqACwAIACRaAKAD//Z" />
+                                        <v-card width="100px" class="mt-4 ma-2 pa-4" v-for="item in getSelectedEstimate.selectedChoice" :key="item.name ">
+                                            <v-avater class="d-flex justify-center mb-3">
+                                                <img width="60px" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUPEhIVFRUVFxcVFRUVFRcVFRUVFRUXFxUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDQ0NFQ8PFS0ZFRkrLTcrKystKystNystLS0tNzc3NzctLTc3LS0tNy03LSsrNysrLS03KzcrLSsrKysrK//AABEIAOEA4QMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAAAAQcC/8QAGhABAQEAAwEAAAAAAAAAAAAAAAEREiHhAv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A00BAAUBUAAAVFBAAVFQAAAAABABVEBQQUBBaAgqIAAACgAAaAAAAAAAAAACAAAAoAAAtBAAMDkiCqgoAAAAAAKICoAAACoAAABFBAAAAUQAAAAAAQFQUAEABQAAwAAVAVAQVAABVBAAFQBUAAAQUAAQBUigAAqAAAAABQAoKCAIACgAAKAioAAAoAIAgCooBVBAAVABUAAVAAEABQFRAAUAAAAAoChoCAIACgAAACoAAACoAAoCCoIACiCgUKAABVQAAAgCAAoUAAVAAAAAAUEVFBAABUQAFDFqAAqAUAF0MQAVABUAAAAQBUUUQAAAUQBQAQEAVFANAAABUA7DQAFBAAKqAEAAAAABUFBAAWICAAoqAAAAqACoAuCIChFBAAAAAABaAgAAqAqFKgAAAqiBAAAAooIAgoCiQAFQIAUABUAAAABUAAAFSKkQAFAIIACioFAAQXBNFAAABAAAAAAUAAAAAEAACAAAVQAAAAAQXUVAAFAAAAAAFQAVAAAAgCAAAoigAAqAAAACC4JooqIA6KgC1IAHoAHytAEgAFVAAABUAUAAqACwAIACRaAKAD//Z">
                                             </v-avater>
                                             {{ item }}
                                         </v-card>
@@ -170,12 +169,14 @@ export default {
             var body = await this.$store.getters.getSelectedEstimate
             console.log(body)
             await estimateAPI.sentEstimate(body)
-                .then(response => {
-                    this.$store.dispatch('setDialog', {
+                .then(async response => {
+                    nameDialog = false
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
                         message: response.data.message
                     })
+                    await liff.closeWindow()
                 })
         },
         back() {
@@ -192,15 +193,18 @@ export default {
 .v-toolbar__title {
     width: 100%;
     text-align: center;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: bold;
 }
 
 .time {
     font-size: 16px;
-    opacity: 70%;
+    color: rgba(000, 000, 000, 0.5);
 }
 .platform{
     font-size: 20px;
+}
+img {
+    border-radius: 50%;
 }
 </style>

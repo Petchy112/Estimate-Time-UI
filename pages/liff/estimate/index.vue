@@ -8,7 +8,7 @@
                     fixed
                     max-width="100%"
                 >
-                    <v-toolbar-title>
+                    <v-toolbar-title class="text">
                         Estimate system
                     </v-toolbar-title>
                 </v-app-bar>
@@ -19,7 +19,8 @@
                         </div>
                         <v-tabs
                             v-model="tab"
-                            slider-color="yellow"
+                            height="60px"
+                            slider-color="blue"
                             color="rgb(55, 208, 255)"
                         >
                             <v-tab
@@ -35,7 +36,7 @@
                                 v-for="i in 2"
                                 :key="i.tab"
                             >
-                                <div class="subheader2 pa-0 pt-5">
+                                <div class="subheader2 pa-0 pt-5 ">
                                     Select Function that you need
                                 </div>
                                 <v-card
@@ -96,9 +97,11 @@
                     >
                         <v-col cols="12">
                             <v-card-text class="pa-0 pb-4 pl-2">
-                                ** Please make sure your selection is correct.
+                                <div class="text">
+                                    ** Please make sure your selection is correct.
+                                </div>
                             </v-card-text>
-                            <v-btn outlined rounded class="next-btn" @click="nextPage">
+                            <v-btn dark outlined rounded class="next-btn" @click="nextPage">
                                 Next
                             </v-btn>
                         </v-col>
@@ -215,11 +218,11 @@ export default {
 }
 .subheader1 {
     font-size: 14px;
-    opacity: 70%;
+
 }
 .subheader2 {
     text-align: center;
-    opacity: 70%;
+    color: white
 }
 .input-time {
     width: 100%;
@@ -231,5 +234,8 @@ export default {
 }
 .container {
     margin-bottom: 54px;
+}
+.text {
+    color: white;
 }
 </style>
