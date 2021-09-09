@@ -91,7 +91,7 @@ export default {
             await userAPI.login(this.body)
                 .then(async response => {
                     console.log('RESPONSE', response)
-                    if (response.data.role == 'ADMIN') {
+                    if (response.data.role.includes('ADMIN')) {
                         localStorage.setItem('token', response.data.accessToken)
                         this.$router.push({ name: 'function' })
                     }
