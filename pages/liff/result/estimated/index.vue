@@ -21,7 +21,7 @@
                 <div class="grid-container">
                     <div
                         class="pl-3 content-column"
-                        v-for="(item,index) in estimateData"
+                        v-for="(item,index) in filteredItems"
                         :key="index"
                     >
                         <v-expansion-panels>
@@ -74,6 +74,9 @@
                 </div>
             </v-col>
         </v-row>
+        <div v-if="estimateData==null" class="text-data">
+            No data
+        </div>
     </div>
 </template>
 
@@ -109,6 +112,13 @@ export default {
                     message: error.response.data.error.message
                 })
             })
+    },
+    computed: {
+        filteredItems() {
+            return this.userData.filter(item => {
+                return item.firstname.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            })
+        }
     },
     methods: {
         async handleShowClicked(data) {

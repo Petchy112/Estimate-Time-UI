@@ -18,10 +18,13 @@
             />
         </v-card-title>
         <v-divider class="ma-5" />
-        <div class="grid-container">
+        <div v-if="this.estimateData == null" class="text-data">
+            No data
+        </div>
+        <div v-else class="grid-container">
             <div
                 class="pl-3 content-column"
-                v-for="(item,index) in estimateData"
+                v-for="(item,index) in filteredItems"
                 :key="index"
             >
                 <v-expansion-panels>
@@ -72,9 +75,6 @@
                 </v-expansion-panels>
             </div>
         </div>
-        <div v-if="voteResult==null" class="text-data">
-            No data
-        </div>
     </div>
 </template>
 
@@ -93,7 +93,13 @@ export default {
             ],
         }
     },
-
+    computed: {
+        filteredItems() {
+            return this.estimateData.filter(item => {
+                return item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            })
+        }
+    },
     async mounted() {
         await estimateAPI.index()
             .then(response => {

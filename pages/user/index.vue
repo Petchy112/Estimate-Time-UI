@@ -1,39 +1,34 @@
 <template>
     <div v-if="userData">
-        <div v-if="message">
-            <v-row justify-md="end">
-                <v-col
-                    md="5"
-                    class="justify--end"
-                >
-                    <v-alert
-                        dense
-                        elevation="5"
-                        type="error"
-                    >
-                        {{ message }}
-                    </v-alert>
-                </v-col>
-            </v-row>
-        </div>
         <div class="ma-5">
             <h1>
                 USER MANAGEMENT
             </h1>
         </div>
+        <v-col cols="12">
+            <v-text-field
+                class="mx-4"
+                flat
+                placeholder="Search"
+                v-model="search"
+                solo-inverted
+                append-icon="mdi-magnify"
+            />
+        </v-col>
         <v-btn
             class="px-12 ml-10"
             color="success"
-
             :to="{
                 name: 'register'
             }"
         >
             ADD
         </v-btn>
+
+
         <div class="d-flex flex-column pa-3 ma-5">
             <v-card
-                v-for="user in userData"
+                v-for="user in filteredItems"
                 :key="user.index"
                 class="pa-3 mb-3"
                 @click="handleShowClicked(user._id)"
@@ -54,9 +49,11 @@ export default {
         return {
             message: '',
             userData: [],
-            deleteDialog: false
+            deleteDialog: false,
+            search: '',
         }
     },
+
     async mounted () {
         await userAPI.index()
             .then(response => {
@@ -71,6 +68,13 @@ export default {
                     message: error.response.data.error.message
                 })
             })
+    },
+    computed: {
+        filteredItems() {
+            return this.userData.filter(item => {
+                return item.firstname.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            })
+        }
     },
     methods: {
         async handleShowClicked(id) {
