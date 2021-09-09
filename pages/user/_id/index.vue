@@ -4,10 +4,24 @@
             <v-card max-width="500px" class="mt-4 ma-2 pa-4 user-card">
                 <v-row justify="center">
                     <div class="circle my-7">
-                        <v-img max-width="100px" src="https://i.pinimg.com/originals/55/6c/38/556c381559c59fd2231498de3014e7c2.png" />
+                        <img width="100px" :src="imageUrl">
                     </div>
                 </v-row>
-
+                {{ picture }}
+                <v-btn raised class="secondary" @click="onPickFile">
+                    Upload Image
+                </v-btn>
+                <br>
+                <v-btn raised class="primary" @click="upload">
+                    Submit
+                </v-btn>
+                <input
+                    type="file"
+                    style="display:none"
+                    ref="fileInput"
+                    accept="image/*"
+                    @change="onFilePicked"
+                >
 
                 <v-card-title class="justify-start ">
                     Firstname : {{ user.firstname }}
@@ -19,9 +33,11 @@
                     Email : {{ user.email }}
                 </v-card-title>
                 <v-card-title class="justify-start ">
-                    Role : {{ user.role }}
+                    Role : <v-text v-for="role in user.role" :key="role.index">
+                        {{ role }} <br>
+                    </v-text>
                 </v-card-title>
-                <v-card-action
+                <div
                     class="card-action"
                 >
                     <div class="d-flex justify-content flex-end">
@@ -34,7 +50,7 @@
                             Delete
                         </v-btn>
                     </div>
-                </v-card-action>
+                </div>
             </v-card>
         </v-col>
 
@@ -73,15 +89,18 @@
 
 <script>
 import * as userAPI from '@/utils/userAPI'
+import * as imageAPI from "~/utils/imageAPI"
 export default {
     data() {
         return {
             user: [],
-            deleteDialog: false
+            deleteDialog: false,
+            imageUrl: '',
+            image: null
+
         }
     },
     async mounted() {
-        console.log('router param', this.$route.params.id)
         await userAPI.show(this.$route.params.id)
             .then(response => {
                 console.log('RESPONSE', response)
@@ -96,7 +115,37 @@ export default {
             })
 
     },
+    computed: {
+        picture() {
+            return console.log(this.image)
+        }
+    },
     methods: {
+        async upload() {
+            await imageAPI.upload(this.image)
+                .then(response => {
+                    console.log('response', response)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+        onPickFile() {
+            this.$refs.fileInput.click()
+        },
+        onFilePicked(event) {
+            const files = event.target.files
+            let filename = files[0].name
+            if (filename.lastIndexOf('.') <= 0) {
+                return alert('plase add vaild file')
+            }
+            const fileReader = new FileReader()
+            fileReader.addEventListener('load', () => {
+                this.imageUrl = fileReader.result
+            })
+            fileReader.readAsDataURL(files[0])
+            this.image = files[0]
+        },
         async handleDelete(id) {
             console.log(id)
             await userAPI.remove(id)
