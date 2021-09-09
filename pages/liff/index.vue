@@ -10,6 +10,9 @@
                 <v-card-subtitle>
                     Please login to liff
                 </v-card-subtitle>
+                <v-col cols="12" class="mb-5 text-center profile-img">
+                    <img width="100px" :src="profile">
+                </v-col>
 
                 <v-row>
                     <v-col cols="12">
@@ -67,7 +70,8 @@ export default {
             body: {
                 email: '',
                 password: '',
-                lineUserId: ''
+                lineUserId: '',
+                profilePic: null,
             },
             show: false,
             passwordRules: [
@@ -81,39 +85,58 @@ export default {
         }
     },
     mounted() {
+        console.log('in')
         liff.init({
             liffId: '1656364274-8p9ZXm3e'
+        }).then(()=> {
+            if (liff.isLoggedIn()) {
+                console.log('ok')
+                liff.getProfile().then(async profile => {
+                    console.log(profile)
+                    this.body.lineUserId = profile.userId
+                    this.body.profilePic = profile.pictureUrl
+                    await localStorage.setItem('lineUserId', profile.userId)
+                })
+            }
+            else {
+                liff.login()
+            }
         })
-        // if (liff.isLoggedIn()) {
-        liff.getProfile().then(profile => {
-            this.body.lineUserId = profile.userId
-            //image
-            localStorage.setItem('lineUserId', profile.userId)
-        })
-        // }
+
+        //     liff.getProfile().then(profile => {
+        //         this.body.lineUserId = profile.userId
+        //         console.log(profile)
+        //         //image
+        //         localStorage.setItem('lineUserId', profile.userId)
+        //     })
+
         // else {
         //     liff.login()
         // }
 
     },
-
+    computed: {
+        profile() {
+            return this.body.profilePic
+        }
+    },
     methods: {
         async login() {
             this.$refs.form.validate()
             await userAPI.login(this.body)
                 .then(async response => {
                     console.log('RESPONSE', response)
-                    if (response.data.role=='ADMIN') {
-                        this.$store.dispatch('setDialog', {
-                            isShow: true,
-                            title: 'Error',
-                            message: 'User not in permission'
-                        })
-                    }
-                    else {
-                        await localStorage.setItem('token', response.data.accessToken)
-                        this.$router.push({ name: 'liff-role' })
-                    }
+                    // if (response.data.role.includes('ADMIN')) {
+                    //     this.$store.dispatch('setDialog', {
+                    //         isShow: true,
+                    //         title: 'Error',
+                    //         message: 'User not in permission'
+                    //     })
+                    // }
+
+                    await localStorage.setItem('token', response.data.accessToken)
+                    this.$router.push({ name: 'liff-role' })
+
                 })
                 .catch(error => {
                     console.log('ERROR page', error.response.data)
@@ -142,5 +165,8 @@ export default {
 .my-header{
     font-weight: bold;
     font-size: x-large;
+}
+img {
+    border-radius:50% ;
 }
 </style>

@@ -44,15 +44,17 @@ export default {
                 this.userData = response.data
                 if (this.userData.role.length == 1) {
                     await userAPI.selectRole(this.userData.role[0])
-                        .then(response => {
-                            liff.closeWindow()
+                        .then(async response => {
+                            console.log(this.userData.role[0])
+                            await liff.closeWindow()
                         })
-                        .catch(error => {
+                        .catch(async error => {
                             this.$store.dispatch('setDialog', {
                                 isShow: true,
                                 title: 'Please try again',
                                 message: error.response.data.error.message
                             })
+                            await liff.closeWindow()
                         })
                 }
                 if (this.userData.role.length != 1) {
@@ -71,8 +73,8 @@ export default {
     methods: {
         async close(role) {
             await userAPI.selectRole(role)
-                .then(response => {
-                    liff.closeWindow()
+                .then(async response => {
+                    await liff.closeWindow()
                 })
                 .catch(error => {
                     this.$store.dispatch('setDialog', {

@@ -22,7 +22,7 @@ export default {
                         title: 'Success',
                         message: response.data.message
                     })
-                    liff.closeWindow()
+                    await liff.closeWindow()
                 })
                 .catch(error => {
                     this.$store.dispatch('setDialog', {

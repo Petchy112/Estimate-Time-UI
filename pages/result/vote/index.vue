@@ -13,7 +13,7 @@
         </v-col>
 
         <voteComponant @show-vote="handleShowClicked" :voteResults="voteResults" />
-        <div v-if="voteResult==null" class="text-data">
+        <div v-if="voteResults==null" class="text-data">
             No data
         </div>
     </div>
