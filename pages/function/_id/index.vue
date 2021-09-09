@@ -5,14 +5,14 @@
         >
             {{ functionData.group }}
         </h1>
-        <v-text-field
+        <!-- <v-text-field
             dense
             flat
             placeholder="Search"
             solo-inverted
             append-icon="mdi-magnify"
             class="mx-4"
-        />
+        /> -->
         <v-col
             cols="12"
         >
@@ -47,7 +47,7 @@
             <div class="d-flex flex-wrap">
                 <v-card
                     class="ma-5"
-                    max-width="344"
+                    width="300px"
                     v-for="choice in functionData.choice"
                     :key="choice.index"
                 >
@@ -59,7 +59,9 @@
                     <v-card-title>
                         {{ choice.name }}
                     </v-card-title>
-                    <v-card-subtitle> {{ choice.description }}</v-card-subtitle>
+                    <p class="ml-4">
+                        {{ choice.description }}
+                    </p>
                 </v-card>
             </div>
             <v-dialog
@@ -309,5 +311,8 @@ h1{
     display: flex;
     justify-content: flex-end;
     size: 10px;
+}
+p{
+    color: rgba(000, 000, 000, 0.3);
 }
 </style>
