@@ -7,21 +7,7 @@
                         <img width="100px" :src="imageUrl">
                     </div>
                 </v-row>
-                {{ picture }}
-                <v-btn raised class="secondary" @click="onPickFile">
-                    Upload Image
-                </v-btn>
-                <br>
-                <v-btn raised class="primary" @click="upload">
-                    Submit
-                </v-btn>
-                <input
-                    type="file"
-                    style="display:none"
-                    ref="fileInput"
-                    accept="image/*"
-                    @change="onFilePicked"
-                >
+
 
                 <v-card-title class="justify-start ">
                     Firstname : {{ user.firstname }}
