@@ -2,7 +2,6 @@
     <v-app>
         <v-app-bar
             :clipped-left="clipped"
-
             app
             dark
             flat
@@ -22,7 +21,6 @@
         <v-navigation-drawer
             v-model="drawer"
             :clipped="clipped"
-
             app
         >
             <v-list>
@@ -60,14 +58,28 @@
                 <v-col cols="12">
                     <div class="picture">
                         <v-avatar
-                            class=" ma-3 ml-12"
+                            class="ma-3"
                             size="100px"
                         >
-                            <v-img
-                                src="https://pbs.twimg.com/profile_images/924682339258470401/HbmOMfzW_400x400.jpg"
-                            />
+                            <v-btn
+                                class="secondary btn-upload"
+                                fab
+                                width="30px"
+                                height="30px"
+                                @click="onPickFile"
+                            >
+                                <v-icon size="20px">
+                                    mdi-camera
+                                </v-icon>
+                            </v-btn>
+                            <img v-if="profileImageUrl == ''" src="~/assets/default-profile.png" alt="">
+                            <img
+                                v-else
+                                :src="profileImageUrl"
+                            >
                         </v-avatar>
                     </div>
+
 
                     <v-list-item-title class="profile">
                         Admin, {{ userData.firstname }}
@@ -79,10 +91,20 @@
                 <v-list-item-action>
                     <div>
                         <v-col cols="12">
-                            <v-btn class="btn-drawer" outlined dark color="primary" @click="changepassword">
+                            <v-btn raised class="btn-drawer" color="success" outlined dark @click="upload">
+                                Save Image
+                            </v-btn>
+                            <input
+                                type="file"
+                                style="display:none"
+                                ref="fileInput"
+                                accept="image/*"
+                                @change="onFilePicked"
+                            >
+                            <v-btn class="btn-drawer" outlined color="primary" @click="changepassword">
                                 change password
                             </v-btn>
-                            <v-btn class="btn-drawer" outlined dark color="red" @click="logout">
+                            <v-btn class="btn-drawer" outlined color="red" @click="logout">
                                 Sign out
                             </v-btn>
                         </v-col>
@@ -103,6 +125,7 @@
 <script>
 import alertDialog from "~/components/dialog/alertDialog.vue"
 import * as userAPI from "@/utils/userAPI"
+import * as imageAPI from "@/utils/imageAPI"
 export default {
     components: {
         alertDialog
@@ -110,6 +133,7 @@ export default {
     data () {
         return {
             userData: [],
+            userId: '',
             clipped: true,
             drawer: true,
             fixed: true,
@@ -144,17 +168,20 @@ export default {
                     }
                 },
             ],
+            profileImageUrl: '',
+            profileImage: null,
             miniVariant: false,
             right: true,
             rightDrawer: false,
             title: 'ESTIMATE TIME'
         }
     },
-    mounted() {
-        userAPI.getProfile()
+    async mounted() {
+        await userAPI.getProfile()
             .then(response => {
                 console.log('RESPONSE', response.data)
                 this.userData = response.data
+                this.userId = response.data.id
             })
             .catch(async error => {
                 this.$store.dispatch('setDialog', {
@@ -164,8 +191,51 @@ export default {
                 })
                 await this.$router.push({ name: 'index' })
             })
+        await imageAPI.getImage(this.userId)
+            .then(response => {
+                console.log('RESPONSE', response.data)
+
+                this.profileImageUrl = response.data.fullPath
+            })
+            .catch(async error => {
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.data.error.message
+                })
+            })
     },
     methods: {
+        async upload() {
+            await imageAPI.uploadProfile(this.profileImage)
+                .then(response => {
+                    console.log('response', response)
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Success',
+                        message: response.data.message
+                    })
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+        onPickFile() {
+            this.$refs.fileInput.click()
+        },
+        onFilePicked(event) {
+            const files = event.target.files
+            let filename = files[0].name
+            if (filename.lastIndexOf('.') <= 0) {
+                return alert('plase add vaild file')
+            }
+            const fileReader = new FileReader()
+            fileReader.addEventListener('load', () => {
+                this.profileImageUrl = fileReader.result
+            })
+            fileReader.readAsDataURL(files[0])
+            this.profileImage = files[0]
+        },
         async logout() {
             await userAPI.logout()
                 .then(response => {
@@ -187,6 +257,11 @@ export default {
 }
 </script>
 <style>
+.btn-upload {
+    background-color: brown;
+    margin-top: 70px;
+    position: absolute;
+}
 h1 {
     text-align: center;
 }
@@ -197,10 +272,10 @@ h1 {
     background-color: white !important;
 }
 .picture {
+    border-radius: 50% !important;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 30px;
 }
 .profile {
     text-align: center;
