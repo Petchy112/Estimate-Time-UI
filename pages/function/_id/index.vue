@@ -51,15 +51,14 @@
                     v-for="choice in functionData.choice"
                     :key="choice.index"
                 >
-                    <v-img
+                    <img
                         src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUPEhIVFRUVFxcVFRUVFRcVFRUVFRUXFxUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDQ0NFQ8PFS0ZFRkrLTcrKystKystNystLS0tNzc3NzctLTc3LS0tNy03LSsrNysrLS03KzcrLSsrKysrK//AABEIAOEA4QMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAAAAQcC/8QAGhABAQEAAwEAAAAAAAAAAAAAAAEREiHhAv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A00BAAUBUAAAVFBAAVFQAAAAABABVEBQQUBBaAgqIAAACgAAaAAAAAAAAAACAAAAoAAAtBAAMDkiCqgoAAAAAAKICoAAACoAAABFBAAAAUQAAAAAAQFQUAEABQAAwAAVAVAQVAABVBAAFQBUAAAQUAAQBUigAAqAAAAABQAoKCAIACgAAKAioAAAoAIAgCooBVBAAVABUAAVAAEABQFRAAUAAAAAoChoCAIACgAAACoAAACoAAoCCoIACiCgUKAABVQAAAgCAAoUAAVAAAAAAUEVFBAABUQAFDFqAAqAUAF0MQAVABUAAAAQBUUUQAAAUQBQAQEAVFANAAABUA7DQAFBAAKqAEAAAAABUFBAAWICAAoqAAAAqACoAuCIChFBAAAAAABaAgAAqAqFKgAAAqiBAAAAooIAgoCiQAFQIAUABUAAAABUAAAFSKkQAFAIIACioFAAQXBNFAAABAAAAAAUAAAAAEAACAAAVQAAAAAQXUVAAFAAAAAAFQAVAAAAgCAAAoigAAqAAAACC4JooqIA6KgC1IAHoAHytAEgAFVAAABUAUAAqACwAIACRaAKAD//Z"
-                        height="200px"
-                    />
+                    >
 
-                    <v-card-title>
+                    <v-card-title class="py-0 pt-2">
                         {{ choice.name }}
                     </v-card-title>
-                    <p class="ml-4">
+                    <p class="ml-4 ma-0 mb-3">
                         {{ choice.description }}
                     </p>
                 </v-card>
