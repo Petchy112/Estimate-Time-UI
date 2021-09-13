@@ -39,7 +39,7 @@
                     v-model="platform"
                     row
                 >
-                    <span class="ml-lg-6 mr-lg-6">Choose platform</span>
+                    <span class="ml-lg-6 mr-lg-6">CHOOSE PLATFORM</span>
                     <v-radio
                         label="WEBSITE"
                         value="WEBSITE"
@@ -75,11 +75,35 @@
                                     class="mr-3 mb-3"
                                     size="80px"
                                 >
-                                    <v-img
-                                        :src="picture"
-                                    />
+                                    <v-btn
+                                        class="secondary btn-img"
+                                        fab
+                                        width="30px"
+                                        height="30px"
+                                        @click="PickFile(index)"
+                                    >
+                                        <v-icon size="20px">
+                                            mdi-camera
+                                        </v-icon>
+                                    </v-btn>
+                                    <input
+                                        type="file"
+                                        style="display:none"
+                                        :id="`fileInput-${index}`"
+                                        accept="image/*"
+                                        @change="Picked($event,index)"
+                                    >
+                                    <img
+                                        v-if="choices[index].imageUrl == ''"
+                                        src="~/assets/function.jpg"
+                                    >
+                                    <img
+                                        v-else
+
+                                        :src="choices[index].imageUrl"
+                                    >
                                 </v-avatar>
-                                <!-- <v-file-input @input="picture()" hide-input v-model="images" /> -->
+
                                 <v-text-field
                                     dense
                                     label="Function choice"
@@ -139,6 +163,7 @@
 
 <script>
 import * as functionAPI from "~/utils/functionAPI"
+import * as imageAPI from "~/utils/imageAPI"
 export default {
     data() {
         return {
@@ -148,28 +173,50 @@ export default {
             choices: [
                 {
                     name: '',
-                    description: ''
+                    description: '',
+                    imageUrl: '',
+                    image: null
                 }
             ],
-            images: null,
+
             groupRules: [
-                v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน'
+                v => !!v || 'Required'
             ],
             choiceRules: [
-                v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน'
+                v => !!v || 'Required'
             ],
             descriptionRules: [
-                v => !!v || 'กรุณากรอกข้อมูลให้ครบถ้วน'
+                v => !!v || 'Required'
             ],
-        }
-    },
-    computed: {
-        picture() {
-            return this.images
         }
     },
     methods: {
+        PickFile(index) {
+            console.log(index)
+            document.getElementById(`fileInput-${index}`).click()
+        },
+        Picked(event, index) {
+            console.log(index)
+            const files = event.target.files
+            let filename = files[0].name
+            if (filename.lastIndexOf('.') <= 0) {
+                return alert('plase add vaild file')
+            }
+            const fileReader = new FileReader()
+            fileReader.addEventListener('load', () => {
+                this.choices[index].imageUrl = fileReader.result
+            })
+            fileReader.readAsDataURL(files[0])
+            this.choices[index].image = files[0]
+        },
         async handleSaveClicked () {
+            await imageAPI.upload(this.choices)
+                .then(response => {
+                    console.log('response', response)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
             await functionAPI.create(this.group, this.platform, this.choices)
                 .then(async response => {
                     this.$store.dispatch('setDialog', {
@@ -196,7 +243,7 @@ export default {
                 })
         },
         async handleAddClicked() {
-            this.choices.push({ title: '', description: '' })
+            this.choices.push({ title: '', description: '', imageUrl: '', image: null })
             console.log(this.choices.length)
         },
         async handleCloseClicked(index) {
@@ -208,6 +255,10 @@ export default {
 </script>
 
 <style>
+.btn-img {
+    position:absolute;
+    margin-top: 50px;
+}
 .remove-btn {
     display: flex;
     justify-content: flex-end;
