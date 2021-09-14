@@ -103,16 +103,6 @@ export default {
             }
         })
 
-        //     liff.getProfile().then(profile => {
-        //         this.body.lineUserId = profile.userId
-        //         console.log(profile)
-        //         //image
-        //         localStorage.setItem('lineUserId', profile.userId)
-        //     })
-
-        // else {
-        //     liff.login()
-        // }
 
     },
     computed: {

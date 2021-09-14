@@ -17,10 +17,10 @@
                         hide-details
                     />
                 </v-card-title>
-                <v-divider class="mt-3 mb-5" />
+                <v-divider class="mt-3 mb-5 mx-2" />
                 <div class="grid-container">
                     <div
-                        class="pl-3 content-column"
+                        class="mx-4 mb-4"
                         v-for="(item,index) in filteredItems"
                         :key="index"
                     >

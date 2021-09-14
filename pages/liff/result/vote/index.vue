@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-col cols="12">
-            <h1>Vote results</h1>
+            <h1>VOTE RESULT</h1>
         </v-col>
         <voteComponant @show-vote="handleShowClicked" :voteResults="voteResults" />
     </div>

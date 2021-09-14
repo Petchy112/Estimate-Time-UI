@@ -42,7 +42,7 @@
                             />
                             <v-btn
                                 class="width-100 btn-signin"
-                                height="40px"
+
                                 color="rgb(55, 208, 255)"
                                 rounded
                                 @click="login(body)"
@@ -145,6 +145,6 @@ p {
     font-size:28px;
 }
 .btn-signin {
-    font-size: 18px !important;
+    font-size: 14px !important;
 }
 </style>
