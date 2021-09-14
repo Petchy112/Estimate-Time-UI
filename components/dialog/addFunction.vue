@@ -74,6 +74,7 @@
                                 <v-avatar
                                     class="mr-3 mb-3"
                                     size="80px"
+                                    @change="handlePicture(index)"
                                 >
                                     <v-btn
                                         class="secondary btn-img"
@@ -99,7 +100,6 @@
                                     >
                                     <img
                                         v-else
-
                                         :src="choices[index].imageUrl"
                                     >
                                 </v-avatar>
@@ -175,10 +175,10 @@ export default {
                     name: '',
                     description: '',
                     imageUrl: '',
-                    image: null
+                    imagePath: ''
                 }
             ],
-
+            image: null,
             groupRules: [
                 v => !!v || 'Required'
             ],
@@ -191,12 +191,10 @@ export default {
         }
     },
     methods: {
-        PickFile(index) {
-            console.log(index)
+        async PickFile(index) {
             document.getElementById(`fileInput-${index}`).click()
         },
-        Picked(event, index) {
-            console.log(index)
+        async Picked(event, index) {
             const files = event.target.files
             let filename = files[0].name
             if (filename.lastIndexOf('.') <= 0) {
@@ -207,23 +205,27 @@ export default {
                 this.choices[index].imageUrl = fileReader.result
             })
             fileReader.readAsDataURL(files[0])
-            this.choices[index].image = files[0]
+            this.image = files[0]
         },
-        async handleSaveClicked () {
-            await imageAPI.upload(this.choices)
-                .then(response => {
-                    console.log('response', response)
+        async handlePicture(index) {
+            await imageAPI.upload(this.image)
+                .then(async response => {
+                    this.choices[index].imagePath = response.data.fullPath
+                    console.log(this.choices)
                 })
                 .catch(error => {
                     console.log(error)
                 })
+        },
+        async handleSaveClicked () {
             await functionAPI.create(this.group, this.platform, this.choices)
                 .then(async response => {
-                    this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Success',
-                        message: response.data.message
-                    })
+                    console.log('RESPONSE Add function', response.data)
+                    // this.$store.dispatch('setDialog', {
+                    //     isShow: true,
+                    //     title: 'Success',
+                    //     message: response.data.message
+                    // })
                     this.dialog = false
                     await this.$router.push({
                         name: 'function-id',
@@ -241,9 +243,10 @@ export default {
                     })
 
                 })
+
         },
         async handleAddClicked() {
-            this.choices.push({ title: '', description: '', imageUrl: '', image: null })
+            this.choices.push({ name: '', description: '', imageUrl: '', image: null, imagePath: '' })
             console.log(this.choices.length)
         },
         async handleCloseClicked(index) {

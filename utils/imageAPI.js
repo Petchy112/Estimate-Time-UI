@@ -1,14 +1,10 @@
 import { request } from "./API"
 import { HOSTNAME } from '@/utils/API'
 
-export function upload(choices) {
-    console.log(choices)
+export function upload(image) {
     const url =`${HOSTNAME}/image/uploadChoiceImage`
     var bodyFormData = new FormData()
-    choices.forEach(async item => {
-        await bodyFormData.append('images', item.image)
-        await bodyFormData.append('name', item.name)
-    })
+    bodyFormData.append('images', image)
     return request('post', url, bodyFormData, { Authorization: localStorage.getItem('token') })
 }
 
