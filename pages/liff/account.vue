@@ -53,13 +53,13 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 .v-list__title {
     font-weight: bold;
 }
 .role-btn {
-    margin-top: 20px;
+    margin-top: 20px !important;
     height: 50px !important;
     font-size: 16px;
 }

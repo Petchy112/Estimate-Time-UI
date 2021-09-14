@@ -270,7 +270,7 @@ h1 {
     font-family: 'Mitr', sans-serif !important;
 }
 .v-application--wrap {
-    background-color: white !important;
+    background-color: white !important ;
 }
 .picture {
     border-radius: 50% !important;

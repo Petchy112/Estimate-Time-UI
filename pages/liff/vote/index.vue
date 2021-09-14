@@ -1,5 +1,5 @@
 <template>
-    <div v-if="list">
+    <div class="bg" v-if="list">
         <h1 class="mb-10">
             VOTE SYSTEM
         </h1>
@@ -24,10 +24,11 @@
                         <v-list-item two-line>
                             <v-list-item-avatar>
                                 <v-avatar
-                                    class="ma-3 ml-6"
-                                    color="red"
-                                    size="120px"
-                                />
+
+                                    size="40px"
+                                >
+                                    <img :src="input.imagePath">
+                                </v-avatar>
                             </v-list-item-avatar>
                             <v-list-item-content class="choice-card">
                                 <v-list-item-title>{{ input.name }}</v-list-item-title>
@@ -95,7 +96,7 @@ export default {
         async next() {
             for (let j = 0; j < this.list.length; j++) {
                 for (let i = 0; i < this.list[j].choices.length; i++) {
-                    await this.data.push({ fid: this.list[j].fid, choiceId: this.list[j].choices[i]._id, name: this.list[j].choices[i].name, description: this.list[j].choices[i].description, time: this.list[j].choices[i].time })
+                    await this.data.push({ fid: this.list[j].fid, choiceId: this.list[j].choices[i]._id, name: this.list[j].choices[i].name, description: this.list[j].choices[i].description, imagePath: this.list[j].choices[i].imagePath, time: this.list[j].choices[i].time })
                 }
             }
 
@@ -121,7 +122,9 @@ export default {
 </script>
 
 <style scoped>
-
+.bg {
+    background-color: rgba(55, 208, 255, 0.8);
+}
 h1 {
  padding-top: 25px !important;
 
