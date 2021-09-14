@@ -115,8 +115,8 @@ export default {
     },
     computed: {
         filteredItems() {
-            return this.userData.filter(item => {
-                return item.firstname.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            return this.estimateData.filter(item => {
+                return item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
             })
         }
     },

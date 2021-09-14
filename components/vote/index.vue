@@ -5,7 +5,7 @@
                 <thead>
                     <tr>
                         <th>
-                            Voting round (day)
+                            Voting round
                         </th>
                     </tr>
                 </thead>
