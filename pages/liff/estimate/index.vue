@@ -162,7 +162,7 @@ export default {
             console.log(choice)
 
             if (this.selected.selectedChoice.includes(choice.name)) {
-                const found = element.find(elem => elem.title == choice.name)
+                const found = this.selected.selectedChoice.find(element => element == choice.name)
                 const inSelected = this.selected.selectedChoice.indexOf(found)
                 this.selected.selectedChoice.splice(inSelected, 1)
                 console.log(this.selected.selectedChoice)

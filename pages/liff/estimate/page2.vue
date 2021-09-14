@@ -22,7 +22,7 @@
 
                         <div>
                             <v-list-item-title class="mx-5 time">
-                                Estimate Time: {{ getSelectedEstimate.estimateTime.toFixed(0) }}  Hours ({{ (getSelectedEstimate.estimateTime/8).toFixed(1) }} days)
+                                Estimate Time: {{ getSelectedEstimate.estimateTime }}  Hours ({{ (getSelectedEstimate.estimateTime/8).toFixed(1) }} days)
                             </v-list-item-title>
                         </div>
 
