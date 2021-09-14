@@ -101,12 +101,13 @@ export default {
             }
 
             await voteAPI.sentVote(this.data)
-                .then(response => {
+                .then(async response => {
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
                         message: response.data.message
                     })
+                    await liff.closeWindow()
                 }).catch(error => {
                     this.$store.dispatch('setDialog', {
                         isShow: true,
