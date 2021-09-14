@@ -19,18 +19,13 @@
                         <v-list-item-title class="mx-5 platform">
                             Platform: {{ getSelectedEstimate.platform }}
                         </v-list-item-title>
+
                         <div>
-                            <div v-if="getSelectedEstimate.estimateTime<40">
-                                <v-list-item-title class="mx-5 time">
-                                    Estimate Time: {{ getSelectedEstimate.estimateTime }}  Hours
-                                </v-list-item-title>
-                            </div>
-                            <div v-else>
-                                <v-list-item-title class="mx-5 time">
-                                    Estimate Time: {{ getSelectedEstimate.estimateTime.toFixed(0) }}  Hours ({{ ((getSelectedEstimate.estimateTime/8)/5).toFixed(1) }} week)
-                                </v-list-item-title>
-                            </div>
+                            <v-list-item-title class="mx-5 time">
+                                Estimate Time: {{ getSelectedEstimate.estimateTime.toFixed(0) }}  Hours ({{ (getSelectedEstimate.estimateTime/8).toFixed(1) }} days)
+                            </v-list-item-title>
                         </div>
+
                         <v-list-item-title class="mx-5 time">
                             Developer Quantity: {{ getSelectedEstimate.qty }}
                         </v-list-item-title>
@@ -38,12 +33,13 @@
                             <v-list-item-content>
                                 <v-col cols="12">
                                     <div class="my-card d-flex flex-wrap ">
-                                        <v-card width="100px" class="mt-4 ma-2 pa-4" v-for="item in getSelectedEstimate.selectedChoice" :key="item.name ">
-                                            <v-avater class="d-flex justify-center mb-3">
-                                                <img width="60px" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUPEhIVFRUVFxcVFRUVFRcVFRUVFRUXFxUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDQ0NFQ8PFS0ZFRkrLTcrKystKystNystLS0tNzc3NzctLTc3LS0tNy03LSsrNysrLS03KzcrLSsrKysrK//AABEIAOEA4QMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAAAAQcC/8QAGhABAQEAAwEAAAAAAAAAAAAAAAEREiHhAv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A00BAAUBUAAAVFBAAVFQAAAAABABVEBQQUBBaAgqIAAACgAAaAAAAAAAAAACAAAAoAAAtBAAMDkiCqgoAAAAAAKICoAAACoAAABFBAAAAUQAAAAAAQFQUAEABQAAwAAVAVAQVAABVBAAFQBUAAAQUAAQBUigAAqAAAAABQAoKCAIACgAAKAioAAAoAIAgCooBVBAAVABUAAVAAEABQFRAAUAAAAAoChoCAIACgAAACoAAACoAAoCCoIACiCgUKAABVQAAAgCAAoUAAVAAAAAAUEVFBAABUQAFDFqAAqAUAF0MQAVABUAAAAQBUUUQAAAUQBQAQEAVFANAAABUA7DQAFBAAKqAEAAAAABUFBAAWICAAoqAAAAqACoAuCIChFBAAAAAABaAgAAqAqFKgAAAqiBAAAAooIAgoCiQAFQIAUABUAAAABUAAAFSKkQAFAIIACioFAAQXBNFAAABAAAAAAUAAAAAEAACAAAVQAAAAAQXUVAAFAAAAAAFQAVAAAAgCAAAoigAAqAAAACC4JooqIA6KgC1IAHoAHytAEgAFVAAABUAUAAqACwAIACRaAKAD//Z">
-                                            </v-avater>
+                                        <div
+                                            class="mt-4  ma-4"
+                                            v-for="item in getSelectedEstimate.selectedChoice"
+                                            :key="item.index "
+                                        >
                                             {{ item }}
-                                        </v-card>
+                                        </div>
                                     </div>
                                 </v-col>
                             </v-list-item-content>

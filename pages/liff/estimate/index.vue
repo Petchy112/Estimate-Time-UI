@@ -130,15 +130,14 @@ export default {
                 { tab: 'MOBILE' }
             ],
 
-            selected:
-                {
-                    selectedChoice: [],
-                    platform: '' || 'WEBSITE',
-                    estimateTime: 0,
-                    projectName: '',
-                    qty: 1,
-                    size: ''
-                },
+            selected: {
+                selectedChoice: [],
+                platform: '' || 'WEBSITE',
+                estimateTime: 0,
+                projectName: '',
+                qty: 1,
+                size: ''
+            },
             estimateData: []
         }
     },
@@ -158,12 +157,12 @@ export default {
                 })
             })
     },
-
     methods: {
         async chooseChoice(choice) {
-            console.log(choice.name)
+            console.log(choice)
+
             if (this.selected.selectedChoice.includes(choice.name)) {
-                const found = this.selected.selectedChoice.find(element => element == choice.name)
+                const found = element.find(elem => elem.title == choice.name)
                 const inSelected = this.selected.selectedChoice.indexOf(found)
                 this.selected.selectedChoice.splice(inSelected, 1)
                 console.log(this.selected.selectedChoice)
