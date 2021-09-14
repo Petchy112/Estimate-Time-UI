@@ -27,17 +27,17 @@
                     :key="item.tab"
                 >
                     <v-card
-                        v-for="(i,index) in 1"
+                        v-for="(i,index) in voteData"
                         :key="index"
                         tile
                         class="my-5 mx-5"
                     >
                         <v-card-title class="justify-center">
-                            i.data.group
+                            {{ i.data.group }}
                         </v-card-title>
                         <div
                             class="d-flex flex-column"
-                            v-for="element in 3"
+                            v-for="element in i.data.choices"
                             :key="element.name"
                         >
                             <v-list-item two-line>
@@ -49,11 +49,11 @@
                                     </v-avatar>
                                 </v-list-item-avatar>
                                 <v-list-item-content>
-                                    <v-list-item-title> element.name </v-list-item-title>
-                                    <v-list-item-subtitle> name.description </v-list-item-subtitle>
+                                    <v-list-item-title> {{ element.name }} </v-list-item-title>
+                                    <v-list-item-subtitle> {{ element.description }} </v-list-item-subtitle>
                                 </v-list-item-content>
                                 <div class="result-time">
-                                    element.time.toFixed(1)  Hours
+                                    {{ element.time.toFixed(1) }}  Hours
                                 </div>
                             </v-list-item>
                         </div>
