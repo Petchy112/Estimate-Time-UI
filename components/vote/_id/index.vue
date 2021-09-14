@@ -27,36 +27,33 @@
                     :key="item.tab"
                 >
                     <v-card
-                        v-for="(i,index) in voteData"
+                        v-for="(i,index) in 1"
                         :key="index"
                         tile
                         class="my-5 mx-5"
                     >
                         <v-card-title class="justify-center">
-                            {{ i.data.group }}
+                            i.data.group
                         </v-card-title>
                         <div
                             class="d-flex flex-column"
-                            v-for="name in i.data.choices"
-                            :key="name.name"
+                            v-for="element in 3"
+                            :key="element.name"
                         >
                             <v-list-item two-line>
                                 <v-list-item-avatar>
-                                    <v-avatar
-                                        class="ma-3 ml-6"
-                                        size="120px"
-                                    >
-                                        <v-img
-                                            src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUPEhIVFRUVFxcVFRUVFRcVFRUVFRUXFxUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDQ0NFQ8PFS0ZFRkrLTcrKystKystNystLS0tNzc3NzctLTc3LS0tNy03LSsrNysrLS03KzcrLSsrKysrK//AABEIAOEA4QMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAAAAQcC/8QAGhABAQEAAwEAAAAAAAAAAAAAAAEREiHhAv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A00BAAUBUAAAVFBAAVFQAAAAABABVEBQQUBBaAgqIAAACgAAaAAAAAAAAAACAAAAoAAAtBAAMDkiCqgoAAAAAAKICoAAACoAAABFBAAAAUQAAAAAAQFQUAEABQAAwAAVAVAQVAABVBAAFQBUAAAQUAAQBUigAAqAAAAABQAoKCAIACgAAKAioAAAoAIAgCooBVBAAVABUAAVAAEABQFRAAUAAAAAoChoCAIACgAAACoAAACoAAoCCoIACiCgUKAABVQAAAgCAAoUAAVAAAAAAUEVFBAABUQAFDFqAAqAUAF0MQAVABUAAAAQBUUUQAAAUQBQAQEAVFANAAABUA7DQAFBAAKqAEAAAAABUFBAAWICAAoqAAAAqACoAuCIChFBAAAAAABaAgAAqAqFKgAAAqiBAAAAooIAgoCiQAFQIAUABUAAAABUAAAFSKkQAFAIIACioFAAQXBNFAAABAAAAAAUAAAAAEAACAAAVQAAAAAQXUVAAFAAAAAAFQAVAAAAgCAAAoigAAqAAAACC4JooqIA6KgC1IAHoAHytAEgAFVAAABUAUAAqACwAIACRaAKAD//Z"
-                                        />
+                                    <v-avatar>
+                                        <img
+                                            :src="element.imagePath"
+                                        >
                                     </v-avatar>
                                 </v-list-item-avatar>
                                 <v-list-item-content>
-                                    <v-list-item-title>{{ name.name }}</v-list-item-title>
-                                    <v-list-item-subtitle>{{ name.description }}</v-list-item-subtitle>
+                                    <v-list-item-title> element.name </v-list-item-title>
+                                    <v-list-item-subtitle> name.description </v-list-item-subtitle>
                                 </v-list-item-content>
                                 <div class="result-time">
-                                    {{ name.time.toFixed(1) }} Hours
+                                    element.time.toFixed(1)  Hours
                                 </div>
                             </v-list-item>
                         </div>

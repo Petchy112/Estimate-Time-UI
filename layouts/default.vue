@@ -72,7 +72,7 @@
                                     mdi-camera
                                 </v-icon>
                             </v-btn>
-                            <img v-if="profileImageUrl == ''" src="~/assets/default-profile.png" alt="">
+                            <img v-if="profileImageUrl == undefined || ''" src="~/assets/default-profile.png" alt="">
                             <img
                                 v-else
                                 :src="profileImageUrl"
@@ -196,6 +196,7 @@ export default {
                 console.log('RESPONSE', response.data)
 
                 this.profileImageUrl = response.data.fullPath
+
             })
             .catch(async error => {
                 this.$store.dispatch('setDialog', {
