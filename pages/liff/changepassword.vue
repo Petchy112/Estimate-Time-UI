@@ -1,8 +1,16 @@
 <template>
     <div>
-        <v-col cols="12">
-            <changepassword @change-password="handleChangeClicked" />
-        </v-col>
+        <changepassword @change-password="handleChangeClicked" />
+        <v-row>
+            <v-btn
+                elevation="0"
+                class="ml-15 btn-confirm primary"
+                width="150px"
+                @click="goBack"
+            >
+                Back
+            </v-btn>
+        </v-row>
     </div>
 </template>
 
@@ -13,6 +21,9 @@ export default {
     layout: 'liff',
     components: { changepassword },
     methods: {
+        goBack() {
+            this.$router.push({ name: 'liff-account' })
+        },
         async handleChangeClicked(body) {
             console.log(body)
             await userAPI.changepassword(body)
@@ -37,5 +48,7 @@ export default {
 </script>
 
 <style>
-
+.btn-confirm {
+    position: absolute;
+}
 </style>

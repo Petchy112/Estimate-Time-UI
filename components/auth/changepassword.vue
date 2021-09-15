@@ -11,7 +11,6 @@
             </h1>
             <v-col
                 cols="12"
-                sm="12"
             >
                 <v-text-field
                     dense
@@ -21,7 +20,7 @@
                     label="Current password"
                     hint="At least 8 characters"
                     v-model="body.oldPassword"
-                    class="input-group--focused mx-16"
+                    class="input-group--focused mx-10"
                     @click:append="show1 = !show1"
                     outlined
                 />
@@ -33,7 +32,7 @@
                     label="New password"
                     hint="At least 8 characters"
                     v-model="body.newPassword"
-                    class="input-group--focused mx-16"
+                    class="input-group--focused mx-10"
                     @click:append="show2 = !show2"
                     outlined
                 />
@@ -45,22 +44,28 @@
                     label="Re-enter new password"
                     hint="At least 8 characters"
                     v-model="body.confirmPassword"
-                    class="input-group--focused mx-16"
+                    class="input-group--focused mx-10"
                     @click:append="show3 = !show3"
                     outlined
                 />
+                <v-col cols="12">
+                    <v-row
+                        class="ma-md-0 mt-md-2 mr-md-10 pa-md-0 mt-4 mr-5"
+                        justify="end"
+                        justify-md="end"
+                    >
+                        <v-btn
+                            elevation="0"
+                            :disabled="!valid"
+                            class="btn-confirm primary"
+                            width="150px"
 
-                <v-btn
-                    elevation="0"
-                    :disabled="!valid"
-                    color="rgb(55, 208, 255)"
-                    class="sm ml-16"
-                    width="92%"
-
-                    @click="handleChangeClicked(body)"
-                >
-                    confirm
-                </v-btn>
+                            @click="handleChangeClicked(body)"
+                        >
+                            confirm
+                        </v-btn>
+                    </v-row>
+                </v-col>
             </v-col>
         </v-form>
     </div>
@@ -102,6 +107,10 @@ export default {
 .d-flex {
     justify-content: space-around;
     margin-top: 20px;
+
+}
+ .btn-confirm {
+
 
 }
 
