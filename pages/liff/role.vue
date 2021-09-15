@@ -1,27 +1,29 @@
 <template>
     <div>
-        <v-col cols="12">
-            <v-card elevation="5">
-                <v-list>
-                    <v-list-title>
-                        <div class="my-text ml-5 mt-4">
-                            SELECT ROLE :
-                        </div>
-                    </v-list-title>
+        <v-app class="back">
+            <v-col cols="12">
+                <v-card elevation="5">
+                    <v-list>
+                        <v-list-title>
+                            <div class="my-text ml-5 mt-4">
+                                SELECT ROLE :
+                            </div>
+                        </v-list-title>
 
-                    <v-col cols="12">
-                        <div class="d-flex flex-column pa-2">
-                            <v-btn v-if="role.includes('VOTER')" @click="close('VOTER')" rounded class="role-btn" color="rgb(55, 208, 255)">
-                                VOTER
-                            </v-btn>
-                            <v-btn v-if="role.includes('COORDINATOR')" @click="close('COORDINATOR')" rounded class="role-btn" color="rgb(55, 208, 255)">
-                                COORDINATOR
-                            </v-btn>
-                        </div>
-                    </v-col>
-                </v-list>
-            </v-card>
-        </v-col>
+                        <v-col cols="12">
+                            <div class="d-flex flex-column pa-2">
+                                <v-btn v-if="role.includes('VOTER')" @click="close('VOTER')" rounded class="role-btn" color="rgb(55, 208, 255)">
+                                    VOTER
+                                </v-btn>
+                                <v-btn v-if="role.includes('COORDINATOR')" @click="close('COORDINATOR')" rounded class="role-btn" color="rgb(55, 208, 255)">
+                                    COORDINATOR
+                                </v-btn>
+                            </div>
+                        </v-col>
+                    </v-list>
+                </v-card>
+            </v-col>
+        </v-app>
     </div>
 </template>
 
@@ -92,6 +94,9 @@ export default {
 </script>
 
 <style scoped>
+.back {
+    background-color: rgba(55, 208, 255, 0.8) !important;
+}
 .my-text {
     font-weight: bold;
     font-size: x-large;
