@@ -29,12 +29,16 @@
                         <v-list-item-title class="mx-5 time">
                             Developer Quantity: {{ getSelectedEstimate.qty }}
                         </v-list-item-title>
+                        <v-divider class="mt-4 mx-3" />
                         <v-list-item>
                             <v-list-item-content>
                                 <v-col cols="12">
-                                    <div class="my-card d-flex flex-wrap ">
+                                    <div class="my-card d-flex flex-column ">
+                                        <div class="selectFunc">
+                                            SELECTED FUNCTION
+                                        </div>
                                         <div
-                                            class="mt-4  ma-4"
+                                            class="ma-3"
                                             v-for="item in getSelectedEstimate.selectedChoice"
                                             :key="item.index "
                                         >
@@ -63,12 +67,12 @@
                 >
                     <v-col cols="12">
                         <div>
-                            <div class="d-flex justify-space-around">
+                            <div class="d-flex justify-space-around ">
                                 <v-btn
                                     outlined
                                     rounded
-                                    dark
                                     width="40%"
+                                    class="mt-3 footer-btn"
                                     @click="back"
                                 >
                                     back
@@ -77,7 +81,7 @@
                                 <v-btn
                                     outlined
                                     rounded
-                                    dark
+                                    class="mt-3 footer-btn"
                                     width="40%"
                                     @click="nameDialog = !nameDialog"
                                 >
@@ -111,8 +115,7 @@
                             >
                                 <v-row justify="space-around">
                                     <v-btn
-                                        class="pa-2 mb-4"
-                                        dark
+                                        class="pa-2 mb-4 footer-btn"
                                         rounded
                                         width="40%"
                                         color="rgb(55, 208, 255)"
@@ -121,8 +124,7 @@
                                         Cancel
                                     </v-btn>
                                     <v-btn
-                                        class="pa-2 mb-4"
-                                        dark
+                                        class="pa-2 mb-4 footer-btn"
                                         rounded
                                         color="rgb(55, 208, 255)"
                                         width="40%"
@@ -166,7 +168,7 @@ export default {
             console.log(body)
             await estimateAPI.sentEstimate(body)
                 .then(async response => {
-                    nameDialog = false
+                    this.nameDialog = false
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
@@ -191,6 +193,11 @@ export default {
     text-align: center;
     font-size: 28px;
     font-weight: bold;
+    color: white;
+}
+.selectFunc {
+    margin-bottom: 10px;
+    font-size: 18px;
 }
 
 .time {
@@ -199,6 +206,10 @@ export default {
 }
 .platform{
     font-size: 20px;
+
+}
+.footer-btn{
+    color :white
 }
 img {
     border-radius: 50%;

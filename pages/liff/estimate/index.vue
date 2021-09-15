@@ -36,31 +36,38 @@
                                 v-for="i in 2"
                                 :key="i.tab"
                             >
-                                <div class="subheader2 pa-0 pt-5 ">
-                                    Select Function that you need
-                                </div>
                                 <v-card
                                     rounded="50%"
                                     class="my-5 mx-5 pb-4"
                                 >
                                     <v-card-title class="justify-center">
-                                        Select developer
+                                        Select number of developer
                                     </v-card-title>
                                     <div class="input-time">
-                                        <div>
-                                            <v-text-field
-                                                dense
-                                                label="Number"
-                                                v-model="selected.qty"
-                                                solo-inverted
-                                            />
+                                        <v-btn class="mx-4" fab width="30px" height="30px" @click="minus">
+                                            <v-icon size="20px">
+                                                mdi-minus
+                                            </v-icon>
+                                        </v-btn>
+                                        <div class="mx-4">
+                                            {{ selected.qty }}
                                         </div>
+                                        <v-btn class="mx-4" fab width="30px" height="30px" @click="plus">
+                                            <v-icon size="20px">
+                                                mdi-plus
+                                            </v-icon>
+                                        </v-btn>
                                     </div>
                                 </v-card>
+
+
                                 <div
                                     v-for="data in estimateData"
                                     :key="data._id"
                                 >
+                                    <div class="subheader2 pa-0 pt-5 ">
+                                        Select Function that you need
+                                    </div>
                                     <div v-if="data.choices.length != 0">
                                         <v-card
                                             rounded="50%"
@@ -101,7 +108,7 @@
                                     ** Please make sure your selection is correct.
                                 </div>
                             </v-card-text>
-                            <v-btn dark outlined rounded class="next-btn" @click="nextPage">
+                            <v-btn outlined rounded class="next-btn" @click="nextPage">
                                 Next
                             </v-btn>
                         </v-col>
@@ -122,7 +129,7 @@ export default {
     },
     data() {
         return {
-            platform: '',
+            platform: this.$store.getters.getSelectedEstimate.platform,
             tab: null,
             padless: true,
             items: [
@@ -132,17 +139,17 @@ export default {
 
             selected: {
                 selectedChoice: [],
-                platform: '' || 'WEBSITE',
-                estimateTime: 0,
-                projectName: '',
-                qty: 1,
-                size: ''
+                platform: this.$store.getters.getSelectedEstimate.platform,
+                estimateTime: this.$store.getters.getSelectedEstimate.estimateTime,
+                projectName: this.$store.getters.getSelectedEstimate.projectName,
+                qty: this.$store.getters.getSelectedEstimate.qty,
+                size: this.$store.getters.getSelectedEstimate.size
             },
             estimateData: []
         }
     },
-    async mounted() {
 
+    async mounted() {
         await voteAPI.getDataForEstimate('WEBSITE')
             .then(async response => {
                 console.log('RESPONSE', response)
@@ -158,6 +165,17 @@ export default {
             })
     },
     methods: {
+        plus() {
+            this.selected.qty = this.selected.qty + 1
+        },
+        minus() {
+            if (this.selected.qty>1) {
+                this.selected.qty = this.selected.qty - 1
+            }
+            else {
+                this.selected.qty = 1
+            }
+        },
         async chooseChoice(choice) {
             console.log(choice)
 
@@ -211,6 +229,7 @@ export default {
 }
 .next-btn {
     width: 100%;
+    color: white;
     margin-bottom: 10px;
 }
 .subheader1 {
@@ -219,15 +238,15 @@ export default {
 }
 .subheader2 {
     text-align: center;
-    color: white
+    color: white;
+    font-size: 22px;
+
 }
 .input-time {
-    width: 100%;
     display: flex;
     justify-content: center;
     height:50px;
-
-
+    align-items: center;
 }
 .container {
     margin-bottom: 54px;

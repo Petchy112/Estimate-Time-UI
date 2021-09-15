@@ -4,10 +4,10 @@
             <h1>VOTE RESULTS</h1>
         </v-col>
         <v-col cols="12">
-            <v-btn dark @click="handleVote('OPEN')" rounded class="w-100" color="rgb(55, 208, 255)">
+            <v-btn  @click="handleVote('OPEN')" rounded class="w-100" color="rgb(55, 208, 255)">
                 Start voting
             </v-btn>
-            <v-btn dark @click="handleVote('CLOSE')" rounded class="w-100 mt-6" color="rgb(55, 208, 255)">
+            <v-btn  @click="handleVote('CLOSE')" rounded class="w-100 mt-6" color="rgb(55, 208, 255)">
                 Stop voting
             </v-btn>
         </v-col>
