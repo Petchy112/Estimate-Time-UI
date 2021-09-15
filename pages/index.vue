@@ -46,7 +46,6 @@
                                 color="rgb(55, 208, 255)"
                                 rounded
                                 @click="login(body)"
-                                dark
                             >
                                 Sign in
                             </v-btn>

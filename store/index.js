@@ -26,11 +26,11 @@ export const state = () => ({
         password: '',
     },
     selectedEstimate: {
-        selectedChoice: null,
-        platform: '',
-        estimateTime: '',
+        selectedChoice: [],
+        platform: 'WEBSITE',
+        estimateTime: 0,
         projectName: '',
-        qty: '',
+        qty: 1,
         size: ''
     }
 

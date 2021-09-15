@@ -58,6 +58,9 @@ export default {
 </script>
 
 <style>
+.bg{
+    background-color: rgb(55, 208, 255) !important
+}
 h1 {
     text-align: center;
 

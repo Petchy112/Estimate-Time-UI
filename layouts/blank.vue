@@ -23,7 +23,6 @@ export default {
 }
 .v-application--wrap {
     justify-content: center ;
-    background: gray;
 }
 .w-100{
  width: 100%;

@@ -2,7 +2,7 @@
     <div>
         <v-btn
             fab
-            dark
+
             color="rgb(55, 208, 255)"
             bottom
             right
@@ -17,7 +17,7 @@
             max-width="1000px"
         >
             <v-card>
-                <v-app-bar color="rgb(55, 208, 255)" flat dark>
+                <v-app-bar color="rgb(55, 208, 255)" flat>
                     <v-toolbar-title>
                         ADD FUNCTION
                     </v-toolbar-title>
@@ -61,7 +61,7 @@
                         <div class="remove-btn">
                             <v-btn
                                 rounded
-                                dark
+
                                 @click="handleCloseClicked(choices.indexOf(choice))"
                                 color="red"
                                 v-if="choices.length>1"
@@ -221,11 +221,11 @@ export default {
             await functionAPI.create(this.group, this.platform, this.choices)
                 .then(async response => {
                     console.log('RESPONSE Add function', response.data)
-                    // this.$store.dispatch('setDialog', {
-                    //     isShow: true,
-                    //     title: 'Success',
-                    //     message: response.data.message
-                    // })
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Success',
+                        message: response.data.message
+                    })
                     this.dialog = false
                     await this.$router.push({
                         name: 'function-id',

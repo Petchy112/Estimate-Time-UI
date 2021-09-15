@@ -47,7 +47,6 @@
                                 color="rgb(55, 208, 255)"
                                 rounded
                                 @click="login"
-                                dark
                             >
                                 Sign in
                             </v-btn>
@@ -85,23 +84,20 @@ export default {
         }
     },
     mounted() {
-        console.log('in')
         liff.init({
             liffId: '1656364274-8p9ZXm3e'
-        }).then(()=> {
-            if (liff.isLoggedIn()) {
-                console.log('ok')
-                liff.getProfile().then(async profile => {
-                    console.log(profile)
-                    this.body.lineUserId = profile.userId
-                    this.body.profilePic = profile.pictureUrl
-                    await localStorage.setItem('lineUserId', profile.userId)
-                })
-            }
-            else {
-                liff.login()
-            }
         })
+        if (liff.isLoggedIn()) {
+            liff.getProfile().then(async profile => {
+                console.log(profile)
+                this.body.lineUserId = profile.userId
+                this.body.profilePic = profile.pictureUrl
+                await localStorage.setItem('lineUserId', profile.userId)
+            })
+        }
+        else {
+            liff.login()
+        }
 
 
     },
@@ -116,14 +112,6 @@ export default {
             await userAPI.login(this.body)
                 .then(async response => {
                     console.log('RESPONSE', response)
-                    // if (response.data.role.includes('ADMIN')) {
-                    //     this.$store.dispatch('setDialog', {
-                    //         isShow: true,
-                    //         title: 'Error',
-                    //         message: 'User not in permission'
-                    //     })
-                    // }
-
                     await localStorage.setItem('token', response.data.accessToken)
                     this.$router.push({ name: 'liff-role' })
 
