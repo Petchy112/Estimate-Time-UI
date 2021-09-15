@@ -26,38 +26,42 @@
                     v-for="item in items"
                     :key="item.tab"
                 >
-                    <v-card
-                        v-for="(i,index) in voteData"
-                        :key="index"
-                        tile
-                        class="my-5 mx-5"
-                    >
-                        <v-card-title class="justify-center">
-                            {{ i.data.group }}
-                        </v-card-title>
-                        <div
-                            class="d-flex flex-column"
-                            v-for="element in i.data.choices"
-                            :key="element.name"
+                    <div>
+                        <v-card
+                            v-for="(i,index) in voteData"
+                            :key="index"
+                            tile
+                            class="my-5 mx-5"
                         >
-                            <v-list-item two-line>
-                                <v-list-item-avatar>
-                                    <v-avatar>
-                                        <img
-                                            :src="element.imagePath"
-                                        >
-                                    </v-avatar>
-                                </v-list-item-avatar>
-                                <v-list-item-content>
-                                    <v-list-item-title> {{ element.name }} </v-list-item-title>
-                                    <v-list-item-subtitle> {{ element.description }} </v-list-item-subtitle>
-                                </v-list-item-content>
-                                <div class="result-time">
-                                    {{ element.time.toFixed(1) }}  Hours
-                                </div>
-                            </v-list-item>
-                        </div>
-                    </v-card>
+                            <v-card-title class="justify-center">
+                                {{ i.data.group }}
+                            </v-card-title>
+                            <div
+                                class="d-flex flex-column"
+                                v-for="element in i.data.choices"
+                                :key="element.name"
+                            >
+                                <v-list-item class="pb-4" two-line>
+                                    <v-list-item-avatar>
+                                        <v-avatar>
+                                            <img
+                                                :src="element.imagePath"
+                                            >
+                                        </v-avatar>
+                                    </v-list-item-avatar>
+                                    <v-list-item-content>
+                                        <v-list-item-title> {{ element.name }} </v-list-item-title>
+                                        <p class="description-text mb-0 pr-5">
+                                            {{ element.description }}
+                                        </p>
+                                    </v-list-item-content>
+                                    <div class="result-time">
+                                        {{ element.time.toFixed(1) }}  Hours
+                                    </div>
+                                </v-list-item>
+                            </div>
+                        </v-card>
+                    </div>
                 </v-tab-item>
             </div>
         </v-tabs-items>
@@ -89,5 +93,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.description-text {
+    color: rgba(000, 000, 000, 0.5);
+}
 </style>

@@ -52,12 +52,8 @@
                     :key="choice.index"
                 >
                     <img
-                        v-if="choice.imagePath == ''"
-                        src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUPEhIVFRUVFxcVFRUVFRcVFRUVFRUXFxUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDQ0NFQ8PFS0ZFRkrLTcrKystKystNystLS0tNzc3NzctLTc3LS0tNy03LSsrNysrLS03KzcrLSsrKysrK//AABEIAOEA4QMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAAAAQcC/8QAGhABAQEAAwEAAAAAAAAAAAAAAAEREiHhAv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A00BAAUBUAAAVFBAAVFQAAAAABABVEBQQUBBaAgqIAAACgAAaAAAAAAAAAACAAAAoAAAtBAAMDkiCqgoAAAAAAKICoAAACoAAABFBAAAAUQAAAAAAQFQUAEABQAAwAAVAVAQVAABVBAAFQBUAAAQUAAQBUigAAqAAAAABQAoKCAIACgAAKAioAAAoAIAgCooBVBAAVABUAAVAAEABQFRAAUAAAAAoChoCAIACgAAACoAAACoAAoCCoIACiCgUKAABVQAAAgCAAoUAAVAAAAAAUEVFBAABUQAFDFqAAqAUAF0MQAVABUAAAAQBUUUQAAAUQBQAQEAVFANAAABUA7DQAFBAAKqAEAAAAABUFBAAWICAAoqAAAAqACoAuCIChFBAAAAAABaAgAAqAqFKgAAAqiBAAAAooIAgoCiQAFQIAUABUAAAABUAAAFSKkQAFAIIACioFAAQXBNFAAABAAAAAAUAAAAAEAACAAAVQAAAAAQXUVAAFAAAAAAFQAVAAAAgCAAAoigAAqAAAACC4JooqIA6KgC1IAHoAHytAEgAFVAAABUAUAAqACwAIACRaAKAD//Z"
-                    >
-                    <img
                         width="300px"
-                        v-else
+
                         :src="choice.imagePath"
                     >
 
@@ -76,7 +72,7 @@
                 max-width="1000px"
             >
                 <v-card>
-                    <v-app-bar color="rgb(55, 208, 255)" flat>
+                    <v-app-bar color="rgb(55, 208, 255)" flat >
                         <v-toolbar-title>
                             EDIT FUNCTION
                         </v-toolbar-title>
@@ -102,7 +98,7 @@
                             <div class="remove-btn">
                                 <v-btn
                                     rounded
-                                    dark
+                                    
                                     @click="handleCloseClicked(functionData.choice.indexOf(choice))"
                                     color="red"
                                     v-if="functionData.choice.length>1"
@@ -113,11 +109,30 @@
                             <v-col cols="12">
                                 <v-card-title>
                                     <v-avatar
+                                        @change="handlePicture(index)"
                                         class="mr-3 mb-3"
-                                        color="primary"
-                                        size="80"
-                                    />
-
+                                        size="80px"
+                                    >
+                                        <v-btn
+                                            class="secondary btn-img"
+                                            fab
+                                            width="30px"
+                                            height="30px"
+                                            @click="PickFile(index)"
+                                        >
+                                            <v-icon size="20px">
+                                                mdi-camera
+                                            </v-icon>
+                                        </v-btn>
+                                        <input
+                                            type="file"
+                                            style="display:none"
+                                            :id="`fileInput-${index}`"
+                                            accept="image/*"
+                                            @change="Picked($event,index)"
+                                        >
+                                        <img :src="choice.imagePath" alt="">
+                                    </v-avatar>
                                     <v-text-field
                                         dense
                                         placeholder="Function choice"
@@ -152,7 +167,7 @@
                             <v-btn
                                 class="mx-md-2 pa-md-4 pa-lg-4 pa-xs-auto"
                                 color="error"
-
+                                width="100px"
                                 @click="editDialog = false"
                             >
                                 Close
@@ -160,6 +175,7 @@
                             <v-btn
                                 class="mx-md-2 pa-md-4 pa-lg-4 pa-xs-auto"
                                 color="success"
+                                width="100px"
                                 @click="handleEditClicked"
                             >
                                 Save
@@ -207,6 +223,7 @@
 
 <script>
 import * as functionAPI from '@/utils/functionAPI'
+import * as imageAPI from "~/utils/imageAPI"
 export default {
     data() {
         return {
@@ -214,20 +231,25 @@ export default {
             deleteDialog: false,
             functionData: null,
             items: [
-                'Edit', 'Delete'
+                'EDIT', 'DELETE'
             ],
             group: null,
-            choices: [
+            image: null,
+            choice: [
                 {
                     name: null,
-                    description: null
+                    description: null,
+                    imageUrl: null,
+                    imagePath: ''
                 }
             ],
             groupEdit: null,
             choicesEdit: [
                 {
                     name: null,
-                    description: null
+                    description: null,
+                    imageUrl: '',
+                    imagePath: ''
                 }
             ]
         }
@@ -240,12 +262,38 @@ export default {
     },
     methods: {
         openDialog(event) {
-            if (event == 'Edit') {
+            if (event == 'EDIT') {
                 this.editDialog = true
             }
-            else if (event == 'Delete') {
+            else if (event == 'DELETE') {
                 this.deleteDialog = true
             }
+        },
+        async handlePicture(index) {
+            await imageAPI.upload(this.image)
+                .then(async response => {
+                    this.choice[index].imagePath = response.data.fullPath
+                    console.log(this.choice)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+        async PickFile(index) {
+            document.getElementById(`fileInput-${index}`).click()
+        },
+        async Picked(event, index) {
+            const files = event.target.files
+            let filename = files[0].name
+            if (filename.lastIndexOf('.') <= 0) {
+                return alert('plase add vaild file')
+            }
+            const fileReader = new FileReader()
+            fileReader.addEventListener('load', () => {
+                this.choice[index].imageUrl = fileReader.result
+            })
+            fileReader.readAsDataURL(files[0])
+            this.image = files[0]
         },
         async handleEditClicked () {
             await functionAPI.edit(this.functionData._id, this.functionData.group, this.functionData.choice)
@@ -320,5 +368,9 @@ h1{
 }
 p{
     color: rgba(000, 000, 000, 0.3);
+}
+.btn-img {
+    position:absolute;
+    margin-top: 50px;
 }
 </style>
