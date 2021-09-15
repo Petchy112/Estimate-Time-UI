@@ -83,20 +83,20 @@ export default {
             ],
         }
     },
-    mounted() {
-        liff.init({
+    async mounted() {
+        await liff.init({
             liffId: '1656364274-8p9ZXm3e'
         })
-        if (liff.isLoggedIn()) {
-            liff.getProfile().then(async profile => {
+        if (await liff.isLoggedIn()) {
+            liff.getProfile().then(profile => {
                 console.log(profile)
                 this.body.lineUserId = profile.userId
                 this.body.profilePic = profile.pictureUrl
-                await localStorage.setItem('lineUserId', profile.userId)
+                localStorage.setItem('lineUserId', profile.userId)
             })
         }
         else {
-            liff.login()
+            await liff.login()
         }
 
 
