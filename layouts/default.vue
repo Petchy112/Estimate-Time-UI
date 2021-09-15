@@ -10,13 +10,81 @@
             <v-app-bar-nav-icon @click="drawer = !drawer" />
             <v-toolbar-title v-text="title" />
             <v-spacer />
+            <div class="text-center">
+                <v-menu
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :nudge-width="200"
+                    offset-y
+                >
+                    <template #activator="{ on, attrs }">
+                        <v-btn
+                            icon
+                            v-bind="attrs"
+                            v-on="on"
+                        >
+                            <v-icon>mdi-account</v-icon>
+                        </v-btn>
+                    </template>
 
-            <v-btn
-                icon
-                @click="rightDrawer = !rightDrawer"
-            >
-                <v-icon>mdi-account</v-icon>
-            </v-btn>
+                    <v-card>
+                        <v-list>
+                            <div class="picture">
+                                <v-avatar
+                                    class="ma-3"
+                                    size="100px"
+                                >
+                                    <v-btn
+                                        class="secondary btn-upload"
+                                        fab
+                                        width="30px"
+                                        height="30px"
+                                        @click="onPickFile"
+                                    >
+                                        <v-icon size="20px">
+                                            mdi-camera
+                                        </v-icon>
+                                    </v-btn>
+                                    <img v-if="profileImageUrl == undefined || ''" src="~/assets/default-profile.png" alt="">
+                                    <img
+                                        v-else
+                                        :src="profileImageUrl"
+                                    >
+                                </v-avatar>
+                            </div>
+
+
+                            <v-list-item-title class="profile">
+                                Admin, {{ userData.firstname }}
+                            </v-list-item-title>
+                            <v-list-item-subtitle class="email">
+                                {{ userData.email }}
+                            </v-list-item-subtitle>
+                            <v-list-item-action>
+                                <div>
+                                    <input
+                                        type="file"
+                                        style="display:none"
+                                        ref="fileInput"
+                                        accept="image/*"
+                                        @change="onFilePicked"
+                                    ><v-btn class="btn-drawer" color="success" @click="upload">
+                                        Save Image
+                                    </v-btn>
+                                    <br>
+                                    <v-btn class="btn-drawer" color="primary" @click="changepassword">
+                                        change password
+                                    </v-btn>
+                                    <br>
+                                    <v-btn class="btn-drawer" color="error" @click="logout">
+                                        Sign out
+                                    </v-btn>
+                                </div>
+                            </v-list-item-action>
+                        </v-list>
+                    </v-card>
+                </v-menu>
+            </div>
         </v-app-bar>
         <v-navigation-drawer
             v-model="drawer"
@@ -47,75 +115,12 @@
             </v-container>
             <alertDialog />
         </v-main>
-        <v-navigation-drawer
-            v-model="rightDrawer"
-            :right="right"
-            temporary
-            app
-            dark
-        >
-            <v-list>
-                <v-col cols="12">
-                    <div class="picture">
-                        <v-avatar
-                            class="ma-3"
-                            size="100px"
-                        >
-                            <v-btn
-                                class="secondary btn-upload"
-                                fab
-                                width="30px"
-                                height="30px"
-                                @click="onPickFile"
-                            >
-                                <v-icon size="20px">
-                                    mdi-camera
-                                </v-icon>
-                            </v-btn>
-                            <img v-if="profileImageUrl == undefined || ''" src="~/assets/default-profile.png" alt="">
-                            <img
-                                v-else
-                                :src="profileImageUrl"
-                            >
-                        </v-avatar>
-                    </div>
 
-
-                    <v-list-item-title class="profile">
-                        Admin, {{ userData.firstname }}
-                    </v-list-item-title>
-                    <v-list-item-subtitle class="email">
-                        {{ userData.email }}
-                    </v-list-item-subtitle>
-                </v-col>
-                <v-list-item-action>
-                    <div>
-                        <v-col cols="12">
-                            <v-btn raised class="btn-drawer" color="success" outlined dark @click="upload">
-                                Save Image
-                            </v-btn>
-                            <input
-                                type="file"
-                                style="display:none"
-                                ref="fileInput"
-                                accept="image/*"
-                                @change="onFilePicked"
-                            >
-                            <v-btn class="btn-drawer" outlined color="primary" @click="changepassword">
-                                change password
-                            </v-btn>
-                            <v-btn class="btn-drawer" outlined color="red" @click="logout">
-                                Sign out
-                            </v-btn>
-                        </v-col>
-                    </div>
-                </v-list-item-action>
-            </v-list>
-        </v-navigation-drawer>
         <v-footer
             :absolute="!fixed"
             color="rgb(55, 208, 255)"
             app
+            dark
         >
             <span>&copy; {{ new Date().getFullYear() }}</span>
         </v-footer>
@@ -172,7 +177,7 @@ export default {
             profileImage: null,
             miniVariant: false,
             right: true,
-            rightDrawer: false,
+
             title: 'ESTIMATE TIME'
         }
     },
@@ -268,10 +273,9 @@ h1 {
 }
 .v-application {
     font-family: 'Mitr', sans-serif !important;
+    background-color: white  ;
 }
-.v-application--wrap {
-    background-color: white !important ;
-}
+
 .picture {
     border-radius: 50% !important;
     display: flex;
@@ -289,7 +293,6 @@ h1 {
     font-size: 16px;
 }
 .btn-drawer {
-    width: 100%;
     margin-top: 20px !important;
 }
 .w-100 {
