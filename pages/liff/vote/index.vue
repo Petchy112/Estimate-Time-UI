@@ -88,12 +88,22 @@ export default {
             timeRules: [
                 v => !!v || 'Required.',
             ],
+            status: ''
         }
     },
     mounted() {
         functionAPI.index('WEBSITE')
             .then(async response => {
                 console.log('res', response)
+                this.status = response.data[0].status
+                if (this.status == 'CLOSE') {
+                    this.$store.dispatch('setDialog', {
+                        isShow: true,
+                        title: 'Sorry !',
+                        message: 'vote is closed'
+                    })
+                    await liff.closeWindow()
+                }
                 this.functionData = response.data
                 this.functionData.forEach(async element => {
                     await this.list.push({ fid: element._id, group: element.group, choices: element.choice })

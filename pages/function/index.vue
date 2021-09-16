@@ -9,6 +9,7 @@
         <v-tabs
             v-model="tab"
             slider-color="yellow"
+            height="60px"
         >
             <v-tab
                 v-for="item,index in items"
@@ -17,19 +18,24 @@
             >
                 {{ item.tab }}
             </v-tab>
+            <v-spacer />
+            <v-text-field
+                flat
+                label="Search"
+                v-model="search"
+                solo-inverted
+                append-icon="mdi-magnify"
+                class="mx-4 my-2 search-tab"
+            />
         </v-tabs>
-        <v-text-field
-            flat
-            label="Search"
-            v-model="search"
-            solo-inverted
-            append-icon="mdi-magnify"
-            class="mx-4 my-2"
-        />
+        <v-divider class="mt-5 mx-4" />
         <v-col cols="12">
             <v-card
                 flat
             >
+                <div class="text-data" v-if="functionData == ''">
+                    No Data
+                </div>
                 <v-tabs-items v-model="tab">
                     <v-tab-item
                         v-for="i in 2"
@@ -82,8 +88,8 @@ export default {
 
         }
     },
-    async mounted() {
-        await functionAPI.index('WEBSITE')
+    mounted() {
+        functionAPI.index('WEBSITE')
             .then(response => {
                 console.log('RESPONSE', response)
                 this.functionData = response.data
@@ -121,6 +127,13 @@ export default {
 }
 </script>
 <style scoped>
+.search-tab {
+    width: 1px;
+}
+.text-data {
+    text-align: center;
+    color: rgba(000,000, 000, 0.3);
+}
 h1{
     text-align: center;
 }

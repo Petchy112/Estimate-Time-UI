@@ -4,7 +4,7 @@
             <h1>VOTE RESULTS</h1>
 
             <div class="text-center mt-7">
-                VOTE STATUS: {{ status }}
+                VOTE STATUS: {{ theStatus }}
             </div>
             <v-row justify="center mt-2">
                 <v-btn v-if="status == 'CLOSE'" @click="handleVote('OPEN')" rounded class="voteControl" color="rgb(55, 208, 255)">
@@ -64,6 +64,11 @@ export default {
             })
 
     },
+    computed: {
+        theStatus() {
+            return this.status
+        }
+    },
 
     methods: {
         async handleShowClicked(round) {
@@ -71,13 +76,14 @@ export default {
         },
         async handleVote(action) {
             await voteAPI.handleVote(action)
-                .then(response => {
+                .then(async response => {
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
                         message: response.data.message
                     })
                 })
+
         }
 
     }

@@ -18,6 +18,9 @@
                     />
                 </v-card-title>
                 <v-divider class="mt-3 mb-5 mx-2" />
+                <div v-if="estimateData==''" class="text-data">
+                    No data
+                </div>
                 <div class="grid-container">
                     <div
                         class="mx-4 mb-4"
@@ -74,9 +77,6 @@
                 </div>
             </v-col>
         </v-row>
-        <div v-if="estimateData==null" class="text-data">
-            No data
-        </div>
     </div>
 </template>
 
@@ -137,6 +137,10 @@ h1 {
     font-size: 32px !important;
     font-weight: bold;
 
+}
+.text-data {
+    text-align: center;
+    color: rgba(000,000, 000, 0.3);
 }
 .card-title {
     justify-content: center;
