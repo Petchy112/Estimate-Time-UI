@@ -1,11 +1,11 @@
 <template>
     <div v-if="voteResults">
-        <v-simple-table class="ma-5">
+        <v-simple-table class="mx-3">
             <template #default>
                 <thead>
                     <tr>
                         <th>
-                            Voting round
+                            Round
                         </th>
                     </tr>
                 </thead>
