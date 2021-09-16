@@ -86,8 +86,8 @@ export default {
 
         }
     },
-    async mounted() {
-        await userAPI.show(this.$route.params.id)
+    mounted() {
+        userAPI.show(this.$route.params.id)
             .then(response => {
                 console.log('RESPONSE', response)
                 this.user = response.data

@@ -45,7 +45,7 @@ export default {
                     console.log('RESPONSE', response)
                     this.voteData = response.data
                 })
-                .catch(async error => {
+                .catch(error => {
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',

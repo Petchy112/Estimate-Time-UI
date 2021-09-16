@@ -103,8 +103,7 @@ export default {
                     }
                 })
                 .catch(async error => {
-                    console.log('ERROR page', error.response.data.error.message)
-                    this.$store.dispatch('setDialog', {
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
                         message: error.response.data.error.message

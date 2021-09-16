@@ -189,7 +189,7 @@ export default {
                 this.userId = response.data.id
             })
             .catch(async error => {
-                this.$store.dispatch('setDialog', {
+                await this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
                     message: error.response.data.error.message
@@ -204,7 +204,7 @@ export default {
 
             })
             .catch(async error => {
-                this.$store.dispatch('setDialog', {
+                await this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
                     message: error.response.data.error.message
@@ -214,9 +214,9 @@ export default {
     methods: {
         async upload() {
             await imageAPI.uploadProfile(this.profileImage)
-                .then(response => {
+                .then(async response => {
                     console.log('response', response)
-                    this.$store.dispatch('setDialog', {
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
                         message: response.data.message
@@ -248,8 +248,8 @@ export default {
                     localStorage.clear()
                     this.$router.replace({ name: 'index' })
                 })
-                .catch(error => {
-                    this.$store.dispatch('setDialog', {
+                .catch(async error => {
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
                         message: error.response.data.error.message

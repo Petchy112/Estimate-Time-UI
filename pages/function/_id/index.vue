@@ -72,7 +72,7 @@
                 max-width="1000px"
             >
                 <v-card>
-                    <v-app-bar color="rgb(55, 208, 255)" flat >
+                    <v-app-bar color="rgb(55, 208, 255)" flat>
                         <v-toolbar-title>
                             EDIT FUNCTION
                         </v-toolbar-title>
@@ -98,7 +98,7 @@
                             <div class="remove-btn">
                                 <v-btn
                                     rounded
-                                    
+
                                     @click="handleCloseClicked(functionData.choice.indexOf(choice))"
                                     color="red"
                                     v-if="functionData.choice.length>1"
@@ -297,8 +297,8 @@ export default {
         },
         async handleEditClicked () {
             await functionAPI.edit(this.functionData._id, this.functionData.group, this.functionData.choice)
-                .then(response => {
-                    this.$store.dispatch('setDialog', {
+                .then(async response => {
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
                         message: response.data.message
@@ -321,14 +321,14 @@ export default {
         },
         async handleDeleteClicked(id) {
             await functionAPI.del(id)
-                .then(response => {
-                    this.$store.dispatch('setDialog', {
+                .then(async response => {
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
                         message: response.data.message
                     })
                     this.deleteDialog = false
-                    this.$router.replace({
+                    await this.$router.replace({
                         name: 'function'
                     })
                 })

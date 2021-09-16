@@ -97,7 +97,7 @@ export default {
                 console.log('res', response)
                 this.status = response.data[0].status
                 if (this.status == 'CLOSE') {
-                    this.$store.dispatch('setDialog', {
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Sorry !',
                         message: 'vote is closed'
@@ -112,7 +112,6 @@ export default {
 
             })
             .catch(error => {
-                console.log(error)
                 this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
@@ -132,7 +131,7 @@ export default {
 
             await voteAPI.sentVote(this.data)
                 .then(async response => {
-                    this.$store.dispatch('setDialog', {
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
                         message: response.data.message

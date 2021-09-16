@@ -13,15 +13,15 @@ export default {
         async handleChangeClicked(body) {
             await userAPI.changepassword(body)
                 .then(async response => {
-                    this.$store.dispatch('setDialog', {
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
                         message: response.data.message
                     })
                     await this.$router.push({ name: 'function' })
                 })
-                .catch(error => {
-                    this.$store.dispatch('setDialog', {
+                .catch(async error => {
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
                         message: error.response.data.error.message

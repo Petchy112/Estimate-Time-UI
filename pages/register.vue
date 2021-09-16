@@ -148,15 +148,15 @@ export default {
             this.$refs.form.validate()
             await userAPI.register(this.body)
                 .then(async response => {
-                    this.$store.dispatch('setDialog', {
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
                         message: response.data.message
                     })
-                    this.$router.push({ name: 'user' })
+                    await this.$router.push({ name: 'user' })
                 })
                 .catch(async error => {
-                    this.$store.dispatch('setDialog', {
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
                         message: error.response.data.error.message

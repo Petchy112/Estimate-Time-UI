@@ -98,8 +98,8 @@ export default {
             })
         }
     },
-    async mounted() {
-        await estimateAPI.index()
+    mounted() {
+        estimateAPI.index()
             .then(response => {
                 console.log('RESPONSE', response)
                 this.estimateData = response.data

@@ -57,8 +57,8 @@ export default {
         }
     },
 
-    async mounted () {
-        await userAPI.index()
+    mounted () {
+        userAPI.index()
             .then(response => {
                 console.log('RESPONSE', response)
                 this.userData = response.data

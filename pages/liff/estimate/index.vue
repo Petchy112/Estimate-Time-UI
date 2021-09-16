@@ -205,9 +205,9 @@ export default {
                     this.estimateData = response.data
                 })
         },
-        nextPage() {
+        async nextPage() {
             this.$store.dispatch('setSelectedEstimate', this.selected)
-            this.$router.push({ name: 'liff-estimate-page2' })
+            await this.$router.push({ name: 'liff-estimate-page2' })
         }
     }
 }

@@ -220,8 +220,8 @@ export default {
         async handleSaveClicked () {
             await functionAPI.create(this.group, this.platform, this.choices)
                 .then(async response => {
-                    console.log('RESPONSE Add function', response.data)
-                    this.$store.dispatch('setDialog', {
+                    console.log('RESPONSE', response.data)
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
                         message: response.data.message
@@ -236,7 +236,7 @@ export default {
                 })
                 .catch(async error => {
                     console.log('ERROR', error.response)
-                    this.$store.dispatch('setDialog', {
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
                         message: error.response.data.error.message

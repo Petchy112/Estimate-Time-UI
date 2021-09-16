@@ -28,7 +28,7 @@ export default {
             console.log(body)
             await userAPI.changepassword(body)
                 .then(async response => {
-                    this.$store.dispatch('setDialog', {
+                    await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
                         message: response.data.message
