@@ -1,21 +1,24 @@
 <template>
     <div v-if="userData">
-        <div class="ma-5">
-            <h1>
+        <v-card-title>
+            <div class="my-head ma-3">
                 USER MANAGEMENT
-            </h1>
-        </div>
-        <v-col cols="12">
+            </div>
+            <v-spacer />
             <v-text-field
                 class="mx-4"
                 flat
                 placeholder="Search"
                 v-model="search"
                 solo-inverted
+                single-line
                 append-icon="mdi-magnify"
+                hide-details
             />
-        </v-col>
+        </v-card-title>
+        <v-divider class="ma-5" />
         <v-btn
+
             class="px-12 ml-10"
             color="success"
             :to="{
@@ -86,6 +89,10 @@ export default {
 
 </script>
 <style >
+.my-head {
+    font-size: 32px !important;
+    font-weight: bold;
+}
 h1 {
     text-align: center;
 }
