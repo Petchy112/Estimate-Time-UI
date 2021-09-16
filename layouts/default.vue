@@ -12,7 +12,7 @@
             <v-spacer />
             <div class="text-center">
                 <v-menu
-                    v-model="menu"
+
                     :close-on-content-click="false"
                     :nudge-width="200"
                     offset-y
@@ -294,6 +294,7 @@ h1 {
 }
 .btn-drawer {
     margin-top: 20px !important;
+    width: 115%;
 }
 .w-100 {
     width: 100% ;

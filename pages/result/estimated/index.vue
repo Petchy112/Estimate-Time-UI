@@ -6,11 +6,10 @@
             </div>
             <v-spacer />
             <v-text-field
-                dense
                 v-model="search"
                 append-icon="mdi-magnify"
                 flat
-                label="Search"
+                placeholder="Search"
                 class="mx-4"
                 solo-inverted
                 single-line
@@ -18,7 +17,7 @@
             />
         </v-card-title>
         <v-divider class="ma-5" />
-        <div v-if="this.estimateData == null" class="text-data">
+        <div v-if="this.estimateData == ''" class="text-data">
             No data
         </div>
         <div v-else class="grid-container">
@@ -77,7 +76,6 @@
         </div>
     </div>
 </template>
-
 
 <script>
 import * as estimateAPI from "@/utils/estimateAPI"
@@ -147,7 +145,6 @@ export default {
 }
 .grid-container {
     display: flex;
-
     flex-wrap: wrap;
 }
 .text-data {

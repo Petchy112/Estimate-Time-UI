@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import voteDetails from "~/components/vote/_id/index.vue"
+import voteDetails from "~/components/voteDetail.vue"
 import * as voteAPI from "@/utils/voteAPI"
 export default {
     layout: 'liff',
