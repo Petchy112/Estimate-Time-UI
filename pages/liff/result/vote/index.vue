@@ -3,17 +3,20 @@
         <v-col cols="12">
             <h1>VOTE RESULT</h1>
         </v-col>
-        <voteComponant @show-vote="handleShowClicked" :voteResults="voteResults" />
+        <voteList @show-vote="handleShowClicked" :voteResults="voteResults" />
+        <div v-if="voteResults == ''" class="text-data">
+            No data
+        </div>
     </div>
 </template>
 
 <script>
-import voteComponant from "~/components/vote/index.vue"
+import voteList from "~/components/voteList.vue"
 import * as voteAPI from "@/utils/voteAPI"
 export default {
     layout: 'liff',
     components: {
-        voteComponant
+        voteList
     },
     data () {
         return {
@@ -52,5 +55,10 @@ export default {
 
 .v-btn {
  height: 50px;
+}
+.text-data {
+    margin-top: 20px;
+    text-align: center;
+    color: rgba(000, 000, 000, 0.3);
 }
 </style>

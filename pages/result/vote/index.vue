@@ -2,37 +2,55 @@
     <div>
         <v-col cols="12">
             <h1>VOTE RESULTS</h1>
-        </v-col>
-        <v-col cols="12">
-            <v-btn  @click="handleVote('OPEN')" rounded class="w-100" color="rgb(55, 208, 255)">
-                Start voting
-            </v-btn>
-            <v-btn  @click="handleVote('CLOSE')" rounded class="w-100 mt-6" color="rgb(55, 208, 255)">
-                Stop voting
-            </v-btn>
+
+            <div class="text-center mt-7">
+                VOTE STATUS: {{ status }}
+            </div>
+            <v-row justify="center mt-2">
+                <v-btn v-if="status == 'CLOSE'" @click="handleVote('OPEN')" rounded class="voteControl" color="rgb(55, 208, 255)">
+                    Start voting
+                </v-btn>
+                <v-btn v-if="status == 'OPEN'" @click="handleVote('CLOSE')" rounded class="voteControl" color="rgb(55, 208, 255)">
+                    Stop voting
+                </v-btn>
+            </v-row>
         </v-col>
 
-        <voteComponant @show-vote="handleShowClicked" :voteResults="voteResults" />
-        <div v-if="voteResults==null" class="text-data">
+        <voteList @show-vote="handleShowClicked" :voteResults="voteResults" />
+        <div v-if="voteResults == ''" class="text-data">
             No data
         </div>
     </div>
 </template>
 
 <script>
-import voteComponant from "~/components/vote/index.vue"
+import voteList from "~/components/voteList.vue"
 import * as voteAPI from "@/utils/voteAPI"
+import * as functionAPI from "~/utils/functionAPI"
 export default {
     components: {
-        voteComponant
+        voteList
     },
     data () {
         return {
             voteResults: [],
+            status: ''
         }
     },
-    async mounted() {
-        await voteAPI.index()
+    mounted() {
+        functionAPI.index('WEBSITE')
+            .then(response => {
+                console.log('RESPONSE', response)
+                this.status = response.data[0].status
+            })
+            .catch(async error => {
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.data.error.message
+                })
+            })
+        voteAPI.index()
             .then(response => {
                 console.log('RESPONSE', response)
                 this.voteResults = response.data
@@ -70,8 +88,19 @@ export default {
 .v-btn {
  height: 50px;
 }
+.status{
+    font-size:20px;
+    font-weight:bold ;
+}
 .text-data {
+    margin-top: 20px;
     text-align: center;
     color: rgba(000, 000, 000, 0.3);
+}
+.voteControl {
+    color: white !important;
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 30%;
 }
 </style>
