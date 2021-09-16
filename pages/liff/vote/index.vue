@@ -4,58 +4,65 @@
             <h1 class="mb-10 text">
                 VOTE SYSTEM
             </h1>
-            <div v-for="item in list" :key="item._id">
-                <v-card class="pb-4 ma-5">
-                    <h1>
-                        {{ item.group }}
-                    </h1>
-                    <p class="text-center">
-                        input time with hour format
-                    </p>
-                    <v-card
-                        color="rgba(55, 208, 255, 0.8)"
-                        rounded="20"
-                        class="my-5 mx-5"
-                        v-for="input in item.choices"
-                        :key="input.name"
-                    >
-                        <div
-                            class="d-flex flex-column"
+            <v-form
+                ref="form"
+                v-model="valid"
+            >
+                <div v-for="item in list" :key="item._id">
+                    <v-card class="pb-4 ma-5">
+                        <h1>
+                            {{ item.group }}
+                        </h1>
+                        <p class="text-center">
+                            input time with hour format
+                        </p>
+                        <v-card
+                            color="rgba(55, 208, 255, 0.8)"
+                            rounded="20"
+                            class="my-5 mx-5"
+                            v-for="input in item.choices"
+                            :key="input.name"
                         >
-                            <v-list-item two-line>
-                                <v-list-item-avatar>
-                                    <v-avatar
+                            <div
+                                class="d-flex flex-column"
+                            >
+                                <v-list-item two-line>
+                                    <v-list-item-avatar>
+                                        <v-avatar
 
-                                        size="40px"
-                                    >
-                                        <img :src="input.imagePath">
-                                    </v-avatar>
-                                </v-list-item-avatar>
-                                <v-list-item-content class="choice-card">
-                                    <v-list-item-title>{{ input.name }}</v-list-item-title>
-                                    <p class="pr-2">
-                                        {{ input.description }}
-                                    </p>
-                                </v-list-item-content>
-                                <div class="input-time">
-                                    <div>
-                                        <v-text-field
-                                            color="black"
-                                            dense
-                                            label="Time"
-                                            v-model="input.time"
-                                            outlined
-                                        />
+                                            size="40px"
+                                        >
+                                            <img :src="input.imagePath">
+                                        </v-avatar>
+                                    </v-list-item-avatar>
+                                    <v-list-item-content class="choice-card">
+                                        <v-list-item-title>{{ input.name }}</v-list-item-title>
+                                        <p class="pr-2">
+                                            {{ input.description }}
+                                        </p>
+                                    </v-list-item-content>
+                                    <div class="input-time">
+                                        <div>
+                                            <v-text-field
+                                                color="black"
+                                                dense
+                                                type="number"
+                                                label="Time"
+                                                v-model="input.time"
+                                                outlined
+                                                :rules="timeRules"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                            </v-list-item>
-                        </div>
+                                </v-list-item>
+                            </div>
+                        </v-card>
                     </v-card>
-                </v-card>
-            </div>
+                </div>
+            </v-form>
             <v-col cols="12">
                 <div>
-                    <v-btn class="" rounded @click="next">
+                    <v-btn :disabled="!valid" rounded :loading="loading" @click="next(),valid = !valid">
                         Next
                     </v-btn>
                 </div>
@@ -71,10 +78,16 @@ export default {
     layout: 'liff',
     data() {
         return {
+            loader: null,
+            loading: false,
+            valid: true,
             index: 0,
             functionData: [],
             list: [],
-            data: []
+            data: [],
+            timeRules: [
+                v => !!v || 'Required.',
+            ],
         }
     },
     mounted() {
@@ -97,6 +110,8 @@ export default {
                 })
             })
     },
+
+
     methods: {
         async next() {
             for (let j = 0; j < this.list.length; j++) {
