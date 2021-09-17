@@ -59,7 +59,11 @@
                                                         </div>
                                                     </v-expansion-panel-header>
                                                     <v-expansion-panel-content>
+                                                        <div v-if="item.choice == ''">
+                                                            No Data
+                                                        </div>
                                                         <div
+                                                            v-else
                                                             v-for="select in item.choice"
                                                             :key="select.index"
                                                         >

@@ -62,7 +62,8 @@
                     @click:append="show2 = !show2"
                     outlined
                 />
-                <div class="checkbox">
+                <v-text>Select role of user (required)</v-text>
+                <div class="checkbox my-2 ml-4">
                     <v-checkbox
                         dense
                         v-model="body.role"

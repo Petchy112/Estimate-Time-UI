@@ -3,7 +3,7 @@
         <v-col cols="12">
             <h1>VOTE RESULTS</h1>
 
-            <div class="text-center mt-7">
+            <div v-if="status != ''" class="text-center mt-7">
                 VOTE STATUS: {{ theStatus }}
             </div>
             <v-row justify="center mt-2">

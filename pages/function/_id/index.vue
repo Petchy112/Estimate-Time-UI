@@ -53,8 +53,7 @@
                 >
                     <img
                         width="300px"
-
-                        :src="choice.imagePath"
+                        :src="choice.imageUrl"
                     >
 
 
@@ -80,8 +79,8 @@
                     <v-text-field
                         dense
                         class="pa-6 pb-0"
-                        v-model="functionData.group"
-                        placeholder="Group of function"
+                        :rules="groupRules"
+                        :placeholder="functionData.group"
                         required
                         outlined
                     />
@@ -97,13 +96,17 @@
                         >
                             <div class="remove-btn">
                                 <v-btn
-                                    rounded
-
+                                    fab
+                                    elevation="0"
+                                    max-width="28px"
+                                    height="28px"
                                     @click="handleCloseClicked(functionData.choice.indexOf(choice))"
-                                    color="red"
+                                    class="error"
                                     v-if="functionData.choice.length>1"
                                 >
-                                    <v-icon>mdi-close</v-icon>
+                                    <v-icon size="16px">
+                                        mdi-close
+                                    </v-icon>
                                 </v-btn>
                             </div>
                             <v-col cols="12">
@@ -131,12 +134,13 @@
                                             accept="image/*"
                                             @change="Picked($event,index)"
                                         >
-                                        <img :src="choice.imagePath" alt="">
+                                        <img :src="choice.imageUrl">
                                     </v-avatar>
                                     <v-text-field
                                         dense
                                         placeholder="Function choice"
                                         v-model="choice.name"
+                                        :rules="choiceRules"
                                         outlined
                                     />
                                 </v-card-title>
@@ -145,6 +149,7 @@
                                         dense
                                         placeholder="Description"
                                         v-model="choice.description"
+                                        :rules="descriptionRules"
                                         outlined
                                     />
                                 </v-card-subtitle>
@@ -153,7 +158,6 @@
                         <div class="d-flex justify-center">
                             <v-btn
                                 rounded
-
                                 @click="handleAddClicked"
                                 color="success"
                             >
@@ -189,8 +193,8 @@
                 max-width="500px"
             >
                 <v-card class="pa-5">
-                    <v-card-title class="justify-center mx-4 mb-4">
-                        Do you want to delete {{ functionData.group }} ?
+                    <v-card-title class="justify-center  mb-4">
+                        Delete {{ functionData.group }}?
                     </v-card-title>
                     <div>
                         <v-row justify="space-between">
@@ -237,9 +241,9 @@ export default {
             image: null,
             choice: [
                 {
-                    name: null,
-                    description: null,
-                    imageUrl: null,
+                    name: '',
+                    description: '',
+                    imageUrl: '',
                     imagePath: ''
                 }
             ],
@@ -251,7 +255,16 @@ export default {
                     imageUrl: '',
                     imagePath: ''
                 }
-            ]
+            ],
+            groupRules: [
+                v => !!v || 'Required'
+            ],
+            choiceRules: [
+                v => !!v || 'Required'
+            ],
+            descriptionRules: [
+                v => !!v || 'Required'
+            ],
         }
     },
     async mounted() {
@@ -342,7 +355,7 @@ export default {
         },
         async handleAddClicked () {
             console.log(this.functionData.choice.length)
-            this.functionData.choice.push({ title: '', description: '' })
+            this.functionData.choice.push({ title: '', description: '', imageUrl: '', image: null, imagePath: '' })
         },
         async handleCloseClicked (index) {
             console.log(index)

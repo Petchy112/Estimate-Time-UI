@@ -58,7 +58,11 @@
                                                 </div>
                                             </v-expansion-panel-header>
                                             <v-expansion-panel-content>
+                                                <div class="text-data" v-if="item.choice == ''">
+                                                    No Data
+                                                </div>
                                                 <div
+                                                    class="mt-3"
                                                     v-for="select in item.choice"
                                                     :key="select.index"
                                                 >
@@ -138,7 +142,10 @@ export default {
 .v-expansion-panels {
     width: 400px;
 }
-
+.text-data {
+    text-align: center;
+    color: rgba(000,000, 000, 0.3);
+}
 .panel {
     margin: 5px 5px ;
     padding: 5px 5px;

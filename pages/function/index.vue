@@ -28,7 +28,7 @@
                 class="mx-4 my-2 search-tab"
             />
         </v-tabs>
-        <v-divider class="mt-5 mx-4" />
+
         <v-col cols="12">
             <v-card
                 flat
