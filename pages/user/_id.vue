@@ -4,7 +4,7 @@
             <v-card max-width="500px" class="mt-4 ma-2 pa-4 user-card">
                 <v-row justify="center">
                     <div class="circle my-7">
-                        <img width="100px" :src="imageUrl">
+                        <img width="100px" src="~/assets/default-profile.png">
                     </div>
                 </v-row>
 
@@ -18,11 +18,10 @@
                 <v-card-title class="justify-start ">
                     Email : {{ user.email }}
                 </v-card-title>
-                <v-card-title class="justify-start ">
-                    Role : <v-text v-for="role in user.role" :key="role.index">
-                        {{ role }} <br>
-                    </v-text>
-                </v-card-title>
+                Role
+                <div v-for="role in user.role" :key="role.index" class=" ml-3 justify-start ">
+                    {{ role }}
+                </div>
                 <div
                     class="card-action"
                 >

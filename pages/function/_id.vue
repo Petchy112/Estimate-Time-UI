@@ -53,7 +53,7 @@
                 >
                     <img
                         width="300px"
-                        :src="choice.imageUrl"
+                        :src="choice.imagePath"
                     >
 
 
@@ -91,8 +91,8 @@
                         <v-card
                             v-for="(choice,index) in functionData.choice"
                             :key="index"
-                            class="ma-2"
-                            elevation="1"
+                            class="ma-2 mb-6"
+                            elevation="2"
                         >
                             <div class="remove-btn">
                                 <v-btn
@@ -134,7 +134,7 @@
                                             accept="image/*"
                                             @change="Picked($event,index)"
                                         >
-                                        <img :src="choice.imageUrl">
+                                        <img :src="choice.imageUrl ">
                                     </v-avatar>
                                     <v-text-field
                                         dense
