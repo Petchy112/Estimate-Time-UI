@@ -5,7 +5,7 @@
                 ALL FUNCTION
             </h1>
         </div>
-        <addFunction />
+        <AddFunction />
         <v-tabs
             v-model="tab"
             slider-color="yellow"
@@ -20,10 +20,11 @@
             </v-tab>
             <v-spacer />
             <v-text-field
-                flat
                 label="Search"
                 v-model="search"
-                solo-inverted
+                solo
+                background-color="rgb(240,240,240)"
+                flat
                 append-icon="mdi-magnify"
                 class="mx-4 my-2 search-tab"
             />
@@ -51,7 +52,7 @@
                                 @click="handleShowClicked(functions._id)"
                             >
                                 <img
-                                    src="~/assets/function.jpg"
+
                                     height="200px"
                                     class="ml-15"
                                 >
@@ -68,11 +69,11 @@
 </template>
 
 <script>
-import addFunction from "~/components/dialog/addFunction.vue"
+import AddFunction from "~/components/dialog/addFunction.vue"
 import * as functionAPI from '@/utils/functionAPI'
 export default {
     components: {
-        addFunction
+        AddFunction
     },
     data() {
         return {
@@ -85,7 +86,7 @@ export default {
                 { tab: 'MOBILE', },
 
             ],
-
+            defaultFunctionImg: require('~/assets/function.jpg')
         }
     },
     mounted() {
@@ -128,6 +129,7 @@ export default {
 </script>
 <style scoped>
 .search-tab {
+    color:blue;
     width: 1px;
 }
 .text-data {

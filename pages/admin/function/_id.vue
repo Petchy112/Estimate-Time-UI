@@ -76,15 +76,17 @@
                             EDIT FUNCTION
                         </v-toolbar-title>
                     </v-app-bar>
+                    <div color="rgb(55, 208, 255)" class="pl-8 pt-6">
+                        ชื่อ
+                    </div>
                     <v-text-field
                         dense
-                        class="pa-6 pb-0"
+                        class="px-6 pb-0"
                         :rules="groupRules"
                         :placeholder="functionData.group"
                         required
                         outlined
                     />
-
 
                     <v-divider />
                     <v-card-text style="height: 500px;">
@@ -134,7 +136,7 @@
                                             accept="image/*"
                                             @change="Picked($event,index)"
                                         >
-                                        <img :src="choice.imageUrl ">
+                                        <img :src="choice.imagePath ? choice.imagePath : defaultProfile">
                                     </v-avatar>
                                     <v-text-field
                                         dense
@@ -190,10 +192,10 @@
             </v-dialog>
             <v-dialog
                 v-model="deleteDialog"
-                max-width="500px"
+                max-width="400px"
             >
                 <v-card class="pa-5">
-                    <v-card-title class="justify-center  mb-4">
+                    <v-card-title class="justify-center mb-2 pb-4">
                         Delete {{ functionData.group }}?
                     </v-card-title>
                     <div>
@@ -203,14 +205,16 @@
                             >
                                 <v-row justify="space-around">
                                     <v-btn
-                                        class="pa-2"
+                                        class="pa-2 mt-4"
                                         @click="deleteDialog = false"
+                                        text
                                     >
                                         No
                                     </v-btn>
                                     <v-btn
-                                        class="pa-2"
+                                        class="pa-2 mt-4"
                                         color="error"
+                                        text
                                         @click="handleDeleteClicked(functionData._id)"
                                     >
                                         Yes
@@ -247,31 +251,25 @@ export default {
                     imagePath: ''
                 }
             ],
-            groupEdit: null,
-            choicesEdit: [
-                {
-                    name: null,
-                    description: null,
-                    imageUrl: '',
-                    imagePath: ''
-                }
-            ],
             groupRules: [
-                v => !!v || 'Required'
+                v => !!v || ''
             ],
             choiceRules: [
-                v => !!v || 'Required'
+                v => !!v || ''
             ],
             descriptionRules: [
-                v => !!v || 'Required'
+                v => !!v || ''
             ],
+            defaultProfile: require('~/assets/default-profile.png')
         }
     },
     async mounted() {
-        console.log('THIS.$ROUTE.PARAMS.ID', this.$route.params.id)
         const response = await functionAPI.show(this.$route.params.id)
-        console.log('RESPONSE', response)
         this.functionData = response.data
+        // this.functionData.choice.forEach((element) => {
+        //     console.log(element)
+        // })
+
     },
     methods: {
         openDialog(event) {
@@ -283,16 +281,11 @@ export default {
             }
         },
         async handlePicture(index) {
-            await imageAPI.upload(this.image)
-                .then(async response => {
-                    this.choice[index].imagePath = response.data.fullPath
-                    console.log(this.choice)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            const response = await imageAPI.upload(this.image)
+            this.choice[index].imagePath = response.data
         },
         async PickFile(index) {
+            console.warn(index)
             document.getElementById(`fileInput-${index}`).click()
         },
         async Picked(event, index) {
@@ -313,7 +306,6 @@ export default {
                 .then(async response => {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
-                        title: 'Success',
                         message: response.data.message
                     })
                     this.editDialog = false
@@ -337,7 +329,6 @@ export default {
                 .then(async response => {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
-                        title: 'Success',
                         message: response.data.message
                     })
                     this.deleteDialog = false
@@ -355,7 +346,7 @@ export default {
         },
         async handleAddClicked () {
             console.log(this.functionData.choice.length)
-            this.functionData.choice.push({ title: '', description: '', imageUrl: '', image: null, imagePath: '' })
+            this.functionData.choice.push({ title: '', description: '', imageUrl: '', imagePath: '' })
         },
         async handleCloseClicked (index) {
             console.log(index)

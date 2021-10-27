@@ -6,12 +6,13 @@
             </div>
             <v-spacer />
             <v-text-field
+                background-color="rgba(240,240,240)"
                 v-model="search"
                 append-icon="mdi-magnify"
                 flat
                 placeholder="Search"
                 class="mx-4"
-                solo-inverted
+                solo
                 single-line
                 hide-details
             />
