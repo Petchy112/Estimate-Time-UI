@@ -70,7 +70,7 @@ export default {
                 email: '',
                 password: '',
                 lineUserId: '',
-                profilePic: null,
+                profilePic: '',
             },
             show: false,
             passwordRules: [

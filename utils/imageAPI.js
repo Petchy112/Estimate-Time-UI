@@ -2,10 +2,10 @@ import { request } from "./API"
 import { HOSTNAME } from '@/utils/API'
 
 export function upload(image) {
-    const url =`${HOSTNAME}/image/uploadChoiceImage`
+    const url =`${HOSTNAME}/image/upload`
     var bodyFormData = new FormData()
     bodyFormData.append('images', image)
-    return request('post', url, bodyFormData, { Authorization: localStorage.getItem('token') })
+    return request('post', url, bodyFormData, null)
 }
 
 export function uploadProfile(images) {
@@ -15,12 +15,9 @@ export function uploadProfile(images) {
     return request('post', url, bodyFormData, { Authorization: localStorage.getItem('token') })
 }
 
-export function getImage(userId) {
-    const url =`${HOSTNAME}/image/getImage?userId=${userId}`
-    return request('get', url, {}, null)
-}
-
-// export function getChoiceImage(choiceId) {
-//     const url =`${HOSTNAME}/image/getImage?imageId=${choiceId}`
-//     return request('get', url, {}, { Authorization: localStorage.getItem('token') })
+// export function getImage(userId) {
+//     const url =`${HOSTNAME}/image/getImage?userId=${userId}`
+//     return request('get', url, {}, null)
 // }
+
+

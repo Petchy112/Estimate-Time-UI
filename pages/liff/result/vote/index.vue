@@ -1,12 +1,17 @@
 <template>
     <div>
         <v-col cols="12">
-            <h1>VOTE RESULT</h1>
+            <v-card-title class="justify-center">
+                <div class="my-head mt-5">
+                    VOTE RESULTS
+                </div>
+            </v-card-title>
+
+            <voteList @show-vote="handleShowClicked" :voteResults="voteResults" />
+            <div v-if="voteResults == ''" class="text-data">
+                No data
+            </div>
         </v-col>
-        <voteList @show-vote="handleShowClicked" :voteResults="voteResults" />
-        <div v-if="voteResults == ''" class="text-data">
-            No data
-        </div>
     </div>
 </template>
 
@@ -52,7 +57,10 @@ export default {
 </script>
 
 <style scoped>
-
+.my-head {
+    font-size: 32px !important;
+    font-weight: bold;
+}
 .v-btn {
  height: 50px;
 }

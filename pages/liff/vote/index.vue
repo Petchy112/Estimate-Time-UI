@@ -1,65 +1,74 @@
 <template>
-    <v-app class="bg">
-        <div v-if="list">
-            <h1 class="mb-10 text">
-                VOTE SYSTEM
-            </h1>
+    <v-app>
+        <v-container>
+            <v-app-bar
+                color="primary"
+                flat
+                fixed
+                max-width="100%"
+            >
+                <v-toolbar-title>
+                    VOTE SYSTEM
+                </v-toolbar-title>
+            </v-app-bar>
+
+
             <v-form
                 ref="form"
                 v-model="valid"
             >
-                <div v-for="item in list" :key="item._id">
-                    <v-card class="pb-4 ma-5">
-                        <h1>
-                            {{ item.group }}
-                        </h1>
-                        <p class="text-center">
-                            input time with hour format
-                        </p>
-                        <v-card
-                            color="rgba(55, 208, 255, 0.8)"
-                            rounded="20"
-                            class="my-5 mx-5"
-                            v-for="input in item.choices"
-                            :key="input.name"
-                        >
-                            <div
-                                class="d-flex flex-column"
-                            >
-                                <v-list-item two-line>
-                                    <v-list-item-avatar>
-                                        <v-avatar
+                <div class="container" v-for="item in 3" :key="item._id">
+                    <h1>
+                        ชื่อฟังก์ชัน
+                    </h1>
 
-                                            size="40px"
-                                        >
-                                            <img :src="input.imagePath">
-                                        </v-avatar>
-                                    </v-list-item-avatar>
-                                    <v-list-item-content class="choice-card">
-                                        <v-list-item-title>{{ input.name }}</v-list-item-title>
-                                        <p class="pr-2">
-                                            {{ input.description }}
-                                        </p>
-                                    </v-list-item-content>
-                                    <div class="input-time">
-                                        <div>
-                                            <v-text-field
-                                                color="black"
-                                                dense
-                                                type="number"
-                                                label="Time"
-                                                v-model="input.time"
-                                                outlined
-                                                :rules="timeRules"
-                                            />
-                                        </div>
-                                    </div>
-                                </v-list-item>
+                    <div
+                        rounded="20"
+                        class="func-card my-6 mx-6"
+                        v-for="input in 2"
+                        :key="input.index"
+                    >
+                        <div class="d-flex flex-column">
+                            <div class="top-box pa-4">
+                                <v-avatar
+                                    size="64px"
+                                >
+                                    <img src="~/assets/function.jpg">
+                                </v-avatar>
+                                <div class="choice-name">
+                                    efnicnvibfiegjiba9rejhyiodnkzfgoh[4HYH489HYHNH
+                                </div>
                             </div>
-                        </v-card>
-                    </v-card>
+                            <div class="middle-box">
+                                <p class="pa-4 pt-0 text-justify">
+                                    kenrignribonbioenigbicbnoerykonoibnrhnion oih98 gh985ho;bvndseginduifbiuw n87e4uirouybtuybvebryub
+                                </p>
+                            </div>
+                        </div>
+                        <v-divider class="mx-4" />
+                        <v-col cols="12">
+                            <p class="text-center mt-4">
+                                Input your time (Hour)
+                            </p>
+                            <div class="input-box">
+                                <v-btn elevation="0" @click="minus" width="32px" max-height="32px" fab>
+                                    <v-icon size="24px">
+                                        mdi-minus
+                                    </v-icon>
+                                </v-btn>
+                                <v-text-field hide-details solo flat :rules="timeRules" v-model="time" class="input-time text-center" />
+                                <v-btn elevation="0" @click="plus" width="32px" max-height="32px" fab>
+                                    <v-icon size="24px">
+                                        mdi-plus
+                                    </v-icon>
+                                </v-btn>
+                            </div>
+                        </v-col>
+                    </div>
                 </div>
             </v-form>
+
+
             <v-col cols="12">
                 <div>
                     <v-btn :disabled="!valid" rounded :loading="loading" @click="next(),valid = !valid">
@@ -67,7 +76,7 @@
                     </v-btn>
                 </div>
             </v-col>
-        </div>
+        </v-container>
     </v-app>
 </template>
 
@@ -78,50 +87,60 @@ export default {
     layout: 'liff',
     data() {
         return {
-            loader: null,
-            loading: false,
             valid: true,
             index: 0,
             functionData: [],
             list: [],
             data: [],
+            time: 1,
             timeRules: [
-                v => !!v || 'Required.',
+                v => !!v || '',
             ],
             status: ''
         }
     },
-    mounted() {
-        functionAPI.index('WEBSITE')
-            .then(async response => {
-                console.log('res', response)
-                this.status = response.data[0].status
-                if (this.status == 'CLOSE') {
-                    await this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Sorry !',
-                        message: 'vote is closed'
-                    })
-                    await liff.closeWindow()
-                }
-                this.functionData = response.data
-                this.functionData.forEach(async element => {
-                    await this.list.push({ fid: element._id, group: element.group, choices: element.choice })
-                })
+    // mounted() {
+    //     functionAPI.index('WEBSITE')
+    //         .then(async response => {
+    //             console.log('res', response)
+    //             this.status = response.data[0].status
+    //             if (this.status == 'CLOSE') {
+    //                 await this.$store.dispatch('setDialog', {
+    //                     isShow: true,
+    //                     title: 'Sorry !',
+    //                     message: 'vote is closed'
+    //                 })
+    //                 await liff.closeWindow()
+    //             }
+    //             this.functionData = response.data
+    //             this.functionData.forEach(async element => {
+    //                 await this.list.push({ fid: element._id, group: element.group, choices: element.choice })
+    //             })
 
 
-            })
-            .catch(error => {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.data.error.message
-                })
-            })
-    },
+    //         })
+    //         .catch(error => {
+    //             this.$store.dispatch('setDialog', {
+    //                 isShow: true,
+    //                 title: 'Please try again',
+    //                 message: error.response.data.error.message
+    //             })
+    //         })
+    // },
 
 
     methods: {
+        plus() {
+            this.time = this.time + 1
+        },
+        minus() {
+            if (this.time>1) {
+                this.time = this.time - 1
+            }
+            else {
+                this.time = 1
+            }
+        },
         async next() {
             for (let j = 0; j < this.list.length; j++) {
                 for (let i = 0; i < this.list[j].choices.length; i++) {
@@ -152,37 +171,57 @@ export default {
 </script>
 
 <style scoped>
-.bg {
-    background-color: rgba(55, 208, 255, 0.8);
-}
-h1 {
- padding-top: 25px !important;
 
-}
-.text{
+
+.v-toolbar__title {
+    width: 100%;
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
     color: white;
 }
-.input-time {
-    width: 70px;
-    justify-content: flex-end;
-    height: 40px;
+.container {
+    padding-top: 40px !important;
+}
+.func-card {
+    background-color: #fafafa;
+    border: 1px solid rgba(0, 0, 0, 0.35);
+    border-radius: 5px;
+}
+.top-box {
+    display: flex;
+    align-items: center;
+}
+.middle-box {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 16px;
 
 }
-.circle {
-    size: 50px;
+
+.choice-name{
+    font-size: 20px;
+    padding-left: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+.input-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.input-time {
+    max-width: 60px;
+    margin-left: 16px;
+    margin-right: 8px;
+}
+
 .v-btn {
     height: 50px !important ;
     margin-left:10px ;
     width: 95%;
     font-size: 18px;
     font-weight: 600;
-}
-.my-back {
-    font-size: 18px;
-    font-weight: 600;
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
 }
 
 

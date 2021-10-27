@@ -3,25 +3,22 @@
         <v-app>
             <v-container>
                 <v-app-bar
-                    color="rgb(55, 208, 255)"
+                    color="primary"
                     flat
                     fixed
                     max-width="100%"
                 >
-                    <v-toolbar-title class="text">
-                        Estimate system
+                    <v-toolbar-title>
+                        ESTIMATE TIME
                     </v-toolbar-title>
                 </v-app-bar>
                 <v-container class="container">
                     <v-col cols="12">
-                        <div class="subheader1 pa-0 pt-5">
-                            Select Platform
-                        </div>
                         <v-tabs
+                            class="tab-title pa-0 pt-11"
                             v-model="tab"
                             height="60px"
                             slider-color="blue"
-                            color="rgb(55, 208, 255)"
                         >
                             <v-tab
                                 v-for="item in items"
@@ -33,58 +30,52 @@
                         </v-tabs>
                         <v-tabs-items v-model="tab">
                             <v-tab-item
-                                v-for="i in 2"
+                                v-for="i in 3"
                                 :key="i.tab"
                             >
-                                <v-card
-                                    rounded="50%"
-                                    class="my-5 mx-5 pb-4"
-                                >
+                                <div>
                                     <v-card-title class="justify-center">
-                                        Select number of developer
+                                        SELECT NUMBER OF DEVELOPER
                                     </v-card-title>
-                                    <div class="input-time">
-                                        <v-btn class="mx-4" fab width="30px" height="30px" @click="minus">
-                                            <v-icon size="20px">
+                                    <div class="dev-number">
+                                        <v-btn class="mx-4" elevation="0" fab width="32px" height="32px" @click="minus">
+                                            <v-icon size="24px">
                                                 mdi-minus
                                             </v-icon>
                                         </v-btn>
                                         <div class="mx-4">
                                             {{ selected.qty }}
                                         </div>
-                                        <v-btn class="mx-4" fab width="30px" height="30px" @click="plus">
-                                            <v-icon size="20px">
+                                        <v-btn class="mx-4" elevation="0" fab width="32px" height="32px" @click="plus">
+                                            <v-icon size="24px">
                                                 mdi-plus
                                             </v-icon>
                                         </v-btn>
                                     </div>
-                                </v-card>
+                                    <v-divider class="ma-2" />
 
-
-                                <div
-                                    v-for="data in estimateData"
-                                    :key="data._id"
-                                >
                                     <div class="subheader2 pa-0 pt-5 ">
-                                        Select Function that you need
+                                        SELECT FUNCTION THAT YOU NEED
                                     </div>
-                                    <div v-if="data.choices.length != 0">
-                                        <v-card
-                                            rounded="50%"
-                                            class="my-5 mx-5 py-3"
-                                        >
-                                            <v-card-title class="justify-center mb-3">
-                                                {{ data.group }}
-                                            </v-card-title>
+                                    <div
+                                        rounded="50%"
+                                        class="my-5 mx-5 py-3"
+                                        v-for="data in 3"
+                                        :key="data._id"
+                                    >
+                                        <div class="estimate-card" v-if="data.length != 0">
+                                            <div class="group-name">
+                                                groupfefsfuegneugneugenguengeugneguen
+                                            </div>
 
                                             <estimateCard
-                                                v-for="choice in data.choices"
+                                                v-for="choice in 2"
                                                 :choices="choice"
                                                 :key="choice.name"
                                                 :active="selected.selectedChoice.includes(choice.name)"
                                                 @chooseChoice="chooseChoice"
                                             />
-                                        </v-card>
+                                        </div>
                                     </div>
                                 </div>
                             </v-tab-item>
@@ -100,7 +91,7 @@
                     <v-card
                         tile
                         width="100%"
-                        color="rgb(55, 208, 255)"
+                        color="primary"
                     >
                         <v-col cols="12">
                             <v-card-text class="pa-0 pb-4 pl-2">
@@ -108,9 +99,11 @@
                                     ** Please make sure your selection is correct.
                                 </div>
                             </v-card-text>
-                            <v-btn outlined rounded class="next-btn" @click="nextPage">
-                                Next
-                            </v-btn>
+                            <div class="next-btn">
+                                <v-btn v-if="selected.selectedChoice != []" width="40%" outlined color="white" rounded @click="nextPage">
+                                    Next
+                                </v-btn>
+                            </div>
                         </v-col>
                     </v-card>
                 </v-footer>
@@ -149,21 +142,21 @@ export default {
         }
     },
 
-    async mounted() {
-        await voteAPI.getDataForEstimate('WEBSITE')
-            .then(async response => {
-                console.log('RESPONSE', response)
-                this.estimateData = response.data
-            })
-            .catch(async error => {
-                console.log('ERROR', error.response)
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.data.error.message
-                })
-            })
-    },
+    // async mounted() {
+    //     await voteAPI.getDataForEstimate('WEBSITE')
+    //         .then(async response => {
+    //             console.log('RESPONSE', response)
+    //             this.estimateData = response.data
+    //         })
+    //         .catch(async error => {
+    //             console.log('ERROR', error.response)
+    //             this.$store.dispatch('setDialog', {
+    //                 isShow: true,
+    //                 title: 'Please try again',
+    //                 message: error.response.data.error.message
+    //             })
+    //         })
+    // },
     methods: {
         plus() {
             this.selected.qty = this.selected.qty + 1
@@ -215,34 +208,45 @@ export default {
 </script>
 
 <style scoped>
-.v-application--wrap {
-    background-color:rgb(55, 208, 255);
-}
-.v-tabs-items {
-    background-color:rgb(55, 208, 255) !important;
-}
+
+
 .v-toolbar__title {
     width: 100%;
     text-align: center;
     font-size: 28px;
     font-weight: bold;
+    color: white;
+}
+.estimate-card {
+    background-color: #fafafa;
+    border: 1px solid rgba(0, 0, 0, 0.35);
+    border-radius: 16px;
+}
+.group-name {
+    font-size: 24px;
+    text-align: center;
+    padding: 24px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .next-btn {
-    width: 100%;
-    color: white;
+    display: flex;
+    justify-content: end;
+    align-items: center;
     margin-bottom: 10px;
 }
-.subheader1 {
+
+.tab-title {
     font-size: 14px;
 
 }
 .subheader2 {
     text-align: center;
-    color: white;
-    font-size: 22px;
+    font-size: 16px;
 
 }
-.input-time {
+.dev-number {
     display: flex;
     justify-content: center;
     height:50px;

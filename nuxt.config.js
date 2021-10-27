@@ -11,7 +11,7 @@ export default {
         },
         meta: [
             { charset: 'utf-8' },
-            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+            { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0' },
             { hid: 'description', name: 'description', content: '' },
             { name: 'format-detection', content: 'telephone=no' }
         ],
@@ -59,10 +59,10 @@ export default {
         theme: {
             dark: false,
             themes: {
-                light: {
-                    primary: colors.blue.lighten1,
+                dark: {
+                    primary: colors.blue,
                     accent: colors.grey.lighten1,
-                    secondary: colors.grey.lighten1,
+                    secondary: colors.grey.lighten2,
                     info: colors.teal.lighten1,
                     warning: colors.amber.base,
                     error: colors.red.base,

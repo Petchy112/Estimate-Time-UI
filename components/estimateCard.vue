@@ -3,23 +3,20 @@
         <div
             class="d-flex flex-column"
         >
-            <v-card rounded="sm" flat class="mb-3 mx-3 choice-card" :class="active == true ? 'active': ''" @click="$emit('chooseChoice',choices)">
-                <v-col cols="12">
-                    <v-list-item>
-                        <v-list-item-avatar size="50px">
-                            <v-avatar>
-                                <img :src="choices.imagePath">
-                            </v-avatar>
-                        </v-list-item-avatar>
-
-                        <v-list-item-content>
-                            <v-list-item-title>{{ choices.name }}</v-list-item-title>
-                            <p class=" pa-0  ma-0 sub-title">
-                                {{ choices.description }}
-                            </p>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-col>
+            <v-card flat class="mb-3 mx-3 choice-card" :class="active == true ? 'active': ''" @click="$emit('chooseChoice',choices)">
+                <div class="top-box px-4 pt-4">
+                    <v-avatar size="64px">
+                        <img src="~/assets/function.jpg">
+                    </v-avatar>
+                    <v-card-title class="pa-0 pl-4">
+                        Nameeeeeeeeeeeeeeeeeeeeee Choicee
+                    </v-card-title>
+                </div>
+                <div class="middle-box">
+                    <p class=" pa-4  ma-0 sub-title">
+                        pppppppppppppppppppppppppppppppppppppppppppppppppp
+                    </p>
+                </div>
             </v-card>
         </div>
     </div>
@@ -37,7 +34,8 @@ export default {
     color: rgba($color: #000000, $alpha: 0.4);
 }
 .choice-card{
-    background-color:#e3e3e3  !important ;
+    border-radius: 8px;
+    background-color:#e2e2e2  !important ;
     &.active {
     background-color: #7BE891 !important ;
 
@@ -50,6 +48,10 @@ export default {
 .v-list-item__subtitle {
     font-weight:300;
     opacity: 80%;
+}
+.top-box {
+    display: flex;
+    align-items: center;
 }
 
 </style>

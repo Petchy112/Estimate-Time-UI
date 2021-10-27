@@ -210,8 +210,7 @@ export default {
         async handlePicture(index) {
             await imageAPI.upload(this.image)
                 .then(async response => {
-                    this.choices[index].imagePath = response.data.fullPath
-                    console.log(this.choices)
+                    this.choices[index].imagePath = response.data.path
                 })
                 .catch(error => {
                     console.log(error)
@@ -223,7 +222,7 @@ export default {
                     console.log('RESPONSE', response.data)
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
-                        title: 'Success',
+                        type: 'success',
                         message: response.data.message
                     })
                     this.dialog = false
@@ -238,7 +237,7 @@ export default {
                     console.log('ERROR', error.response)
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
-                        title: 'Please try again',
+                        type: 'error',
                         message: error.response.data.error.message
                     })
 

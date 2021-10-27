@@ -1,33 +1,31 @@
 <template>
     <div>
         <v-app-bar
-            color="rgb(55, 208, 255)"
+            color="primary"
             flat
             tile
             max-width="100%"
         >
             <v-toolbar-title>
-                RESULTS
+                ESTIMATE TIME
             </v-toolbar-title>
         </v-app-bar>
 
 
         <v-col cols="12">
-            <v-card>
+            <div class="result-card ma-5 py-3">
                 <v-col cols="12">
                     <v-list>
                         <v-list-item-title class="mx-5 platform">
-                            Platform: {{ getSelectedEstimate.platform }}
+                            PLATFORM: {{ getSelectedEstimate.platform }}
                         </v-list-item-title>
 
-                        <div>
-                            <v-list-item-title class="mx-5 time">
-                                Estimate Time: {{ getSelectedEstimate.estimateTime }}  Hours ({{ (getSelectedEstimate.estimateTime/8).toFixed(1) }} days)
-                            </v-list-item-title>
-                        </div>
+                        <v-list-item-title class="mx-5 time">
+                            ESTIMATE TIME: {{ getSelectedEstimate.estimateTime }}  Hours ({{ (getSelectedEstimate.estimateTime/8).toFixed(1) }} days)
+                        </v-list-item-title>
 
                         <v-list-item-title class="mx-5 time">
-                            Developer Quantity: {{ getSelectedEstimate.qty }}
+                            DEVELOPER QUANTITY: {{ getSelectedEstimate.qty }}
                         </v-list-item-title>
                         <v-divider class="mt-4 mx-3" />
                         <v-list-item>
@@ -50,7 +48,7 @@
                         </v-list-item>
                     </v-list>
                 </v-col>
-            </v-card>
+            </div>
         </v-col>
 
 
@@ -62,7 +60,7 @@
                 <v-card
                     tile
                     width="100%"
-                    color="rgb(55, 208, 255)"
+                    color="primary"
                     height="80px"
                 >
                     <v-col cols="12">
@@ -70,18 +68,20 @@
                             <div class="d-flex justify-space-around ">
                                 <v-btn
                                     outlined
+                                    color="white"
                                     rounded
                                     width="40%"
-                                    class="mt-3 footer-btn"
+                                    class="mt-3"
                                     @click="back"
                                 >
                                     back
                                 </v-btn>
 
                                 <v-btn
+                                    color="white"
                                     outlined
                                     rounded
-                                    class="mt-3 footer-btn"
+                                    class="mt-3"
                                     width="40%"
                                     @click="nameDialog = !nameDialog"
                                 >
@@ -92,53 +92,49 @@
                     </v-col>
                 </v-card>
             </v-footer>
-            <v-dialog
-                v-model="nameDialog"
-                max-width="500px"
-            >
-                <v-card class="pa-5">
-                    <v-card-title class="justify-center">
+        </v-col>
+        <v-dialog
+            v-model="nameDialog"
+            max-width="350px"
+        >
+            <v-card height="150px">
+                <v-col cols="12">
+                    <div class="justify-center">
                         <v-text-field
+                            class="px-6 pt-6"
                             dense
                             flat
-                            class=""
                             outlined
                             v-model="projectName"
-                            label="input name of system"
-                            placeholder="input name of system"
+                            label="System name"
+                            placeholder="System name"
                         />
-                    </v-card-title>
-                    <div>
-                        <v-row justify="space-between">
-                            <v-col
-                                cols="12"
+                    </div>
+                    <div class="mt-2">
+                        <v-row justify="space-around">
+                            <v-btn
+
+                                width="40%"
+                                color="primary"
+                                text
+                                @click="nameDialog = false"
                             >
-                                <v-row justify="space-around">
-                                    <v-btn
-                                        class="pa-2 mb-4 footer-btn"
-                                        rounded
-                                        width="40%"
-                                        color="rgb(55, 208, 255)"
-                                        @click="nameDialog = false"
-                                    >
-                                        Cancel
-                                    </v-btn>
-                                    <v-btn
-                                        class="pa-2 mb-4 footer-btn"
-                                        rounded
-                                        color="rgb(55, 208, 255)"
-                                        width="40%"
-                                        @click="estimate"
-                                    >
-                                        Save
-                                    </v-btn>
-                                </v-row>
-                            </v-col>
+                                Cancel
+                            </v-btn>
+                            <v-btn
+
+                                color="primary"
+                                text
+                                width="40%"
+                                @click="estimate"
+                            >
+                                Save
+                            </v-btn>
                         </v-row>
                     </div>
-                </v-card>
-            </v-dialog>
-        </v-col>
+                </v-col>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -195,8 +191,11 @@ export default {
     font-weight: bold;
     color: white;
 }
+.result-card {
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+}
 .selectFunc {
-    margin-bottom: 10px;
     font-size: 18px;
 }
 
@@ -207,9 +206,6 @@ export default {
 .platform{
     font-size: 20px;
 
-}
-.footer-btn{
-    color :white
 }
 img {
     border-radius: 50%;

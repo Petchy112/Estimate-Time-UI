@@ -1,86 +1,82 @@
 <template>
     <div>
-        <v-row>
-            <v-col cols="12">
-                <v-card-title class="card-title">
-                    <div class="my-head my-5">
-                        ESTIMATE RESULTS
-                    </div>
-                    <v-text-field
-                        dense
-                        append-icon="mdi-magnify"
-                        flat
-                        v-model="search"
-                        label="Search"
-                        solo-inverted
-                        single-line
-                        hide-details
-                    />
-                </v-card-title>
-                <v-divider class="mt-3 mb-5 mx-2" />
-                <div v-if="estimateData==''" class="text-data">
-                    No data
+        <v-col cols="12">
+            <v-card-title class="card-title">
+                <div class="my-head my-5">
+                    ESTIMATE RESULTS
                 </div>
-                <div class="grid-container">
-                    <div
-                        class="mx-4 mb-4"
-                        v-for="(item,index) in filteredItems"
-                        :key="index"
-                    >
-                        <v-expansion-panels>
-                            <v-expansion-panel
-                                class="panel"
-                            >
-                                <v-expansion-panel-header>
-                                    <div class="proj-header">
-                                        {{ item.projectName }}
-                                    </div>
-                                </v-expansion-panel-header>
-                                <v-expansion-panel-content>
-                                    <div class="left-box">
-                                        Create by : {{ item.createBy }}
-                                        <br>
-                                        Platform : {{ item.platform }}
-                                        <br>
-                                        Number of developer : {{ item.qty }}
-                                        <br>
-                                        System size : {{ item.size }}
-                                        <br>
-                                        Estimated Time : {{ item.estimatedTime }}
-                                    </div>
-                                    <v-divider class="my-5" />
-                                    <div class="right-box mt-5">
-                                        <template>
-                                            <v-expansion-panels flat focusable>
-                                                <v-expansion-panel>
-                                                    <v-expansion-panel-header expand-icon="mdi-menu-down">
-                                                        <div class="proj-header">
-                                                            SELECTED FUNCTION
-                                                        </div>
-                                                    </v-expansion-panel-header>
-                                                    <v-expansion-panel-content>
-                                                        <div v-if="item.choice == ''">
-                                                            No Data
-                                                        </div>
-                                                        <div
-                                                            v-else
-                                                            v-for="select in item.choice"
-                                                            :key="select.index"
-                                                        >
-                                                            {{ select }}
-                                                        </div>
-                                                    </v-expansion-panel-content>
-                                                </v-expansion-panel>
-                                            </v-expansion-panels>
-                                        </template>
-                                    </div>
-                                </v-expansion-panel-content>
-                            </v-expansion-panel>
-                        </v-expansion-panels>
-                    </div>
+                <v-text-field
+                    flat
+                    background-color="rgb(240,240,240)"
+                    append-icon="mdi-magnify"
+                    v-model="search"
+                    label="Search"
+                    solo
+                    single-line
+                    hide-details
+                />
+            </v-card-title>
+            <v-divider class="mt-3 mb-5 mx-2" />
+            <div v-if="estimateData==''" class="text-data">
+                No data
+            </div>
+            <div class="grid-container">
+                <div
+                    class="mx-4 mb-4"
+                    v-for="(item,index) in filteredItems"
+                    :key="index"
+                >
+                    <v-expansion-panels>
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>
+                                <div class="proj-header py-2">
+                                    {{ item.projectName }}
+                                </div>
+                            </v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <div class="left-box">
+                                    Create by : {{ item.createBy }}
+                                    <br>
+                                    Platform : {{ item.platform }}
+                                    <br>
+                                    Number of developer : {{ item.qty }}
+                                    <br>
+                                    System size : {{ item.size }}
+                                    <br>
+                                    Estimated Time : {{ item.estimatedTime }}
+                                </div>
+                                <v-divider class="my-5" />
+                                <div class="right-box mt-5">
+                                    <template>
+                                        <v-expansion-panels flat focusable>
+                                            <v-expansion-panel>
+                                                <v-expansion-panel-header expand-icon="mdi-menu-down">
+                                                    <div class="proj-header">
+                                                        SELECTED FUNCTION
+                                                    </div>
+                                                </v-expansion-panel-header>
+                                                <v-expansion-panel-content>
+                                                    <div v-if="item.choice == ''">
+                                                        No Data
+                                                    </div>
+                                                    <div
+                                                        v-else
+                                                        v-for="select in item.choice"
+                                                        :key="select.index"
+                                                    >
+                                                        {{ select }}
+                                                    </div>
+                                                </v-expansion-panel-content>
+                                            </v-expansion-panel>
+                                        </v-expansion-panels>
+                                    </template>
+                                </div>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
                 </div>
-            </v-col>
-        </v-row>
+            </div>
+        </v-col>
     </div>
 </template>
 
@@ -140,7 +136,6 @@ h1 {
 .my-head {
     font-size: 32px !important;
     font-weight: bold;
-
 }
 .text-data {
     text-align: center;
