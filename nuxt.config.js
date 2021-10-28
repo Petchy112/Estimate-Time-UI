@@ -17,7 +17,6 @@ export default {
         ],
         link: [
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-            { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Mitr:wght@200;400;600&display=swap" }
         ],
         script: [
             { src: "https://static.line-scdn.net/liff/edge/2.1/sdk.js" }
@@ -25,7 +24,7 @@ export default {
     },
 
     // Global CSS: https://go.nuxtjs.dev/config-css
-    scss: [ '~/styles/vars/*.scss' ],
+    css: [ ],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
@@ -53,7 +52,7 @@ export default {
 
     // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
     vuetify: {
-        customVariables: [ '~/styles/vars/*.scss' ],
+        customVariables: [ '~/styles/variables.scss' ],
     },
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
