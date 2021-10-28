@@ -31,7 +31,11 @@
 import * as userAPI from "~/utils/userAPI"
 export default {
     layout: 'liff',
-    mounted() {},
+    mounted() {
+        liff.init({
+            liffId: '1656364274-P9lyjQAe'
+        })
+    },
     methods: {
         role() {
             this.$router.push({ name: 'liff-role' })

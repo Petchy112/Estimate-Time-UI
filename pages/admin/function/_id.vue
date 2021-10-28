@@ -48,7 +48,7 @@
                 <v-card
                     class="ma-5"
                     width="300px"
-                    v-for="choice in functionData.choice"
+                    v-for="choice in functionData.choices"
                     :key="choice.index"
                 >
                     <img
@@ -76,8 +76,8 @@
                             EDIT FUNCTION
                         </v-toolbar-title>
                     </v-app-bar>
-                    <div color="rgb(55, 208, 255)" class="pl-8 pt-6">
-                        ชื่อ
+                    <div class="pl-8 pt-6">
+                        ชื่อกลุ่ม
                     </div>
                     <v-text-field
                         dense
@@ -91,7 +91,7 @@
                     <v-divider />
                     <v-card-text style="height: 500px;">
                         <v-card
-                            v-for="(choice,index) in functionData.choice"
+                            v-for="(choice,index) in functionData.choices"
                             :key="index"
                             class="ma-2 mb-6"
                             elevation="2"
@@ -102,9 +102,9 @@
                                     elevation="0"
                                     max-width="28px"
                                     height="28px"
-                                    @click="handleCloseClicked(functionData.choice.indexOf(choice))"
+                                    @click="handleCloseClicked(functionData.choices.indexOf(choice))"
                                     class="error"
-                                    v-if="functionData.choice.length>1"
+                                    v-if="functionData.choices.length>1"
                                 >
                                     <v-icon size="16px">
                                         mdi-close
@@ -138,6 +138,7 @@
                                         >
                                         <img :src="choice.imagePath ? choice.imagePath : defaultProfile">
                                     </v-avatar>
+
                                     <v-text-field
                                         dense
                                         placeholder="Function choice"
@@ -310,7 +311,7 @@ export default {
                     })
                     this.editDialog = false
                     this.$router.replace({
-                        name: 'function-id',
+                        name: 'admin-function-id',
                         params: {
                             id: this.functionData._id
                         }
@@ -333,7 +334,7 @@ export default {
                     })
                     this.deleteDialog = false
                     await this.$router.replace({
-                        name: 'function'
+                        name: 'admin-function'
                     })
                 })
                 .catch(async error => {

@@ -82,20 +82,20 @@ export default {
         }
     },
     async mounted() {
-        // await liff.init({
-        //     liffId: '1656364274-ADg78Boe'
-        // })
-        // if (await liff.isLoggedIn()) {
-        //     liff.getProfile().then(profile => {
-        //         console.log(profile)
-        //         this.body.lineUserId = profile.userId
-        //         this.body.profilePic = profile.pictureUrl
-        //         localStorage.setItem('lineUserId', profile.userId)
-        //     })
-        // }
-        // else {
-        //     await liff.login()
-        // }
+        await liff.init({
+            liffId: '1656364274-ADg78Boe'
+        })
+        if (await liff.isLoggedIn()) {
+            liff.getProfile().then(profile => {
+                console.log(profile)
+                this.body.lineUserId = profile.userId
+                this.body.profilePic = profile.pictureUrl
+                localStorage.setItem('lineUserId', profile.userId)
+            })
+        }
+        else {
+            await liff.login()
+        }
 
 
     },

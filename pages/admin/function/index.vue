@@ -113,7 +113,7 @@ export default {
     methods: {
         async handleShowClicked(id) {
             console.log(id)
-            this.$router.push({ name: 'function-id', params: { id } })
+            this.$router.push({ name: 'admin-function-id', params: { id } })
         },
         async choosePlatform(platform) {
             this.platform = platform

@@ -154,7 +154,7 @@ export default {
                         title: 'Success',
                         message: response.message
                     })
-                    await this.$router.push({ name: 'user' })
+                    await this.$router.push({ name: 'admin-user' })
                 })
                 .catch(async error => {
                     await this.$store.dispatch('setDialog', {
@@ -165,7 +165,7 @@ export default {
                 })
         },
         async cancel () {
-            this.$router.push({ name: 'user' })
+            this.$router.push({ name: 'admin-user' })
         },
         resetValidation () {
             this.$refs.form.resetValidation()

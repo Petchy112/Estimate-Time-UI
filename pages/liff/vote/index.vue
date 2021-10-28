@@ -99,34 +99,27 @@ export default {
             status: ''
         }
     },
-    // mounted() {
-    //     functionAPI.index('WEBSITE')
-    //         .then(async response => {
-    //             console.log('res', response)
-    //             this.status = response[0].status
-    //             if (this.status == 'CLOSE') {
-    //                 await this.$store.dispatch('setDialog', {
-    //                     isShow: true,
-    //                     title: 'Sorry !',
-    //                     message: 'vote is closed'
-    //                 })
-    //                 await liff.closeWindow()
-    //             }
-    //             this.functionData = response
-    //             this.functionData.forEach(async element => {
-    //                 await this.list.push({ fid: element._id, group: element.group, choices: element.choice })
-    //             })
+    mounted() {
+        liff.init({
+            liffId: '1656364274-lqgZY5w3'
+        })
+        const response = functionAPI.index('WEBSITE')
+        this.status = response[0].status
+        if (this.status == 'CLOSE') {
+            this.$store.dispatch('setDialog', {
+                isShow: true,
+                title: 'Sorry !',
+                message: 'vote is closed'
+            })
+            liff.closeWindow()
+        }
+        this.functionData = response
+        this.functionData.forEach(async element => {
+            await this.list.push({ fid: element._id, group: element.group, choices: element.choice })
+        })
 
 
-    //         })
-    //         .catch(error => {
-    //             this.$store.dispatch('setDialog', {
-    //                 isShow: true,
-    //                 title: 'Please try again',
-    //                 message: error.response.error.message
-    //             })
-    //         })
-    // },
+    },
 
 
     methods: {

@@ -244,7 +244,7 @@ export default {
                 })
         },
         async changepassword() {
-            await this.$router.push({ name: 'changepassword' })
+            await this.$router.push({ name: 'admin-changepassword' })
         }
     }
 }

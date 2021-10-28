@@ -96,6 +96,9 @@ export default {
         }
     },
     async mounted() {
+        await liff.init({
+            liffId: '1656364274-ADg78Boe'
+        })
         await estimateAPI.index()
             .then(response => {
                 console.log('RESPONSE', response)

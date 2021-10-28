@@ -142,21 +142,24 @@ export default {
         }
     },
 
-    // async mounted() {
-    //     await voteAPI.getDataForEstimate('WEBSITE')
-    //         .then(async response => {
-    //             console.log('RESPONSE', response)
-    //             this.estimateData = response
-    //         })
-    //         .catch(async error => {
-    //             console.log('ERROR', error.response)
-    //             this.$store.dispatch('setDialog', {
-    //                 isShow: true,
-    //                 title: 'Please try again',
-    //                 message: error.response.error.message
-    //             })
-    //         })
-    // },
+    async mounted() {
+        await liff.init({
+            liffId: '1656364274-kBvYz6PE'
+        })
+        await voteAPI.getDataForEstimate('WEBSITE')
+            .then(async response => {
+                console.log('RESPONSE', response)
+                this.estimateData = response
+            })
+            .catch(async error => {
+                console.log('ERROR', error.response)
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.error.message
+                })
+            })
+    },
     methods: {
         plus() {
             this.selected.qty = this.selected.qty + 1

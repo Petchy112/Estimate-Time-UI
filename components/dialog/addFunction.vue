@@ -227,7 +227,7 @@ export default {
                     })
                     this.dialog = false
                     await this.$router.push({
-                        name: 'function-id',
+                        name: 'admin-function-id',
                         params: {
                             id: response.id
                         }

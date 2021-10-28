@@ -120,7 +120,7 @@ export default {
     methods: {
         async handleShowClicked(data) {
             var id = data._id
-            this.$router.push({ name: 'result-estimated-id', params: { id } })
+            this.$router.push({ name: 'admin-result-estimated-id', params: { id } })
         }
     },
 }

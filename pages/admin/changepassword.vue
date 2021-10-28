@@ -18,7 +18,7 @@ export default {
                         title: 'Success',
                         message: response.message
                     })
-                    await this.$router.push({ name: 'function' })
+                    await this.$router.push({ name: 'admin-function' })
                 })
                 .catch(async error => {
                     await this.$store.dispatch('setDialog', {

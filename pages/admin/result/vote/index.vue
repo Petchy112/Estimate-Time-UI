@@ -93,7 +93,7 @@ export default {
             console.log(action)
         },
         async handleShowClicked(round) {
-            this.$router.push({ name: 'result-vote-round', params: { round } })
+            this.$router.push({ name: 'admin-result-vote-round', params: { round } })
         },
         async handleVote(action) {
             if (action == true) {

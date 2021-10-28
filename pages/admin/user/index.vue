@@ -82,7 +82,7 @@ export default {
     methods: {
         async handleShowClicked(id) {
             console.log(id)
-            this.$router.push({ name: 'user-id', params: { id } })
+            this.$router.push({ name: 'admin-user-id', params: { id } })
         },
     }
 }

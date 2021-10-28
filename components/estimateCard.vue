@@ -31,7 +31,7 @@ export default {
 </script>
 <style  scoped>
 .sub-title {
-    color: rgba( 0,0,0, 0.4);
+    color: rgba( 0,0,0,0.4);
 }
 .choice-card{
     border-radius: 8px;
