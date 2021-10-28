@@ -1,4 +1,4 @@
-import colors from 'vuetify/es5/util/colors'
+
 
 export default {
     // Global page headers: https://go.nuxtjs.dev/config-head
@@ -25,8 +25,7 @@ export default {
     },
 
     // Global CSS: https://go.nuxtjs.dev/config-css
-    css: [
-    ],
+    scss: [ '~/styles/vars/*.scss' ],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
@@ -54,24 +53,8 @@ export default {
 
     // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
     vuetify: {
-        customVariables: [ '~/assets/variables.scss' ],
-
-        theme: {
-            dark: false,
-            themes: {
-                dark: {
-                    primary: colors.blue,
-                    accent: colors.grey.lighten1,
-                    secondary: colors.grey.lighten2,
-                    info: colors.teal.lighten1,
-                    warning: colors.amber.base,
-                    error: colors.red.base,
-                    success: colors.green.base
-                }
-            }
-        }
+        customVariables: [ '~/styles/vars/*.scss' ],
     },
-
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
     }
