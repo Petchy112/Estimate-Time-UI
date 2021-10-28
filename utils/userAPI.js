@@ -1,5 +1,5 @@
 import { request } from "./API"
-import { HOSTNAME } from '@/utils/API'
+import { HOSTNAME } from '~/utils/API'
 
 
 export function index() {
