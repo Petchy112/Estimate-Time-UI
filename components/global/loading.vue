@@ -27,19 +27,20 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>
+<style scoped>
 .loading {
     width: 100%;
     min-height: 100%;
     z-index: 99999;
     background: rgba(255, 255, 255, 255);
     position: absolute;
-    & .loader {
+}
+.loader {
         position: absolute;
         top: 50%;
         left: 0;
         right: 0;
         transform: translateY(-50%);
-    }
+}
 }
 </style>

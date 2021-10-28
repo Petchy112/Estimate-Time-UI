@@ -1,15 +1,11 @@
 <template>
     <div>
-        <div
-            class="ma-5"
-        >
-            <h1>
-                VOTE RESULTS
-            </h1>
+        <div class="ma-5">
+            <h1>VOTE RESULTS</h1>
         </div>
         <v-tabs
             v-model="tab"
-            slider-color="yellow"
+            slider-color="blue"
             fixed-tabs
         >
             <v-tab
@@ -26,41 +22,41 @@
                     v-for="item in items"
                     :key="item.tab"
                 >
-                    <div>
-                        <v-card
-                            v-for="(i,index) in voteData"
-                            :key="index"
-                            tile
-                            class="my-5 mx-5"
+                    <div
+                        v-for="(i,index) in voteData"
+                        :key="index"
+                        tile
+                        class="result-card"
+                    >
+                        <v-card-title class="card-title">
+                            {{ i.data.group }}
+                        </v-card-title>
+                        <div
+                            class="d-flex flex-column"
+                            v-for="element in i.data.choices"
+                            :key="element.name"
                         >
-                            <v-card-title class="justify-center">
-                                {{ i.data.group }}
-                            </v-card-title>
-                            <div
-                                class="d-flex flex-column"
-                                v-for="element in i.data.choices"
-                                :key="element.name"
-                            >
-                                <v-list-item class="pb-4" two-line>
-                                    <v-list-item-avatar>
-                                        <v-avatar>
-                                            <img
-                                                :src="element.imagePath"
-                                            >
-                                        </v-avatar>
-                                    </v-list-item-avatar>
-                                    <v-list-item-content>
-                                        <v-list-item-title> {{ element.name }} </v-list-item-title>
-                                        <p class="description-text mb-0 pr-5">
-                                            {{ element.description }}
-                                        </p>
-                                    </v-list-item-content>
-                                    <div class="result-time">
-                                        {{ element.time.toFixed(1) }}  Hours
-                                    </div>
-                                </v-list-item>
-                            </div>
-                        </v-card>
+                            <v-list-item two-line>
+                                <v-list-item-avatar>
+                                    <v-avatar>
+                                        <img
+                                            :src="element.imagePath"
+                                        >
+                                    </v-avatar>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title class="name">
+                                        {{ element.name }}
+                                    </v-list-item-title>
+                                    <p class="description ">
+                                        {{ element.description }}
+                                    </p>
+                                </v-list-item-content>
+                                <div class="result-time">
+                                    {{ element.time.toFixed(1) }}  Hours
+                                </div>
+                            </v-list-item>
+                        </div>
                     </div>
                 </v-tab-item>
             </div>
@@ -71,9 +67,7 @@
 <script>
 
 export default {
-    props: {
-        voteData: Array
-    },
+    props: [ 'voteData' ],
     data() {
         return {
             tab: null,
@@ -92,8 +86,30 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.description-text {
+<style  scoped>
+.name{
+    margin: 0px;
+    padding-right: 10px;
+}
+.description {
     color: rgba(000, 000, 000, 0.5);
+    margin: 0px;
+    padding-right: 10px;
+}
+.result-card{
+    border: 1px solid rgba($color: #000000, $alpha: 0.4);
+
+    border-radius: 8px;
+    margin: 32px;
+}
+.card-title {
+    border-bottom: 1px solid rgba($color: #000000, $alpha: 0.4);
+    background-color: #f3f3f3;
+    justify-content: center;
+}
+.text-data {
+    text-align: center;
+    transform: translateY(50%);
+    color: rgba(000, 000, 000, 0.3);
 }
 </style>

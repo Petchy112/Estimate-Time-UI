@@ -29,17 +29,13 @@ export default {
 }
 
 </script>
-<style lang="scss" scoped>
+<style  scoped>
 .sub-title {
-    color: rgba($color: #000000, $alpha: 0.4);
+    color: rgba( 0,0,0, 0.4);
 }
 .choice-card{
     border-radius: 8px;
     background-color:#e2e2e2  !important ;
-    &.active {
-    background-color: #7BE891 !important ;
-
-}
 }
 .v-list-item__title {
     font-weight:400;
