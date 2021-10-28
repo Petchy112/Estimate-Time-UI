@@ -82,7 +82,7 @@
 
 
 <script>
-import * as estimateAPI from "@/utils/estimateAPI"
+import * as estimateAPI from "~/utils/estimateAPI"
 export default {
     layout: 'liff',
     data () {
@@ -96,20 +96,17 @@ export default {
         }
     },
     async mounted() {
-        await liff.init({
-            liffId: '1656364274-Nyb5rJkp'
-        })
         await estimateAPI.index()
             .then(response => {
                 console.log('RESPONSE', response)
-                this.estimateData = response.data
+                this.estimateData = response
             })
             .catch(async error => {
                 console.log('ERROR', error.response)
                 this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
-                    message: error.response.data.error.message
+                    message: error.response.error.message
                 })
             })
     },

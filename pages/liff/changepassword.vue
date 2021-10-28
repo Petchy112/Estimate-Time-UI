@@ -16,7 +16,7 @@
 
 <script>
 import changepassword from "~/components/auth/changepassword.vue"
-import * as userAPI from "@/utils/userAPI"
+import * as userAPI from "~/utils/userAPI"
 export default {
     layout: 'liff',
     components: { changepassword },
@@ -31,7 +31,7 @@ export default {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
-                        message: response.data.message
+                        message: response.message
                     })
                     await liff.closeWindow()
                 })
@@ -39,7 +39,7 @@ export default {
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
-                        message: error.response.data.error.message
+                        message: error.response.error.message
                     })
                 })
         }

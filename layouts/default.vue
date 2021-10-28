@@ -129,8 +129,8 @@
 
 <script>
 import alertDialog from "~/components/dialog/alertDialog.vue"
-import * as userAPI from "@/utils/userAPI"
-import * as imageAPI from "@/utils/imageAPI"
+import * as userAPI from "~/utils/userAPI"
+import * as imageAPI from "~/utils/imageAPI"
 export default {
     components: {
         alertDialog
@@ -147,14 +147,14 @@ export default {
                     icon: 'mdi-puzzle-outline',
                     title: 'Functions',
                     to: {
-                        name: 'function'
+                        name: 'admin-function'
                     }
                 },
                 {
                     icon: 'mdi-account-box',
                     title: 'User Management',
                     to: {
-                        name: 'user'
+                        name: 'admin-user'
                     }
                 },
 
@@ -162,14 +162,14 @@ export default {
                     icon: 'mdi-vote',
                     title: 'Vote Result',
                     to: {
-                        name: 'result-vote'
+                        name: 'admin-result-vote'
                     }
                 },
                 {
                     icon: 'mdi-timer-sand',
                     title: 'Estimate Result',
                     to: {
-                        name: 'result-estimated'
+                        name: 'admin-result-estimated'
                     }
                 },
             ],
@@ -184,32 +184,19 @@ export default {
     async mounted() {
         await userAPI.getProfile()
             .then(response => {
-                console.log('RESPONSE', response.data)
-                this.userData = response.data
-                this.userId = response.data.id
+                console.log('RESPONSE', response)
+                this.userData = response
+                this.userId = response.id
             })
             .catch(async error => {
                 await this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
-                    message: error.response.data.error.message
+                    message: error.response.error.message
                 })
                 await this.$router.push({ name: 'index' })
             })
-        await imageAPI.getImage(this.userId)
-            .then(response => {
-                console.log('RESPONSE', response.data)
 
-                this.profileImageUrl = response.data.fullPath
-
-            })
-            .catch(async error => {
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.data.error.message
-                })
-            })
     },
     methods: {
         async upload() {
@@ -219,7 +206,7 @@ export default {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
-                        message: response.data.message
+                        message: response.message
                     })
                 })
                 .catch(error => {
@@ -252,7 +239,7 @@ export default {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
-                        message: error.response.data.error.message
+                        message: error.response.error.message
                     })
                 })
         },
@@ -271,11 +258,6 @@ export default {
 h1 {
     text-align: center;
 }
-.v-application {
-    font-family: 'Mitr', sans-serif !important;
-    background-color: white  ;
-}
-
 .picture {
     border-radius: 50% !important;
     display: flex;

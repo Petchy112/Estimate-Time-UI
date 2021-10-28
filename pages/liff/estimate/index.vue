@@ -146,14 +146,14 @@ export default {
     //     await voteAPI.getDataForEstimate('WEBSITE')
     //         .then(async response => {
     //             console.log('RESPONSE', response)
-    //             this.estimateData = response.data
+    //             this.estimateData = response
     //         })
     //         .catch(async error => {
     //             console.log('ERROR', error.response)
     //             this.$store.dispatch('setDialog', {
     //                 isShow: true,
     //                 title: 'Please try again',
-    //                 message: error.response.data.error.message
+    //                 message: error.response.error.message
     //             })
     //         })
     // },
@@ -195,7 +195,7 @@ export default {
             await voteAPI.getDataForEstimate(platform)
                 .then(async response => {
                     console.log('RESPONSE', response)
-                    this.estimateData = response.data
+                    this.estimateData = response
                 })
         },
         async nextPage() {
@@ -207,8 +207,7 @@ export default {
 
 </script>
 
-<style scoped>
-
+<style  scoped>
 
 .v-toolbar__title {
     width: 100%;

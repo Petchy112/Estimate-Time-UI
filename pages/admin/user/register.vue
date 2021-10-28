@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import * as userAPI from "@/utils/userAPI"
+import * as userAPI from "~/utils/userAPI"
 export default {
     data: () => ({
         valid: true,
@@ -152,7 +152,7 @@ export default {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
-                        message: response.data.message
+                        message: response.message
                     })
                     await this.$router.push({ name: 'user' })
                 })
@@ -160,7 +160,7 @@ export default {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
-                        message: error.response.data.error.message
+                        message: error.response.error.message
                     })
                 })
         },

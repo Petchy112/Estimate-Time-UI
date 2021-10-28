@@ -2,26 +2,23 @@
     <div>
         <v-app class="back">
             <v-col cols="12">
-                <v-card elevation="5">
-                    <v-list>
-                        <v-list-title>
-                            <div class="my-text ml-5 mt-4">
-                                SELECT ROLE :
-                            </div>
-                        </v-list-title>
+                <div class="wrap-card-role">
+                    <div class="text ml-5 mt-4">
+                        SELECT ROLE
+                    </div>
 
-                        <v-col cols="12">
-                            <div class="d-flex flex-column pa-2">
-                                <v-btn v-if="role.includes('VOTER')" @click="close('VOTER')" rounded class="role-btn" color="rgb(55, 208, 255)">
-                                    VOTER
-                                </v-btn>
-                                <v-btn v-if="role.includes('COORDINATOR')" @click="close('COORDINATOR')" rounded class="role-btn" color="rgb(55, 208, 255)">
-                                    COORDINATOR
-                                </v-btn>
-                            </div>
-                        </v-col>
-                    </v-list>
-                </v-card>
+
+                    <v-col cols="12">
+                        <div class="d-flex flex-column pa-2 pt-0">
+                            <v-btn v-if="role.includes('VOTER')" @click="selectRole('VOTER')" outlined rounded class="role-btn" color="rgb(55, 208, 255)">
+                                VOTER
+                            </v-btn>
+                            <v-btn v-if="role.includes('COORDINATOR')" @click="selectRole('COORDINATOR')" outlined rounded class="role-btn" color="rgb(55, 208, 255)">
+                                COORDINATOR
+                            </v-btn>
+                        </div>
+                    </v-col>
+                </div>
             </v-col>
         </v-app>
     </div>
@@ -40,52 +37,22 @@ export default {
         }
     },
     mounted() {
-        userAPI.getProfile()
-            .then(async response => {
-                console.log('RESPONSE', response.data)
-                this.userData = response.data
-                if (this.userData.role.length == 1) {
-                    await userAPI.selectRole(this.userData.role[0])
-                        .then(async response => {
-                            console.log(this.userData.role[0])
-                            await liff.closeWindow()
-                        })
-                        .catch(async error => {
-                            this.$store.dispatch('setDialog', {
-                                isShow: true,
-                                title: 'Please try again',
-                                message: error.response.data.error.message
-                            })
-                            await liff.closeWindow()
-                        })
-                }
-                if (this.userData.role.length != 1) {
-                    this.role = this.userData.role
-                }
-            })
-            .catch(async error => {
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.data.error.message
-                })
-                await this.$router.push({ name: 'liff' })
-            })
+        this.getProfile()
     },
     methods: {
-        async close(role) {
+        async getProfile() {
+            const response = await userAPI.getProfile()
+            this.userData = response
+            if (this.userData.role.length == 1) {
+                this.selectRole(this.userData.role[0])
+            }
+            else {
+                this.role = this.userData.role
+            }
+        },
+        async selectRole(role) {
             await userAPI.selectRole(role)
-                .then(async response => {
-                    await liff.closeWindow()
-                })
-                .catch(error => {
-                    this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Please try again',
-                        message: error.response.data.error.message
-                    })
-                })
-
+            await liff.closeWindow()
         }
 
     },
@@ -93,20 +60,25 @@ export default {
 }
 </script>
 
-<style scoped>
+<style  scoped>
 .back {
-    background-color: rgba(55, 208, 255, 0.8) !important;
+    background-color: #fefefe !important;
 }
-.my-text {
+.text {
+    color: rgba(0,0,0,0.8);
     font-weight: bold;
     font-size: x-large;
 }
-.v-list__title {
-    font-weight: bold;
+.wrap-card-role {
+    border-radius: 5px;
+    margin: 16px;
+    background-color: #fafafa;
+    padding: 10px 20px;
 }
 .role-btn {
     margin-top: 20px;
     height: 50px !important;
     font-size: 16px;
+
 }
 </style>

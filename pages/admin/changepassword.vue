@@ -6,7 +6,7 @@
 
 <script>
 import changepassword from "~/components/auth/changepassword.vue"
-import * as userAPI from "@/utils/userAPI"
+import * as userAPI from "~/utils/userAPI"
 export default {
     components: { changepassword },
     methods: {
@@ -16,7 +16,7 @@ export default {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
-                        message: response.data.message
+                        message: response.message
                     })
                     await this.$router.push({ name: 'function' })
                 })
@@ -24,7 +24,7 @@ export default {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
-                        message: error.response.data.error.message
+                        message: error.response.error.message
                     })
                 })
         }

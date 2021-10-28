@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import * as userAPI from "@/utils/userAPI"
+import * as userAPI from "~/utils/userAPI"
 export default {
     layout: 'blank',
     data() {
@@ -90,9 +90,9 @@ export default {
             await userAPI.login(this.body)
                 .then(async response => {
                     console.log('RESPONSE', response)
-                    if (response.data.role.includes('ADMIN')) {
-                        localStorage.setItem('token', response.data.accessToken)
-                        this.$router.push({ name: 'function' })
+                    if (response.role.includes('ADMIN')) {
+                        localStorage.setItem('token', response.accessToken)
+                        this.$router.push({ name: 'admin-function' })
                     }
                     else {
                         this.$store.dispatch('setDialog', {
@@ -106,7 +106,7 @@ export default {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
-                        message: error.response.data.error.message
+                        message: error.response.error.message
                     })
                 })
         }

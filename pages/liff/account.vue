@@ -28,14 +28,10 @@
 </template>
 
 <script>
-import * as userAPI from "@/utils/userAPI"
+import * as userAPI from "~/utils/userAPI"
 export default {
     layout: 'liff',
-    mounted() {
-        liff.init({
-            liffId: '1656364274-v0dGo98q'
-        })
-    },
+    mounted() {},
     methods: {
         role() {
             this.$router.push({ name: 'liff-role' })
@@ -50,7 +46,7 @@ export default {
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
-                        message: error.response.data.error.message
+                        message: error.response.error.message
                     })
                 })
         },

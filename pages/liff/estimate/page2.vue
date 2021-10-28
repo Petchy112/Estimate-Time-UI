@@ -168,7 +168,7 @@ export default {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
-                        message: response.data.message
+                        message: response.message
                     })
                     await liff.closeWindow()
                 })

@@ -1,17 +1,14 @@
 <template>
     <div>
         <v-col cols="12">
-            <v-card>
+            <div class="login-card">
                 <v-card-title>
                     <div class="my-header">
                         ESTIMATE TIME APP
                     </div>
                 </v-card-title>
-                <v-card-subtitle>
-                    Please login to liff
-                </v-card-subtitle>
                 <v-col cols="12" class="mb-5 text-center profile-img">
-                    <img width="100px" :src="profile">
+                    <img width="80px" :src="profile? profile : require('~/assets/default-profile.png')">
                 </v-col>
 
                 <v-row>
@@ -43,23 +40,24 @@
                             />
 
                             <v-btn
-                                class="width-100"
+                                class="width-100 mb-5"
                                 color="rgb(55, 208, 255)"
                                 rounded
                                 @click="login"
+                                dark
                             >
                                 Sign in
                             </v-btn>
                         </v-form>
                     </v-col>
                 </v-row>
-            </v-card>
+            </div>
         </v-col>
     </div>
 </template>
 
 <script>
-import * as userAPI from "@/utils/userAPI"
+import * as userAPI from "~/utils/userAPI"
 export default {
     layout: 'blank',
     data() {
@@ -84,20 +82,20 @@ export default {
         }
     },
     async mounted() {
-        await liff.init({
-            liffId: '1656364274-8p9ZXm3e'
-        })
-        if (await liff.isLoggedIn()) {
-            liff.getProfile().then(profile => {
-                console.log(profile)
-                this.body.lineUserId = profile.userId
-                this.body.profilePic = profile.pictureUrl
-                localStorage.setItem('lineUserId', profile.userId)
-            })
-        }
-        else {
-            await liff.login()
-        }
+        // await liff.init({
+        //     liffId: '1656364274-ADg78Boe'
+        // })
+        // if (await liff.isLoggedIn()) {
+        //     liff.getProfile().then(profile => {
+        //         console.log(profile)
+        //         this.body.lineUserId = profile.userId
+        //         this.body.profilePic = profile.pictureUrl
+        //         localStorage.setItem('lineUserId', profile.userId)
+        //     })
+        // }
+        // else {
+        //     await liff.login()
+        // }
 
 
     },
@@ -112,16 +110,16 @@ export default {
             await userAPI.login(this.body)
                 .then(async response => {
                     console.log('RESPONSE', response)
-                    await localStorage.setItem('token', response.data.accessToken)
+                    await localStorage.setItem('token', response.accessToken)
                     this.$router.push({ name: 'liff-role' })
 
                 })
                 .catch(error => {
-                    console.log('ERROR page', error.response.data)
+                    console.log('ERROR page', error.response)
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
-                        message: error.response.data.error.message
+                        message: error.response.error.message
                     })
                 })
         }
@@ -136,6 +134,15 @@ export default {
 .width-100 {
     width: 100%;
     margin-bottom:9px ;
+}
+.login-card {
+    border: 1px solid rgba(0,0,0, 0.3);
+    border-radius: 8px;
+    margin: 16px ;
+    background-color: #fafafa;
+    padding: 16px 20px;
+
+
 }
 .v-form {
     padding: 0 20px;

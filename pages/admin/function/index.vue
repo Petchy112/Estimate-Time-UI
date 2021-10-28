@@ -70,7 +70,7 @@
 
 <script>
 import AddFunction from "~/components/dialog/addFunction.vue"
-import * as functionAPI from '@/utils/functionAPI'
+import * as functionAPI from '~/utils/functionAPI'
 export default {
     components: {
         AddFunction
@@ -93,13 +93,13 @@ export default {
         functionAPI.index('WEBSITE')
             .then(response => {
                 console.log('RESPONSE', response)
-                this.functionData = response.data
+                this.functionData = response
             })
             .catch(async error => {
                 await this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
-                    message: error.response.data.error.message
+                    message: error.response.error.message
                 })
             })
     },
@@ -119,7 +119,7 @@ export default {
             this.platform = platform
             await functionAPI.index(platform)
                 .then(response => {
-                    this.functionData = response.data
+                    this.functionData = response
                 })
         }
     }

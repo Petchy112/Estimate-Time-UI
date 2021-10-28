@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import * as estimateAPI from "@/utils/estimateAPI"
+import * as estimateAPI from "~/utils/estimateAPI"
 export default {
 
     data () {
@@ -107,13 +107,13 @@ export default {
         estimateAPI.index()
             .then(response => {
                 console.log('RESPONSE', response)
-                this.estimateData = response.data
+                this.estimateData = response
             })
             .catch(async error => {
                 this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
-                    message: error.response.data.error.message
+                    message: error.response.error.message
                 })
             })
     },

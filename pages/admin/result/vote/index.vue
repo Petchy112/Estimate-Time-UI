@@ -29,7 +29,7 @@
 
 <script>
 import VoteList from "~/components/voteList.vue"
-import * as voteAPI from "@/utils/voteAPI"
+import * as voteAPI from "~/utils/voteAPI"
 import * as functionAPI from "~/utils/functionAPI"
 export default {
     components: {
@@ -46,7 +46,7 @@ export default {
         functionAPI.index('WEBSITE')
             .then(async response => {
                 console.log('RESPONSE', response)
-                this.status = response.data[0].status
+                this.status = response[0].status
                 console.log(this.status)
                 if (this.status == 'OPEN') {
                     this.switchs = true
@@ -59,19 +59,19 @@ export default {
                 this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
-                    message: error.response.data.error.message
+                    message: error.response.error.message
                 })
             })
         voteAPI.index()
             .then(response => {
                 console.log('RESPONSE', response)
-                this.voteResults = response.data
+                this.voteResults = response
             })
             .catch(async error => {
                 this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
-                    message: error.response.data.error.message
+                    message: error.response.error.message
                 })
             })
 
@@ -108,7 +108,7 @@ export default {
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
-                        message: response.data.message
+                        message: response.message
                     })
                 })
 

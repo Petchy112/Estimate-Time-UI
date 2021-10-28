@@ -210,7 +210,7 @@ export default {
         async handlePicture(index) {
             await imageAPI.upload(this.image)
                 .then(async response => {
-                    this.choices[index].imagePath = response.data.path
+                    this.choices[index].imagePath = response.path
                 })
                 .catch(error => {
                     console.log(error)
@@ -219,17 +219,17 @@ export default {
         async handleSaveClicked () {
             await functionAPI.create(this.group, this.platform, this.choices)
                 .then(async response => {
-                    console.log('RESPONSE', response.data)
+                    console.log('RESPONSE', response)
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
                         type: 'success',
-                        message: response.data.message
+                        message: response.message
                     })
                     this.dialog = false
                     await this.$router.push({
                         name: 'function-id',
                         params: {
-                            id: response.data.id
+                            id: response.id
                         }
                     })
                 })
@@ -238,7 +238,7 @@ export default {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
                         type: 'error',
-                        message: error.response.data.error.message
+                        message: error.response.error.message
                     })
 
                 })

@@ -22,14 +22,14 @@ export default {
     mounted() {
         userAPI.getProfile()
             .then(response => {
-                console.log('RESPONSE', response.data)
-                this.userData = response.data
+                console.log('RESPONSE', response)
+                this.userData = response
             })
             .catch(async error => {
                 await this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
-                    message: error.response.data.error.message
+                    message: error.response.error.message
                 })
                 await this.$router.push({ name: 'liff' })
             })

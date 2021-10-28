@@ -82,7 +82,7 @@
 
 <script>
 import * as functionAPI from "~/utils/functionAPI"
-import * as voteAPI from "@/utils/voteAPI"
+import * as voteAPI from "~/utils/voteAPI"
 export default {
     layout: 'liff',
     data() {
@@ -103,7 +103,7 @@ export default {
     //     functionAPI.index('WEBSITE')
     //         .then(async response => {
     //             console.log('res', response)
-    //             this.status = response.data[0].status
+    //             this.status = response[0].status
     //             if (this.status == 'CLOSE') {
     //                 await this.$store.dispatch('setDialog', {
     //                     isShow: true,
@@ -112,7 +112,7 @@ export default {
     //                 })
     //                 await liff.closeWindow()
     //             }
-    //             this.functionData = response.data
+    //             this.functionData = response
     //             this.functionData.forEach(async element => {
     //                 await this.list.push({ fid: element._id, group: element.group, choices: element.choice })
     //             })
@@ -123,7 +123,7 @@ export default {
     //             this.$store.dispatch('setDialog', {
     //                 isShow: true,
     //                 title: 'Please try again',
-    //                 message: error.response.data.error.message
+    //                 message: error.response.error.message
     //             })
     //         })
     // },
@@ -144,23 +144,23 @@ export default {
         async next() {
             for (let j = 0; j < this.list.length; j++) {
                 for (let i = 0; i < this.list[j].choices.length; i++) {
-                    await this.data.push({ fid: this.list[j].fid, choiceId: this.list[j].choices[i]._id, name: this.list[j].choices[i].name, description: this.list[j].choices[i].description, imagePath: this.list[j].choices[i].imagePath, time: this.list[j].choices[i].time })
+                    await this.push({ fid: this.list[j].fid, choiceId: this.list[j].choices[i]._id, name: this.list[j].choices[i].name, description: this.list[j].choices[i].description, imagePath: this.list[j].choices[i].imagePath, time: this.list[j].choices[i].time })
                 }
             }
 
-            await voteAPI.sentVote(this.data)
+            await voteAPI.sentVote(this)
                 .then(async response => {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
-                        message: response.data.message
+                        message: response.message
                     })
                     await liff.closeWindow()
                 }).catch(error => {
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
-                        message: error.response.data.error.message
+                        message: error.response.error.message
                     })
                 })
 

@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import * as userAPI from '@/utils/userAPI'
+import * as userAPI from '~/utils/userAPI'
 export default {
     data() {
         return {
@@ -61,14 +61,14 @@ export default {
         userAPI.index()
             .then(response => {
                 console.log('RESPONSE', response)
-                this.userData = response.data
+                this.userData = response
 
             })
             .catch(async error => {
                 this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
-                    message: error.response.data.error.message
+                    message: error.response.error.message
                 })
             })
     },

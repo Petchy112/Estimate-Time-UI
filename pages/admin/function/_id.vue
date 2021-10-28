@@ -230,7 +230,7 @@
 </template>
 
 <script>
-import * as functionAPI from '@/utils/functionAPI'
+import * as functionAPI from '~/utils/functionAPI'
 import * as imageAPI from "~/utils/imageAPI"
 export default {
     data() {
@@ -265,7 +265,7 @@ export default {
     },
     async mounted() {
         const response = await functionAPI.show(this.$route.params.id)
-        this.functionData = response.data
+        this.functionData = response
         // this.functionData.choice.forEach((element) => {
         //     console.log(element)
         // })
@@ -282,7 +282,7 @@ export default {
         },
         async handlePicture(index) {
             const response = await imageAPI.upload(this.image)
-            this.choice[index].imagePath = response.data
+            this.choice[index].imagePath = response
         },
         async PickFile(index) {
             console.warn(index)
@@ -306,7 +306,7 @@ export default {
                 .then(async response => {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
-                        message: response.data.message
+                        message: response.message
                     })
                     this.editDialog = false
                     this.$router.replace({
@@ -320,7 +320,7 @@ export default {
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
-                        message: error.response.data.error.message
+                        message: error.response.error.message
                     })
                 })
         },
@@ -329,7 +329,7 @@ export default {
                 .then(async response => {
                     await this.$store.dispatch('setDialog', {
                         isShow: true,
-                        message: response.data.message
+                        message: response.message
                     })
                     this.deleteDialog = false
                     await this.$router.replace({
@@ -340,7 +340,7 @@ export default {
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
-                        message: error.response.data.error.message
+                        message: error.response.error.message
                     })
                 })
         },

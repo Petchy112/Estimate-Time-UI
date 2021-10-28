@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import * as userAPI from '@/utils/userAPI'
+import * as userAPI from '~/utils/userAPI'
 import * as imageAPI from "~/utils/imageAPI"
 export default {
     data() {
@@ -89,13 +89,13 @@ export default {
         userAPI.show(this.$route.params.id)
             .then(response => {
                 console.log('RESPONSE', response)
-                this.user = response.data
+                this.user = response
             })
             .catch(async error => {
                 this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
-                    message: error.response.data.error.message
+                    message: error.response.error.message
                 })
             })
 
@@ -138,7 +138,7 @@ export default {
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Success',
-                        message: response.data.message
+                        message: response.message
                     })
                     this.deleteDialog = false
                     await this.$router.replace({ name: 'user' })
@@ -147,7 +147,7 @@ export default {
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
-                        message: error.response.data.error.message
+                        message: error.response.error.message
                     })
                 })
         }

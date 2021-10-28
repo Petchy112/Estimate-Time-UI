@@ -4,7 +4,7 @@
 
 <script>
 import voteDetails from "~/components/voteDetail.vue"
-import * as voteAPI from "@/utils/voteAPI"
+import * as voteAPI from "~/utils/voteAPI"
 export default {
     components: {
         voteDetails
@@ -25,13 +25,13 @@ export default {
         voteAPI.show(this.$route.params.round, this.platform || 'WEBSITE')
             .then(response => {
                 console.log('RESPONSE', response)
-                this.voteData = response.data
+                this.voteData = response
             })
             .catch(async error => {
                 this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
-                    message: error.response.data.error.message
+                    message: error.response.error.message
                 })
             })
     },
@@ -41,13 +41,13 @@ export default {
             await voteAPI.show(this.$route.params.round, platform)
                 .then(response => {
                     console.log('RESPONSE', response)
-                    this.voteData = response.data
+                    this.voteData = response
                 })
                 .catch(async error => {
                     this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
-                        message: error.response.data.error.message
+                        message: error.response.error.message
                     })
                 })
         }
