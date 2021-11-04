@@ -70,7 +70,7 @@
 
 <script>
 import AddFunction from "~/components/dialog/addFunction.vue"
-import * as functionAPI from '~/utils/functionAPI'
+import functionAPI from '~/utils/functionAPI'
 export default {
     components: {
         AddFunction
@@ -90,18 +90,7 @@ export default {
         }
     },
     mounted() {
-        functionAPI.index('WEBSITE')
-            .then(response => {
-                console.log('RESPONSE', response)
-                this.functionData = response
-            })
-            .catch(async error => {
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
-            })
+        this.getFunctionLists()
     },
     computed: {
         filteredItems() {
@@ -111,16 +100,27 @@ export default {
         }
     },
     methods: {
+        async getFunctionLists(platform) {
+            const response = await functionAPI.functionList(platform)
+            try {
+                console.log('RESPONSE', response)
+                this.functionData = response
+            }
+            catch (error) {
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.error.message
+                })
+            }
+        },
         async handleShowClicked(id) {
             console.log(id)
             this.$router.push({ name: 'admin-function-id', params: { id } })
         },
         async choosePlatform(platform) {
-            this.platform = platform
-            await functionAPI.index(platform)
-                .then(response => {
-                    this.functionData = response
-                })
+            this.getFunctionLists(platform)
+
         }
     }
 

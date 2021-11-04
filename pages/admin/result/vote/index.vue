@@ -28,13 +28,11 @@
 </template>
 
 <script>
-import VoteList from "~/components/voteList.vue"
-import * as voteAPI from "~/utils/voteAPI"
-import * as functionAPI from "~/utils/functionAPI"
+import VoteList from "~/components/VoteList.vue"
+import voteAPI from "~/utils/voteAPI"
+import functionAPI from "~/utils/functionAPI"
 export default {
-    components: {
-        VoteList
-    },
+    components: { VoteList },
     data () {
         return {
             voteResults: [],
@@ -43,37 +41,7 @@ export default {
         }
     },
     mounted() {
-        functionAPI.index('WEBSITE')
-            .then(async response => {
-                console.log('RESPONSE', response)
-                this.status = response[0].status
-                console.log(this.status)
-                if (this.status == 'OPEN') {
-                    this.switchs = true
-                }
-                else {
-                    this.switchs = false
-                }
-            })
-            .catch(async error => {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
-            })
-        voteAPI.index()
-            .then(response => {
-                console.log('RESPONSE', response)
-                this.voteResults = response
-            })
-            .catch(async error => {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
-            })
+
 
     },
     computed: {
@@ -83,14 +51,37 @@ export default {
     },
 
     methods: {
-        logs(action) {
-            if (action == true) {
-                action = 'OPEN'
+        async getResult () {
+            const response = await functionAPI.functionList('WEBSITE')
+            try {
+                console.log('RESPONSE', response)
+                this.status = response[0].status
+                console.log(this.status)
+                if (this.status == 'OPEN') {
+                    this.switchs = true
+                }
+                else {
+                    this.switchs = false
+                }
             }
-            else if (action == false) {
-                action = 'CLOSE'
+            catch (error) {
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.error.message
+                })
             }
-            console.log(action)
+            const res = await voteAPI.resultLists()
+            try {
+                this.voteResults = res
+            }
+            catch (error) {
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.res.error.message
+                })
+            }
         },
         async handleShowClicked(round) {
             this.$router.push({ name: 'admin-result-vote-round', params: { round } })

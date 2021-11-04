@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import * as userAPI from "~/utils/userAPI"
+import userAPI from "~/utils/userAPI"
 export default {
     layout: 'blank',
     data() {
@@ -87,28 +87,27 @@ export default {
         async login(body) {
             this.$refs.form.validate()
             console.log(body)
-            await userAPI.login(this.body)
-                .then(async response => {
-                    console.log('RESPONSE', response)
-                    if (response.role.includes('ADMIN')) {
-                        localStorage.setItem('token', response.accessToken)
-                        this.$router.push({ name: 'admin-function' })
-                    }
-                    else {
-                        this.$store.dispatch('setDialog', {
-                            isShow: true,
-                            title: 'Please try again',
-                            message: 'User not in permission'
-                        })
-                    }
-                })
-                .catch(async error => {
-                    await this.$store.dispatch('setDialog', {
+            const response = await userAPI.login(this.body)
+            try {
+                if (response.role.includes('ADMIN')) {
+                    localStorage.setItem('token', response.accessToken)
+                    this.$router.push({ name: 'admin-function' })
+                }
+                else {
+                    this.$store.dispatch('setDialog', {
                         isShow: true,
                         title: 'Please try again',
-                        message: error.response.error.message
+                        message: 'User not in permission'
                     })
+                }
+            }
+            catch (error) {
+                await this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.error.message
                 })
+            }
         }
     }
 }

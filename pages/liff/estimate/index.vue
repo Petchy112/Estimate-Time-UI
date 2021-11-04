@@ -60,18 +60,18 @@
                                     <div
                                         rounded="50%"
                                         class="my-5 mx-5 py-3"
-                                        v-for="data in 3"
+                                        v-for="data in estimateData"
                                         :key="data._id"
                                     >
                                         <div class="estimate-card" v-if="data.length != 0">
                                             <div class="group-name">
-                                                groupfefsfuegneugneugenguengeugneguen
+                                                {{ data.group }}
                                             </div>
 
-                                            <estimateCard
-                                                v-for="choice in 2"
-                                                :choices="choice"
+                                            <EstimateCard
+                                                v-for="choice in data.choices"
                                                 :key="choice.name"
+                                                :choice="choice"
                                                 :active="selected.selectedChoice.includes(choice.name)"
                                                 @chooseChoice="chooseChoice"
                                             />
@@ -113,12 +113,13 @@
 </template>
 
 <script>
-import * as voteAPI from "~/utils/voteAPI"
-import estimateCard from "~/components/estimateCard.vue"
+import EstimateCard from "~/components/estimateCard"
+import voteAPI from "~/utils/voteAPI"
+
 export default {
     layout: 'liff',
     components: {
-        estimateCard
+        EstimateCard
     },
     data() {
         return {
@@ -143,24 +144,26 @@ export default {
     },
 
     async mounted() {
-        await liff.init({
-            liffId: '1656364274-kBvYz6PE'
-        })
-        await voteAPI.getDataForEstimate('WEBSITE')
-            .then(async response => {
+        // await liff.init({
+        //     liffId: '1656364274-kBvYz6PE'
+        // })
+        this.getEstimateData()
+    },
+    methods: {
+        async getEstimateData () {
+            const response = await voteAPI.getDataForEstimate('WEBSITE')
+            try {
                 console.log('RESPONSE', response)
                 this.estimateData = response
-            })
-            .catch(async error => {
-                console.log('ERROR', error.response)
+            }
+            catch (error) {
                 this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
                     message: error.response.error.message
                 })
-            })
-    },
-    methods: {
+            }
+        },
         plus() {
             this.selected.qty = this.selected.qty + 1
         },
@@ -174,7 +177,6 @@ export default {
         },
         async chooseChoice(choice) {
             console.log(choice)
-
             if (this.selected.selectedChoice.includes(choice.name)) {
                 const found = this.selected.selectedChoice.find(element => element == choice.name)
                 const inSelected = this.selected.selectedChoice.indexOf(found)
@@ -209,9 +211,7 @@ export default {
 }
 
 </script>
-
-<style  scoped>
-
+<style scoped>
 .v-toolbar__title {
     width: 100%;
     text-align: center;

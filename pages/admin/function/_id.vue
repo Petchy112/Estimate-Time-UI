@@ -231,18 +231,28 @@
 </template>
 
 <script>
-import * as functionAPI from '~/utils/functionAPI'
-import * as imageAPI from "~/utils/imageAPI"
+import functionAPI from '~/utils/functionAPI'
+import imageAPI from "~/utils/imageAPI"
 export default {
     data() {
         return {
             editDialog: false,
             deleteDialog: false,
-            functionData: null,
+            functionData: [],
             items: [
                 'EDIT', 'DELETE'
             ],
-            group: null,
+            editData: {
+                group: '',
+                choice: [
+                    {
+                        name: '',
+                        description: '',
+                        imageUrl: '',
+                        imagePath: ''
+                    }
+                ]
+            },
             image: null,
             choice: [
                 {
@@ -265,7 +275,7 @@ export default {
         }
     },
     async mounted() {
-        const response = await functionAPI.show(this.$route.params.id)
+        const response = await functionAPI.functionDetails(this.$route.params.id)
         this.functionData = response
         // this.functionData.choice.forEach((element) => {
         //     console.log(element)
@@ -303,47 +313,47 @@ export default {
             this.image = files[0]
         },
         async handleEditClicked () {
-            await functionAPI.edit(this.functionData._id, this.functionData.group, this.functionData.choice)
-                .then(async response => {
-                    await this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        message: response.message
-                    })
-                    this.editDialog = false
-                    this.$router.replace({
-                        name: 'admin-function-id',
-                        params: {
-                            id: this.functionData._id
-                        }
-                    })
+            const response = await functionAPI.editFunction(this.functionData._id, this.functionData.group, this.functionData.choice)
+            try {
+                await this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    message: response.message
                 })
-                .catch(async error => {
-                    this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Please try again',
-                        message: error.response.error.message
-                    })
+                this.editDialog = false
+                this.$router.replace({
+                    name: 'admin-function-id',
+                    params: {
+                        id: this.functionData._id
+                    }
                 })
+            }
+            catch (error) {
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.error.message
+                })
+            }
         },
         async handleDeleteClicked(id) {
-            await functionAPI.del(id)
-                .then(async response => {
-                    await this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        message: response.message
-                    })
-                    this.deleteDialog = false
-                    await this.$router.replace({
-                        name: 'admin-function'
-                    })
+            const response = await functionAPI.deleteFunction(id)
+            try {
+                await this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    message: response.message
                 })
-                .catch(async error => {
-                    this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Please try again',
-                        message: error.response.error.message
-                    })
+                this.deleteDialog = false
+                await this.$router.replace({
+                    name: 'admin-function'
                 })
+            }
+            catch (error) {
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.error.message
+                })
+            }
         },
         async handleAddClicked () {
             console.log(this.functionData.choice.length)

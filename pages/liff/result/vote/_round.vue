@@ -1,6 +1,6 @@
 <template>
     <div>
-        <VoteDetails
+        <VoteDetail
             @choose-platform="choosePlatform"
             :voteData="voteData == [] ? null :voteData"
         />
@@ -8,11 +8,11 @@
 </template>
 
 <script>
-import VoteDetails from "~/components/voteDetail.vue"
-import * as voteAPI from "~/utils/voteAPI"
+import VoteDetail from "~/components/VoteDetail.vue"
+import voteAPI from "~/utils/voteAPI"
 export default {
     layout: 'liff',
-    components: { VoteDetails },
+    components: { VoteDetail },
     data() {
         return {
             platform: '',
@@ -27,7 +27,7 @@ export default {
     },
     methods: {
         async showResult() {
-            const response = await voteAPI.show(this.$route.params.round, this.platform || 'WEBSITE')
+            const response = await voteAPI.resultDetails(this.$route.params.round, this.platform || 'WEBSITE')
             this.voteData = response
         },
         async choosePlatform(platform) {

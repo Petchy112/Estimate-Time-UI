@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import VoteList from "~/components/voteList.vue"
-import * as voteAPI from "~/utils/voteAPI"
+import VoteList from "~/components/VoteList.vue"
+import voteAPI from "~/utils/voteAPI"
 export default {
     layout: 'liff',
     components: {
@@ -29,10 +29,10 @@ export default {
         }
     },
     async mounted() {
-        liff.init({
-            liffId: '1656364274-nbwL6MA9'
-        })
-        const response = await voteAPI.index()
+        // liff.init({
+        //     liffId: '1656364274-nbwL6MA9'
+        // })
+        const response = await voteAPI.resultLists()
         this.voteResults = response
 
     },

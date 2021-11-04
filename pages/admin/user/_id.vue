@@ -73,8 +73,8 @@
 </template>
 
 <script>
-import * as userAPI from '~/utils/userAPI'
-import * as imageAPI from "~/utils/imageAPI"
+import userAPI from '~/utils/userAPI'
+import imageAPI from "~/utils/imageAPI"
 export default {
     data() {
         return {
@@ -86,18 +86,7 @@ export default {
         }
     },
     mounted() {
-        userAPI.show(this.$route.params.id)
-            .then(response => {
-                console.log('RESPONSE', response)
-                this.user = response
-            })
-            .catch(async error => {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
-            })
+        this.getUserDetail()
 
     },
     computed: {
@@ -106,14 +95,28 @@ export default {
         }
     },
     methods: {
+        async getUserDetail() {
+            const response = await userAPI.userDetails(this.$route.params.id)
+            try {
+                console.log('RESPONSE', response)
+                this.user = response
+            }
+            catch (error) {
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.error.message
+                })
+            }
+        },
         async upload() {
-            await imageAPI.upload(this.image)
-                .then(response => {
-                    console.log('response', response)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            const response = await imageAPI.upload(this.image)
+            try {
+                console.log('response', response)
+            }
+            catch (error) {
+                console.log(error)
+            }
         },
         onPickFile() {
             this.$refs.fileInput.click()
@@ -133,23 +136,23 @@ export default {
         },
         async handleDelete(id) {
             console.log(id)
-            await userAPI.remove(id)
-                .then(async response => {
-                    this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Success',
-                        message: response.message
-                    })
-                    this.deleteDialog = false
-                    await this.$router.replace({ name: 'user' })
+            const response = await userAPI.remove(id)
+            try {
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Success',
+                    message: response.message
                 })
-                .catch(async error => {
-                    this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Please try again',
-                        message: error.response.error.message
-                    })
+                this.deleteDialog = false
+                await this.$router.replace({ name: 'user' })
+            }
+            catch (error) {
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.error.message
                 })
+            }
         }
     }
 }

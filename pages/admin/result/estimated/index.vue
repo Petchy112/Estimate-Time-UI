@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import * as estimateAPI from "~/utils/estimateAPI"
+import estimateAPI from "~/utils/estimateAPI"
 export default {
 
     data () {
@@ -104,20 +104,23 @@ export default {
         }
     },
     mounted() {
-        estimateAPI.index()
-            .then(response => {
+        this.getResult()
+    },
+    methods: {
+        async getResult() {
+            const response = await estimateAPI.estimateLists()
+            try {
                 console.log('RESPONSE', response)
                 this.estimateData = response
-            })
-            .catch(async error => {
+            }
+            catch (error) {
                 this.$store.dispatch('setDialog', {
                     isShow: true,
                     title: 'Please try again',
                     message: error.response.error.message
                 })
-            })
-    },
-    methods: {
+            }
+        },
         async handleShowClicked(data) {
             var id = data._id
             this.$router.push({ name: 'admin-result-estimated-id', params: { id } })

@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import * as userAPI from "~/utils/userAPI"
+import userAPI from "~/utils/userAPI"
 export default {
     data: () => ({
         valid: true,
@@ -148,21 +148,21 @@ export default {
         async register () {
             this.$refs.form.validate()
             await userAPI.register(this.body)
-                .then(async response => {
-                    await this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Success',
-                        message: response.message
-                    })
-                    await this.$router.push({ name: 'admin-user' })
+            try {
+                await this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Success',
+                    message: response.message
                 })
-                .catch(async error => {
-                    await this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Please try again',
-                        message: error.response.error.message
-                    })
+                await this.$router.push({ name: 'admin-user' })
+            }
+            catch (error) {
+                await this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.error.message
                 })
+            }
         },
         async cancel () {
             this.$router.push({ name: 'admin-user' })

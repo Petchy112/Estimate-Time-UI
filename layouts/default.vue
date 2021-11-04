@@ -33,6 +33,7 @@
                                 <v-avatar
                                     class="ma-3"
                                     size="100px"
+                                    @change="upload"
                                 >
                                     <v-btn
                                         class="secondary btn-upload"
@@ -45,10 +46,10 @@
                                             mdi-camera
                                         </v-icon>
                                     </v-btn>
-                                    <img v-if="profileImageUrl == undefined || ''" src="~/assets/default-profile.png" alt="">
+                                    <img v-if="userData.profilePic == undefined || ''" src="~/assets/default-profile.png" alt="">
                                     <img
                                         v-else
-                                        :src="profileImageUrl"
+                                        :src="userData.profilePic"
                                     >
                                 </v-avatar>
                             </div>
@@ -129,8 +130,8 @@
 
 <script>
 import alertDialog from "~/components/dialog/alertDialog.vue"
-import * as userAPI from "~/utils/userAPI"
-import * as imageAPI from "~/utils/imageAPI"
+import userAPI from "~/utils/userAPI"
+import imageAPI from "~/utils/imageAPI"
 export default {
     components: {
         alertDialog
@@ -182,36 +183,34 @@ export default {
         }
     },
     async mounted() {
-        await userAPI.getProfile()
-            .then(response => {
-                console.log('RESPONSE', response)
-                this.userData = response
-                this.userId = response.id
+        const response = await userAPI.getProfile()
+        try {
+            this.userData = response
+            this.userId = response.id
+        }
+        catch (error) {
+            await this.$store.dispatch('setDialog', {
+                isShow: true,
+                title: 'Please try again',
+                message: error.response.error.message
             })
-            .catch(async error => {
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
-                await this.$router.push({ name: 'index' })
-            })
+            await this.$router.push({ name: 'index' })
+        }
 
     },
     methods: {
         async upload() {
-            await imageAPI.uploadProfile(this.profileImage)
-                .then(async response => {
-                    console.log('response', response)
-                    await this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Success',
-                        message: response.message
-                    })
+            const response = await imageAPI.uploadProfile(this.profileImage)
+            try {
+                await this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Success',
+                    message: response.message
                 })
-                .catch(error => {
-                    console.log(error)
-                })
+            }
+            catch (error) {
+                console.log(error)
+            }
         },
         onPickFile() {
             this.$refs.fileInput.click()
@@ -230,18 +229,18 @@ export default {
             this.profileImage = files[0]
         },
         async logout() {
-            await userAPI.logout()
-                .then(response => {
-                    localStorage.clear()
-                    this.$router.replace({ name: 'index' })
+            const response =await userAPI.logout()
+            try {
+                localStorage.clear()
+                this.$router.replace({ name: 'index' })
+            }
+            catch (error) {
+                await this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.error.message
                 })
-                .catch(async error => {
-                    await this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Please try again',
-                        message: error.response.error.message
-                    })
-                })
+            }
         },
         async changepassword() {
             await this.$router.push({ name: 'admin-changepassword' })

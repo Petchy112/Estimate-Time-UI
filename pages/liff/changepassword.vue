@@ -16,7 +16,7 @@
 
 <script>
 import changepassword from "~/components/auth/changepassword.vue"
-import * as userAPI from "~/utils/userAPI"
+import userAPI from "~/utils/userAPI"
 export default {
     layout: 'liff',
     components: { changepassword },
@@ -26,22 +26,22 @@ export default {
         },
         async handleChangeClicked(body) {
             console.log(body)
-            await userAPI.changepassword(body)
-                .then(async response => {
-                    await this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Success',
-                        message: response.message
-                    })
-                    await liff.closeWindow()
+            const response = await userAPI.changepassword(body)
+            try {
+                await this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Success',
+                    message: response.message
                 })
-                .catch(error => {
-                    this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Please try again',
-                        message: error.response.error.message
-                    })
+                await liff.closeWindow()
+            }
+            catch (error) {
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.error.message
                 })
+            }
         }
     }
 }

@@ -1,13 +1,14 @@
 <template>
-    <voteDetails @choose-platform="choosePlatform" :voteData="voteData" />
+    <VoteDetail @choose-platform="choosePlatform" :voteData="voteData" />
 </template>
 
 <script>
-import voteDetails from "~/components/voteDetail.vue"
-import * as voteAPI from "~/utils/voteAPI"
+
+import VoteDetail from "~/components/VoteDetail.vue"
+import voteAPI from "~/utils/voteAPI"
 export default {
     components: {
-        voteDetails
+        VoteDetail
     },
     data() {
         return {
@@ -22,34 +23,34 @@ export default {
         }
     },
     mounted() {
-        voteAPI.show(this.$route.params.round, this.platform || 'WEBSITE')
-            .then(response => {
-                console.log('RESPONSE', response)
-                this.voteData = response
+        const response = voteAPI.resultDetails(this.$route.params.round, this.platform || 'WEBSITE')
+        try {
+            console.log('RESPONSE', response)
+            this.voteData = response
+        }
+        catch (error) {
+            this.$store.dispatch('setDialog', {
+                isShow: true,
+                title: 'Please try again',
+                message: error.response.error.message
             })
-            .catch(async error => {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
-            })
+        }
     },
     methods: {
         async choosePlatform(platform) {
             this.platform = platform
             await voteAPI.show(this.$route.params.round, platform)
-                .then(response => {
-                    console.log('RESPONSE', response)
-                    this.voteData = response
+            try {
+                console.log('RESPONSE', response)
+                this.voteData = response
+            }
+            catch (error) {
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.error.message
                 })
-                .catch(async error => {
-                    this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Please try again',
-                        message: error.response.error.message
-                    })
-                })
+            }
         }
     }
 }

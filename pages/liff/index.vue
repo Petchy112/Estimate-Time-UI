@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import * as userAPI from "~/utils/userAPI"
+import userAPI from "~/utils/userAPI"
 export default {
     layout: 'blank',
     data() {
@@ -82,20 +82,20 @@ export default {
         }
     },
     async mounted() {
-        await liff.init({
-            liffId: '1656364274-ADg78Boe'
-        })
-        if (await liff.isLoggedIn()) {
-            liff.getProfile().then(profile => {
-                console.log(profile)
-                this.body.lineUserId = profile.userId
-                this.body.profilePic = profile.pictureUrl
-                localStorage.setItem('lineUserId', profile.userId)
-            })
-        }
-        else {
-            await liff.login()
-        }
+        // await liff.init({
+        //     liffId: '1656364274-ADg78Boe'
+        // })
+        // if (await liff.isLoggedIn()) {
+        //     liff.getProfile().then(profile => {
+        //         console.log(profile)
+        //         this.body.lineUserId = profile.userId
+        //         this.body.profilePic = profile.pictureUrl
+        //         localStorage.setItem('lineUserId', profile.userId)
+        //     })
+        // }
+        // else {
+        //     await liff.login()
+        // }
 
 
     },
@@ -107,21 +107,21 @@ export default {
     methods: {
         async login() {
             this.$refs.form.validate()
-            await userAPI.login(this.body)
-                .then(async response => {
-                    console.log('RESPONSE', response)
-                    await localStorage.setItem('token', response.accessToken)
-                    this.$router.push({ name: 'liff-role' })
+            const response = await userAPI.login(this.body)
+            try {
+                console.log('RESPONSE', response)
+                await localStorage.setItem('token', response.accessToken)
+                this.$router.push({ name: 'liff-role' })
 
+            }
+            catch (error) {
+                console.log('ERROR page', error.response)
+                this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    title: 'Please try again',
+                    message: error.response.error.message
                 })
-                .catch(error => {
-                    console.log('ERROR page', error.response)
-                    this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Please try again',
-                        message: error.response.error.message
-                    })
-                })
+            }
         }
     }
 }

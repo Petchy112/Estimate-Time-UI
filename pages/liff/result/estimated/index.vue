@@ -82,7 +82,7 @@
 
 
 <script>
-import * as estimateAPI from "~/utils/estimateAPI"
+import estimateAPI from "~/utils/estimateAPI"
 export default {
     layout: 'liff',
     data () {
@@ -96,22 +96,22 @@ export default {
         }
     },
     async mounted() {
-        await liff.init({
-            liffId: '1656364274-ADg78Boe'
-        })
-        await estimateAPI.index()
-            .then(response => {
-                console.log('RESPONSE', response)
-                this.estimateData = response
+        // await liff.init({
+        //     liffId: '1656364274-ADg78Boe'
+        // })
+        await estimateAPI.estimateLists()
+        try {
+            console.log('RESPONSE', response)
+            this.estimateData = response
+        }
+        catch (error) {
+            console.log('ERROR', error.response)
+            this.$store.dispatch('setDialog', {
+                isShow: true,
+                title: 'Please try again',
+                message: error.response.error.message
             })
-            .catch(async error => {
-                console.log('ERROR', error.response)
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
-            })
+        }
     },
     computed: {
         filteredItems() {

@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import * as estimateAPI from "~/utils/estimateAPI"
+import estimateAPI from "~/utils/estimateAPI"
 export default {
     layout: 'liff',
     data() {
@@ -162,16 +162,15 @@ export default {
             })
             var body = await this.$store.getters.getSelectedEstimate
             console.log(body)
-            await estimateAPI.sentEstimate(body)
-                .then(async response => {
-                    this.nameDialog = false
-                    await this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Success',
-                        message: response.message
-                    })
-                    await liff.closeWindow()
-                })
+            const response = await estimateAPI.sentEstimate(body)
+            this.nameDialog = false
+            await this.$store.dispatch('setDialog', {
+                isShow: true,
+                title: 'Success',
+                message: response.message
+            })
+            await liff.closeWindow()
+
         },
         back() {
             this.$router.push({ name: 'liff-estimate' })

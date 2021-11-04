@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import * as userAPI from "~/utils/userAPI"
+import userAPI from "~/utils/userAPI"
 import alertDialog from "~/components/dialog/alertDialog.vue"
 export default {
     components: {
@@ -20,19 +20,18 @@ export default {
         }
     },
     mounted() {
-        userAPI.getProfile()
-            .then(response => {
-                console.log('RESPONSE', response)
-                this.userData = response
+        const response = userAPI.getProfile()
+        try {
+            this.userData = response
+        }
+        catch (error) {
+            this.$store.dispatch('setDialog', {
+                isShow: true,
+                title: 'Please try again',
+                message: error.response.error.message
             })
-            .catch(async error => {
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
-                await this.$router.push({ name: 'liff' })
-            })
+            this.$router.push({ name: 'liff' })
+        }
     },
 }
 </script>
