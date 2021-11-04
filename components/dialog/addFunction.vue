@@ -162,8 +162,8 @@
 </template>
 
 <script>
-import * as functionAPI from "~/utils/functionAPI"
-import * as imageAPI from "~/utils/imageAPI"
+import functionAPI from "~/utils/functionAPI"
+import imageAPI from "~/utils/imageAPI"
 export default {
     data() {
         return {
@@ -208,40 +208,39 @@ export default {
             this.image = files[0]
         },
         async handlePicture(index) {
-            await imageAPI.upload(this.image)
-                .then(async response => {
-                    this.choices[index].imagePath = response.path
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            try {
+                const response = await imageAPI.upload(this.image)
+                this.choices[index].imagePath = response.path
+            }
+            catch (error) {
+                console.log(error)
+            }
         },
         async handleSaveClicked () {
-            await functionAPI.create(this.group, this.platform, this.choices)
-                .then(async response => {
-                    console.log('RESPONSE', response)
-                    await this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        type: 'success',
-                        message: response.message
-                    })
-                    this.dialog = false
-                    await this.$router.push({
-                        name: 'admin-function-id',
-                        params: {
-                            id: response.id
-                        }
-                    })
+            const response = await functionAPI.createFunction(this.group, this.platform, this.choices)
+            try {
+                await this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    type: 'success',
+                    message: response.message
                 })
-                .catch(async error => {
-                    console.log('ERROR', error.response)
-                    await this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        type: 'error',
-                        message: error.response.error.message
-                    })
+                this.dialog = false
+                await this.$router.push({
+                    name: 'admin-function-id',
+                    params: {
+                        id: response.id
+                    }
+                })
+            }
+            catch (error) {
+                console.log('ERROR', error.response)
+                await this.$store.dispatch('setDialog', {
+                    isShow: true,
+                    type: 'error',
+                    message: error.response.error.message
+                })
 
-                })
+            }
 
         },
         async handleAddClicked() {
