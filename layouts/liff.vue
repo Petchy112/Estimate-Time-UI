@@ -36,7 +36,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '~/styles/variables.scss';
 .v-application{
     font-family: 'Mitr', sans-serif !important;
     background-color: rgb(55, 208, 255);

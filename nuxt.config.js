@@ -1,7 +1,6 @@
 
 
 export default {
-    // Global page headers: https://go.nuxtjs.dev/config-head
     target: 'static',
     head: {
         titleTemplate: '%s',
@@ -24,38 +23,33 @@ export default {
         ]
     },
 
-    // Global CSS: https://go.nuxtjs.dev/config-css
-    css: [ ],
+    css: [ 'reset-css/reset.css', 'toastr/build/toastr.min.css', ],
 
-    // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
+        '~/plugins/validate.js',
     ],
-
-    // Auto import components: https://go.nuxtjs.dev/config-components
     components: true,
 
-    // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
     buildModules: [
-    // https://go.nuxtjs.dev/eslint
         '@nuxtjs/eslint-module',
-        // https://go.nuxtjs.dev/vuetify
         '@nuxtjs/vuetify',
     ],
 
-    // Modules: https://go.nuxtjs.dev/config-modules
     modules: [
-    // https://go.nuxtjs.dev/axios
+
         '@nuxtjs/axios',
+        '@nuxtjs/style-resources',
     ],
 
-    // Axios module configuration: https://go.nuxtjs.dev/config-axios
     axios: {},
 
-    // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
     vuetify: {
         customVariables: [ '~/styles/variables.scss' ],
     },
-    // Build Configuration: https://go.nuxtjs.dev/config-build
+    router: {
+        linkExactActiveClass: 'active-link',
+        // middleware: [ 'authenticated' ]
+    },
     build: {
     }
 }

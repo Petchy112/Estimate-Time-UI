@@ -18,6 +18,7 @@ export default {
 </script>
 
 <style scoped>
+@import '~/styles/variables.scss';
 .v-application{
     font-family: 'Mitr', sans-serif !important;
 }

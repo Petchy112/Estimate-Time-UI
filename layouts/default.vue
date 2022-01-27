@@ -248,7 +248,8 @@ export default {
     }
 }
 </script>
-<style>
+<style lang="scss">
+@import '~/styles/variables.scss';
 .btn-upload {
     background-color: brown;
     margin-top: 70px;
