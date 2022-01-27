@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import * as userAPI from '~/utils/userAPI'
+import userAPI from '~/utils/userAPI'
 export default {
     data() {
         return {
@@ -58,7 +58,7 @@ export default {
     },
 
     mounted () {
-        userAPI.index()
+        userAPI.userLists()
             .then(response => {
                 console.log('RESPONSE', response)
                 this.userData = response

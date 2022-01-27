@@ -211,7 +211,7 @@ export default {
 }
 
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .v-toolbar__title {
     width: 100%;
     text-align: center;
