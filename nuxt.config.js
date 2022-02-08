@@ -26,7 +26,11 @@ export default {
     css: [ 'reset-css/reset.css', 'toastr/build/toastr.min.css', ],
 
     plugins: [
-        '~/plugins/validate.js',
+        '~/plugin/validate.js',
+        '~/plugin/createInstanceAPI.js',
+        { src: '~/plugin/persist', ssr: false },
+
+
     ],
     components: true,
 
@@ -36,7 +40,6 @@ export default {
     ],
 
     modules: [
-
         '@nuxtjs/axios',
         '@nuxtjs/style-resources',
     ],
@@ -45,6 +48,11 @@ export default {
 
     vuetify: {
         customVariables: [ '~/styles/variables.scss' ],
+    },
+    styleResources: {
+        scss: [
+            '~styles/vars/*.scss'
+        ]
     },
     router: {
         linkExactActiveClass: 'active-link',
