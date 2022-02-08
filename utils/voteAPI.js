@@ -1,26 +1,24 @@
-import { HOSTNAME } from '~/utils/API'
-import { request } from "./API"
+import instanceAPI from "~/utils/instance"
 
 export default {
     resultLists: () => {
-        const url =`${HOSTNAME}/vote`
-        return request('get', url, {}, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.get(`/vote`)
+            .then(response => response.data)
     },
     resultDetails: (round, platform) => {
-        const url =`${HOSTNAME}/vote/${round}?platform=${platform}`
-        return request('get', url, {}, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.get(`/vote/${round}/?platform=${platform}`)
+            .then(response => response.data)
     },
-    sentVote: (body) => {
-        console.log(body)
-        const url =`${HOSTNAME}/vote/save`
-        return request('post', url, { body }, { Authorization: localStorage.getItem('token') })
+    sentVote: (data) => {
+        return instanceAPI.api.post(`/vote/save`, data)
+            .then(response => response.data)
     },
     getDataForEstimate: (platform) => {
-        const url =`${HOSTNAME}/vote/result/?platform=${platform}`
-        return request('get', url, {}, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.get(`/vote/result?platform=${platform}`)
+            .then(response => response.data)
     },
     handleVote: (action) => {
-        const url =`${HOSTNAME}/vote/controlVote/?action=${action}`
-        return request('post', url, {}, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.post(`/vote/controlVote/?action=${action}`)
+            .then(response => response.data)
     },
 }

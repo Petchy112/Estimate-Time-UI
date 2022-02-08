@@ -1,17 +1,16 @@
-import { request } from '~/utils/API'
-import { HOSTNAME } from '~/utils/API'
+import instanceAPI from '~/utils/instance'
 
 export default {
     estimateLists: () => {
-        const url =`${HOSTNAME}/estimate`
-        return request('get', url, {}, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.get(`/estimate`)
+            .then(response => response.data)
     },
     estimateDetail: (id) => {
-        const url = `${HOSTNAME}/estimate/${id}`
-        return request('get', url, {}, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.get(`/estimate/${id}`)
+            .then(response => response.data)
     },
-    sentEstimate: (body)=> {
-        const url =`${HOSTNAME}/estimate/save`
-        return request('post', url, body, { Authorization: localStorage.getItem('token') })
+    sentEstimate: (data)=> {
+        return instanceAPI.api.post(`/estimate/save`, data)
+            .then(response => response.data)
     }
 }

@@ -1,43 +1,41 @@
-import { request } from "./API"
-import { HOSTNAME } from '~/utils/API'
+import instanceAPI from '~/utils/instance'
 
 export default {
     userLists: () => {
-        const url = `${HOSTNAME}/user`
-        return request('get', url, {}, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.get(`/user`)
+            .then(response => response.data)
     },
-    register: (body) => {
-        const url = `${HOSTNAME}/user/register`
-        return request('post', url, body, null)
+    register: (data) => {
+        return instanceAPI.api.post(`/user/login`, data)
+            .then(response => response.data)
     },
-    login: (body) => {
-        const url = `${HOSTNAME}/user/login`
-        return request('post', url, body, null)
+    login: (data) => {
+        return instanceAPI.api.post(`/user/login`, data)
+            .then(response => response.data)
     },
-    selectRole: (role) => {
-        const url = `${HOSTNAME}/user/selectRole`
-        return request('post', url, { role }, { lineUserId: localStorage.getItem('lineUserId') })
+    selectRole: (data) => {
+        return instanceAPI.api.post(`/user/selectRole`, data)
+            .then(response => response.data)
     },
     getProfile: () => {
-        const url = `${HOSTNAME}/user/data`
-        return request('get', url, {}, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.get(`/user/data`)
+            .then(response => response.data)
     },
-    changepassword: (body) => {
-        const url = `${HOSTNAME}/user/changePassword`
-        return request('post', url, body, { Authorization: localStorage.getItem('token') })
+    changepassword: (data) => {
+        return instanceAPI.api.post(`/user/changePassword`, data)
+            .then(response => response.data)
     },
     logout: () => {
-        const url = `${HOSTNAME}/user/logout`
-        return request('post', url, {}, { lineUserId: localStorage.getItem('lineUserId'), Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.post(`/user/logout`, data)
+            .then(response => response.data)
     },
     userDetails: (id) => {
-        console.log(id)
-        const url = `${HOSTNAME}/user/${id}`
-        return request('get', url, {}, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.get(`/user/${id}`, data)
+            .then(response => response.data)
     },
     removeUser: (id)=> {
-        const url = `${HOSTNAME}/user/${id}`
-        return request('delete', url, {}, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.delete(`/user/${id}`, data)
+            .then(response => response.data)
     }
 }
 

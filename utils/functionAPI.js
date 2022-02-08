@@ -1,27 +1,24 @@
-import { request } from "./API"
-import { HOSTNAME } from '~/utils/API'
+import instanceAPI from "~/utils/instance"
 
 export default {
     functionList: (platform) => {
-        const url =`${HOSTNAME}/function?platform=${platform}`
-        return request('get', url, {}, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.get(`/function?platform=${platform}`)
+            .then(response => response.data)
     },
     functionDetails: (id) => {
-        const url =`${HOSTNAME}/function/${id}`
-        return request('get', url, {}, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.get(`/function/${id}`)
+            .then(response => response.data)
     },
     createFunction: (group, platform, choice) => {
-        console.log(group, platform, choice)
-        const url =`${HOSTNAME}/function/add`
-        return request('post', url, { group, platform, choice }, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.post(`/function/add`, group, platform, choice)
+            .then(response => response.data)
     },
     editFunction: (id, group, choice) => {
-        console.log(group, choice)
-        const url =`${HOSTNAME}/function/${id}/edit`
-        return request('put', url, { group, choice }, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.post(`/function/${id}/edit`, group, choice)
+            .then(response => response.data)
     },
     deleteFunction: (id) => {
-        const url =`${HOSTNAME}/function/${id}`
-        return request('delete', url, {}, { Authorization: localStorage.getItem('token') })
+        return instanceAPI.api.delete(`/function/${id}`)
+            .then(response => response.data)
     }
 }
