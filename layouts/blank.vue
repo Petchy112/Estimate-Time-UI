@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container class="container">
+        <v-container>
             <Nuxt />
         </v-container>
         <alertDialog />
@@ -19,13 +19,5 @@ export default {
 
 <style scoped>
 @import '~/styles/variables.scss';
-.v-application{
-    font-family: 'Mitr', sans-serif !important;
-}
-.v-application--wrap {
-    justify-content: center ;
-}
-.w-100{
- width: 100%;
-}
+
 </style>

@@ -18,10 +18,11 @@
                 <v-card-title class="justify-start ">
                     Email : {{ user.email }}
                 </v-card-title>
-                Role
-                <div v-for="role in user.role" :key="role.index" class=" ml-3 justify-start ">
-                    {{ role }}
-                </div>
+                <v-card-title class="justify-start ">
+                    Role : {{ role }}
+                </v-card-title>
+
+
                 <div
                     class="card-action"
                 >
@@ -100,6 +101,7 @@ export default {
             try {
                 console.log('RESPONSE', response)
                 this.user = response
+                this.role = this.user.role.join(', ')
             }
             catch (error) {
                 this.$store.dispatch('setDialog', {

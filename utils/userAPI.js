@@ -30,7 +30,7 @@ export default {
             .then(response => response.data)
     },
     userDetails: (id) => {
-        return instanceAPI.api.get(`/user/${id}`, data)
+        return instanceAPI.api.get(`/user/${id}`)
             .then(response => response.data)
     },
     removeUser: (id)=> {

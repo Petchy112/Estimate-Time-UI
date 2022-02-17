@@ -1,7 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;400;600&display=swap");
+@import '~/styles/font.scss';
+@import '~/styles/custom.scss';
 html,
 body {
-  font-family: "Mitr", sans-serif !important;
+  font-family: 'Prompt' !important;
   font-size: 1rem !important;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.85) !important;

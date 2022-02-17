@@ -58,7 +58,7 @@ export default {
         // liff.init({
         //     liffId: '1656364274-lqgZY5w3'
         // })
-        const response = await functionAPI.index('WEBSITE')
+        const response = await functionAPI.functionList('WEBSITE')
         this.functionData = response
         this.functionData.forEach(async element => {
             await this.list.push({ fid: element._id, group: element.group, choices: element.choices })

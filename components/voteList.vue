@@ -15,7 +15,9 @@
                         :key="data.index"
                         @click="handleShowClicked(data)"
                     >
-                        <td>Vote round {{ data }}</td>
+                        <td class="pt-3">
+                            Vote round {{ data }}
+                        </td>
                     </tr>
                 </tbody>
             </template>

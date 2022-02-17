@@ -2,6 +2,7 @@
     <div v-if="functionData">
         <h1
             class="ma-3"
+            style="font-size:30px; font-weight:bold;"
         >
             {{ functionData.group }}
         </h1>

@@ -2,9 +2,9 @@
     <v-app>
         <v-app-bar
             :clipped-left="clipped"
-            app
-            dark
+            class="top-bar"
             flat
+            app
             color="rgb(55, 208, 255)"
         >
             <v-app-bar-nav-icon @click="drawer = !drawer" />
@@ -12,7 +12,6 @@
             <v-spacer />
             <div class="text-center">
                 <v-menu
-
                     :close-on-content-click="false"
                     :nudge-width="200"
                     offset-y
@@ -27,62 +26,57 @@
                         </v-btn>
                     </template>
 
-                    <v-card>
-                        <v-list>
-                            <div class="picture">
-                                <v-avatar
-                                    class="ma-3"
-                                    size="100px"
-                                    @change="upload"
+                    <v-card class="profile-card">
+                        <div class="wrap-image">
+                            <v-avatar
+                                class="image"
+                                size="100px"
+                                @change="upload"
+                            >
+                                <v-btn
+                                    class="secondary btn-upload"
+                                    fab
+                                    width="30px"
+                                    height="30px"
+                                    @click="onPickFile"
                                 >
-                                    <v-btn
-                                        class="secondary btn-upload"
-                                        fab
-                                        width="30px"
-                                        height="30px"
-                                        @click="onPickFile"
-                                    >
-                                        <v-icon size="20px">
-                                            mdi-camera
-                                        </v-icon>
-                                    </v-btn>
-                                    <img v-if="userData.profilePic == undefined || ''" src="~/assets/default-profile.png" alt="">
-                                    <img
-                                        v-else
-                                        :src="userData.profilePic"
-                                    >
-                                </v-avatar>
+                                    <v-icon size="20px">
+                                        mdi-camera
+                                    </v-icon>
+                                </v-btn>
+
+                                <img
+                                    :src="profile.profilePic ? profile.profilePic : require('~/assets/default-profile.png')"
+                                >
+                            </v-avatar>
+                        </div>
+
+
+                        <div class="profile">
+                            <div class="name">
+                                Hello, {{ profile.firstname }}
                             </div>
 
+                            <div class="email">
+                                {{ profile.email }}
+                            </div>
+                        </div>
+                        <input
+                            type="file"
+                            style="display:none"
+                            ref="fileInput"
+                            accept="image/*"
+                            @change="onFilePicked"
+                        >
+                        <div class="button-section">
+                            <v-btn color="primary" plain @click="changepassword">
+                                change password
+                            </v-btn>
 
-                            <v-list-item-title class="profile">
-                                Admin, {{ userData.firstname }}
-                            </v-list-item-title>
-                            <v-list-item-subtitle class="email">
-                                {{ userData.email }}
-                            </v-list-item-subtitle>
-                            <v-list-item-action>
-                                <div>
-                                    <input
-                                        type="file"
-                                        style="display:none"
-                                        ref="fileInput"
-                                        accept="image/*"
-                                        @change="onFilePicked"
-                                    ><v-btn class="btn-drawer" color="success" @click="upload">
-                                        Save Image
-                                    </v-btn>
-                                    <br>
-                                    <v-btn class="btn-drawer" color="primary" @click="changepassword">
-                                        change password
-                                    </v-btn>
-                                    <br>
-                                    <v-btn class="btn-drawer" color="error" @click="logout">
-                                        Sign out
-                                    </v-btn>
-                                </div>
-                            </v-list-item-action>
-                        </v-list>
+                            <v-btn color="error" @click="logout">
+                                Sign out
+                            </v-btn>
+                        </div>
                     </v-card>
                 </v-menu>
             </div>
@@ -129,6 +123,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import alertDialog from "~/components/dialog/alertDialog.vue"
 import userAPI from "~/utils/userAPI"
 import imageAPI from "~/utils/imageAPI"
@@ -183,20 +179,25 @@ export default {
         }
     },
     async mounted() {
-        const response = await userAPI.getProfile()
-        try {
-            this.userData = response
-            this.userId = response.id
-        }
-        catch (error) {
-            await this.$store.dispatch('setDialog', {
-                isShow: true,
-                title: 'Please try again',
-                message: error.response.error.message
-            })
-            await this.$router.push({ name: 'index' })
-        }
+        // const response = await userAPI.getProfile()
+        // try {
+        //     this.userData = response
+        //     this.userId = response.id
+        // }
+        // catch (error) {
+        //     await this.$store.dispatch('setDialog', {
+        //         isShow: true,
+        //         title: 'Please try again',
+        //         message: error.response.error.message
+        //     })
+        //     await this.$router.push({ name: 'index' })
+        // }
 
+    },
+    computed: {
+        ...mapState({
+            profile: state => state.profile.profile
+        })
     },
     methods: {
         async upload() {
@@ -248,37 +249,46 @@ export default {
     }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~/styles/variables.scss';
-.btn-upload {
-    background-color: brown;
-    margin-top: 70px;
-    position: absolute;
+
+.profile-card {
+    margin: 0 auto;
+    padding: 10px;
+    & .wrap-image {
+        border-radius: 50% !important;
+        display: flex;
+        justify-content: center;
+        & .image {
+                width: 60px;
+                height: 60px;
+                & .btn-upload {
+                    background-color: brown;
+                    margin-top: 70px;
+                    position: absolute;
+                }
+            }
+    }
+
+    & .profile {
+        text-align: center;
+        font-size: 24px;
+
+        & .email {
+            padding-top: 0px;
+            text-align: center;
+            font-size: 16px;
+            color: rgba($color: #000000, $alpha: 0.5);
+        }
+    }
+    & .button-section {
+        margin-top: 16px;
+        margin-bottom: 16px;
+        display: grid;
+        grid-auto-flow: row;
+        grid-gap: 10px;
+
+   }
 }
-h1 {
-    text-align: center;
-}
-.picture {
-    border-radius: 50% !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.profile {
-    text-align: center;
-    font-weight: bold;
-    font-size: 24px;
-}
-.email {
-    padding-top: 0px;
-    text-align: center;
-    font-size: 16px;
-}
-.btn-drawer {
-    margin-top: 20px !important;
-    width: 115%;
-}
-.w-100 {
-    width: 100% ;
-}
+
 </style>

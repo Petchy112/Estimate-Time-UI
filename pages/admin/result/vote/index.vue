@@ -42,7 +42,7 @@ export default {
     },
     mounted() {
 
-
+        this.getResult()
     },
     computed: {
         theStatus() {

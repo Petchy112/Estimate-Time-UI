@@ -22,7 +22,7 @@ export default {
             { src: "https://static.line-scdn.net/liff/edge/2.1/sdk.js" }
         ]
     },
-
+    loading: [ '~/components/Loading.vue' ],
     css: [ 'reset-css/reset.css', 'toastr/build/toastr.min.css', ],
 
     plugins: [

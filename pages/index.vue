@@ -1,147 +1,105 @@
 <template>
-    <div>
-        <v-col cols="12">
-            <v-card
-                max-width="1500px"
-                class="card-round pa-6 py-7"
-            >
-                <v-card-title>
-                    <div class="my-header">
-                        ESTIMATE TIME APP
-                    </div>
-                </v-card-title>
-                <p class="ml-4">
-                    Please login to website
-                </p>
-                <v-row>
-                    <v-col cols="12">
-                        <v-form
-                            ref="form"
-                            v-model="valid"
-                            lazy-validation
-                        >
-                            <v-text-field
-                                dense
-                                v-model="body.email"
-                                :rules="emailRules"
-                                type="email"
-                                label="Email"
-                                outlined
-                                required
-                            />
-                            <v-text-field
-                                dense
-                                v-model="body.password"
-                                :rules="passwordRules"
-                                :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                                :type="show ? 'text' : 'password'"
-                                @click:append="show = !show"
-                                label="Password"
-                                outlined
-                                required
-                            />
-                            <v-btn
-                                class="width-100 btn-signin"
-
-                                color="rgb(55, 208, 255)"
-                                rounded
-                                @click="login(body)"
-                            >
-                                Sign in
-                            </v-btn>
-                        </v-form>
-                    </v-col>
-                </v-row>
-            </v-card>
-        </v-col>
-    </div>
+    <div />
 </template>
 
 <script>
-import userAPI from "~/utils/userAPI"
-export default {
-    layout: 'blank',
-    data() {
-        return {
-            token: '',
-            valid: true,
-            message: '',
-            body: {
-                email: '',
-                password: '',
+// import liff from '@line/liff'
+// import { mapMutations, mapState } from 'vuex'
 
-            },
-            show: false,
-            passwordRules: [
-                v => !!v || 'Password is Required.',
-                v => (v && v.length >= 8) || 'Min 8 characters',
-            ],
-            emailRules: [
-                v => !!v || 'E-mail is required',
-                v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-            ],
-        }
-    },
+// export default {
+//     data () {
+//         return {
+//             role: '',
+//             action: '',
+//             params: ''
+//         }
+//     },
+//     computed: {
+//         ...mapState({
+//             auth: state => state.auth
+//         })
+//     },
+//     mounted () {
+//         try {
+//             liff.init({ liffId: '1656485269-RQoM7d63' }, () => {
+//                 if (liff.isLoggedIn()) {
+//                     const queryString = decodeURIComponent(window.location.search).replace('?liff.state=', '')
+//                     const params = new URLSearchParams(queryString)
+//                     this.params = params
 
-    methods: {
-        async login(body) {
-            this.$refs.form.validate()
-            console.log(body)
-            const response = await userAPI.login(this.body)
-            try {
-                if (response.role.includes('ADMIN')) {
-                    localStorage.setItem('token', response.accessToken)
-                    this.$router.push({ name: 'admin-function' })
-                }
-                else {
-                    this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Please try again',
-                        message: 'User not in permission'
-                    })
-                }
-            }
-            catch (error) {
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
-            }
-        }
-    }
-}
-</script>
+//                     liff.getProfile().then((profile) => {
+//                         this.setLineId(profile.userId)
+//                         // window.alert(this.$route.query.action)
+//                         if (params.get('role') === 'MANAGER') {
+//                             if (this.auth.managerLoggedin) {
+//                                 switch (params.get('action')) {
+//                                     case 'dailyReport':
+//                                         this.$router.push('/manager/dailyReport')
+//                                         break
+//                                     case 'monthlyReport':
+//                                         this.$router.push('/manager/monthlyReport')
+//                                         break
+//                                     case 'more':
+//                                         this.$router.push('/manager/more')
+//                                         break
+//                                     case 'ot':
+//                                         this.$router.push('/manager/dailyReport/ot')
+//                                         break
+//                                     case 'leave':
+//                                         this.$router.push('/manager/dailyReport/leave')
+//                                         break
+//                                     default:
+//                                         this.$router.push('/manager/dailyReport')
+//                                         break
+//                                 }
+//                             }
+//                             else {
+//                                 this.$router.push('/manager/register')
+//                             }
+//                         }
+//                         if (params.get('role') === 'STAFF') {
+//                             if (this.auth.staffLoggedin) {
+//                                 switch (this.$route.query.action) {
+//                                     case 'clockin':
+//                                         this.$router.push('/staff/clock/clockin')
+//                                         break
+//                                     case 'clockout':
+//                                         this.$router.push(`/staff/clock/clockout?recordId=${this.$route.query.recordId}`)
+//                                         break
+//                                     case 'leave':
+//                                         this.$router.push('/staff/request/leave')
+//                                         break
+//                                     case 'ot':
+//                                         this.$router.push('/staff/request/ot')
+//                                         break
+//                                     case 'more':
+//                                         this.$router.push('/staff/more')
+//                                         break
+//                                     default:
+//                                         this.$router.push('/staff/clock/clockin')
+//                                         break
+//                                 }
+//                             }
+//                             else {
+//                                 this.$router.push('/staff/register')
+//                             }
+//                         }
+//                     })
+//                 }
+//                 else {
+//                     liff.login()
+//                 }
+//             })
+//         }
+//         catch (error) {
+//             console.log(error)
+//         }
+//     },
+//     methods: {
+//         ...mapMutations({
+//             setLineId: 'auth/setLineId'
+//         })
+//     }
+// }
+// </script>
 
-<style>
-.v-application--wrap {
-    justify-content: center;
-    align-content: center !important;
-}
-p {
-    padding-bottom: 10px 0;
-}
-.v-card__title {
-    margin-top: 0 !important;
-    padding-bottom: 0 !important;
-}
-.card-round {
-    margin: 0 auto;
-}
-.width-100 {
-    width: 100%;
-    margin-bottom:9px ;
-}
-
-.v-form {
-    padding: 0 20px;
-}
-.my-header{
-    padding-bottom: 10px;
-    font-weight: bold;
-    font-size:28px;
-}
-.btn-signin {
-    font-size: 14px !important;
-}
-</style>

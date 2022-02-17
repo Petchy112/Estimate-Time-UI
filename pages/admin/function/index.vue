@@ -1,7 +1,7 @@
 <template>
     <div v-if="functionData">
         <div>
-            <h1 class="ma-3">
+            <h1 style="font-size:30px; font-weight:bold;" class="ma-3">
                 ALL FUNCTION
             </h1>
         </div>
@@ -52,9 +52,10 @@
                                 @click="handleShowClicked(functions._id)"
                             >
                                 <img
-
+                                    :src="defaultFunctionImg"
                                     height="200px"
-                                    class="ml-15"
+
+                                    class="image"
                                 >
                                 <v-card-title class="justify-center">
                                     {{ functions.group }}
@@ -142,6 +143,11 @@ h1{
 .text-data {
     text-align: center;
     color: rgba(000,000, 000, 0.3);
+}
+.image {
+    width: 100%;
+    object-fit: cover;
+
 }
 
 </style>

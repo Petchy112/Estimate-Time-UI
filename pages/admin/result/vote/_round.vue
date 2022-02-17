@@ -22,8 +22,8 @@ export default {
             ],
         }
     },
-    mounted() {
-        const response = voteAPI.resultDetails(this.$route.params.round, this.platform || 'WEBSITE')
+    async mounted() {
+        const response = await voteAPI.resultDetails(this.$route.params.round, this.platform || 'WEBSITE')
         try {
             console.log('RESPONSE', response)
             this.voteData = response
