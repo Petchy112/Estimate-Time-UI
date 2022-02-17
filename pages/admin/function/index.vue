@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import AddFunction from "~/components/dialog/addFunction"
+import AddFunction from "~/components/dialog/addFunction.vue"
 import functionAPI from '~/utils/functionAPI'
 export default {
     components: {

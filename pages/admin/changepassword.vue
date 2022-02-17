@@ -1,14 +1,14 @@
 <template>
     <div>
-        <changepassword @change-password="handleChangeClicked" />
+        <Changepassword @change-password="handleChangeClicked" />
     </div>
 </template>
 
 <script>
-import changepassword from "~/components/auth/changepassword"
+import Changepassword from "~/components/auth/changepassword.vue"
 import userAPI from "~/utils/userAPI"
 export default {
-    components: { changepassword },
+    components: { Changepassword },
     methods: {
         async handleChangeClicked(body) {
             const response = await userAPI.changepassword(body)

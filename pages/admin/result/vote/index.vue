@@ -2,8 +2,6 @@
     <div>
         <v-col cols="12">
             <h1>VOTE RESULTS</h1>
-
-
             <div class="btn-group mt-2">
                 <!-- <v-btn v-if="status == 'CLOSE'" @click="handleVote('OPEN')" rounded class="voteControl" color="rgb(55, 208, 255)">
                     Start voting
@@ -28,7 +26,7 @@
 </template>
 
 <script>
-import VoteList from "~/components/VoteList"
+import VoteList from "~/components/VoteList.vue"
 import voteAPI from "~/utils/voteAPI"
 import functionAPI from "~/utils/functionAPI"
 export default {

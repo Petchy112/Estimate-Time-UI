@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import VoteList from "~/components/VoteList"
+import VoteList from "~/components/VoteList.vue"
 import voteAPI from "~/utils/voteAPI"
 export default {
     layout: 'liff',

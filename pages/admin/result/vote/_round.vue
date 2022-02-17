@@ -4,7 +4,7 @@
 
 <script>
 
-import VoteDetail from "~/components/VoteDetail"
+import VoteDetail from "~/components/VoteDetail.vue"
 import voteAPI from "~/utils/voteAPI"
 export default {
     components: {
@@ -56,9 +56,6 @@ export default {
 }
 </script>
 
-<style>
-h1 {
-    text-align: center;
+<style lang="scss" scoped>
 
-}
 </style>

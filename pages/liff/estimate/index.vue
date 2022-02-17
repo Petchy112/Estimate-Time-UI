@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import EstimateCard from "~/components/estimateCard"
+import EstimateCard from "~/components/estimateCard.vue"
 import voteAPI from "~/utils/voteAPI"
 
 export default {
