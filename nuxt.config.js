@@ -51,7 +51,7 @@ export default {
     },
     styleResources: {
         scss: [
-            '~styles/vars/*.scss'
+            '~/styles/vars/*.scss'
         ]
     },
     build: {
