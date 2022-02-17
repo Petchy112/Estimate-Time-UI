@@ -9,7 +9,7 @@
 
 <script>
 import userAPI from "~/utils/userAPI"
-import alertDialog from "~/components/dialog/alertDialog.vue"
+import alertDialog from "~/components/dialog/alertDialog"
 export default {
     components: {
         alertDialog

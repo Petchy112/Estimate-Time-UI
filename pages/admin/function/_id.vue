@@ -375,11 +375,11 @@ h1{
 .menu {
     padding-top: 0;
     display: flex;
-    justify-content: flex-end;
+    /* justify-content: flex-end; */
 }
 .remove-btn {
     display: flex;
-    justify-content: flex-end;
+    /* justify-content: flex-end; */
     size: 10px;
 }
 p{

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import alertDialog from "~/components/dialog/alertDialog.vue"
+import alertDialog from "~/components/dialog/alertDialog"
 export default {
     components: {
         alertDialog

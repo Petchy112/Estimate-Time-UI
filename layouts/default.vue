@@ -125,7 +125,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import alertDialog from "~/components/dialog/alertDialog.vue"
+import alertDialog from "~/components/dialog/alertDialog"
 import userAPI from "~/utils/userAPI"
 import imageAPI from "~/utils/imageAPI"
 export default {

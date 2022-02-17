@@ -40,7 +40,7 @@
 <script>
 import functionAPI from "~/utils/functionAPI"
 import voteAPI from "~/utils/voteAPI"
-import VoteBox from "~/components/VoteBox.vue"
+import VoteBox from "~/components/VoteBox"
 export default {
     layout: 'liff',
     components: { VoteBox },

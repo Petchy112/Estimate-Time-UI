@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import VoteList from "~/components/VoteList.vue"
+import VoteList from "~/components/VoteList"
 import voteAPI from "~/utils/voteAPI"
 import functionAPI from "~/utils/functionAPI"
 export default {

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import changepassword from "~/components/auth/changepassword.vue"
+import changepassword from "~/components/auth/changepassword"
 import userAPI from "~/utils/userAPI"
 export default {
     layout: 'liff',

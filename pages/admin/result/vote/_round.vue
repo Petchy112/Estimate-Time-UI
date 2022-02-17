@@ -4,7 +4,7 @@
 
 <script>
 
-import VoteDetail from "~/components/VoteDetail.vue"
+import VoteDetail from "~/components/VoteDetail"
 import voteAPI from "~/utils/voteAPI"
 export default {
     components: {

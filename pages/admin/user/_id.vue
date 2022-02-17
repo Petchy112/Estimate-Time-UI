@@ -26,7 +26,7 @@
                 <div
                     class="card-action"
                 >
-                    <div class="d-flex justify-content flex-end">
+                    <!-- <div class="d-flex justify-content flex-end">
                         <v-btn
                             class="mt-4"
 
@@ -35,7 +35,7 @@
                         >
                             Delete
                         </v-btn>
-                    </div>
+                    </div> -->
                 </div>
             </v-card>
         </v-col>
@@ -174,6 +174,6 @@ export default {
 }
 .v-application .d-flex {
     display: flex !important;
-    justify-content: flex-end;
+    /* justify-content: flex-end; */
 }
 </style>
