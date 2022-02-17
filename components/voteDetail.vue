@@ -91,7 +91,7 @@ export default {
 }
 </script>
 
-<style  scoped>
+<style scoped>
 .name{
     margin: 0px;
     padding-right: 10px;

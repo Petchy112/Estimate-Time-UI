@@ -39,7 +39,7 @@ export default {
     methods: {
         async choosePlatform(platform) {
             this.platform = platform
-            await voteAPI.show(this.$route.params.round, platform)
+            await voteAPI.resultDetails(this.$route.params.round, platform)
             try {
                 console.log('RESPONSE', response)
                 this.voteData = response
