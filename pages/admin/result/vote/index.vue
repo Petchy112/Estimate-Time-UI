@@ -18,7 +18,7 @@
             </div>
         </v-col>
 
-        <VoteList @show-vote="handleShowClicked" :voteResults="voteResults" />
+        <Votelist @show-vote="handleShowClicked" :voteResults="voteResults" />
         <div v-if="voteResults == ''" class="text-data">
             No data
         </div>
@@ -26,11 +26,11 @@
 </template>
 
 <script>
-import VoteList from "~/components/VoteList.vue"
+import Votelist from "~/components/Votelist.vue"
 import voteAPI from "~/utils/voteAPI"
 import functionAPI from "~/utils/functionAPI"
 export default {
-    components: { VoteList },
+    components: { Votelist },
     data () {
         return {
             voteResults: [],

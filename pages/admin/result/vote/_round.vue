@@ -1,14 +1,14 @@
 <template>
-    <VoteDetail @choose-platform="choosePlatform" :voteData="voteData" />
+    <Votedetail @choose-platform="choosePlatform" :voteData="voteData" />
 </template>
 
 <script>
 
-import VoteDetail from "~/components/VoteDetail.vue"
+import Votedetail from "~/components/Votedetail.vue"
 import voteAPI from "~/utils/voteAPI"
 export default {
     components: {
-        VoteDetail
+        Votedetail
     },
     data() {
         return {

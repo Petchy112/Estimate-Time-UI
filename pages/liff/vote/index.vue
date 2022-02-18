@@ -21,7 +21,7 @@
                     <h1>
                         {{ item.group }}
                     </h1>
-                    <VoteBox :choice="item.choices" @inputTime="inputTime" />
+                    <Votebox :choice="item.choices" @inputTime="inputTime" />
                 </div>
             </v-form>
 
@@ -40,10 +40,10 @@
 <script>
 import functionAPI from "~/utils/functionAPI"
 import voteAPI from "~/utils/voteAPI"
-import VoteBox from "~/components/VoteBox.vue"
+import Votebox from '~/components/Votebox.vue'
 export default {
     layout: 'liff',
-    components: { VoteBox },
+    components: { Votebox },
     data() {
         return {
             valid: true,
