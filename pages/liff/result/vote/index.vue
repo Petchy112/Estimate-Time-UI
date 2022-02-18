@@ -1,17 +1,14 @@
 <template>
-    <div>
-        <v-col cols="12">
-            <v-card-title class="justify-center">
-                <div class="my-head mt-5">
-                    VOTE RESULT
-                </div>
-            </v-card-title>
+    <div class="wrap-page">
+        <div class="header">
+            VOTE RESULT
+        </div>
 
-            <VoteTable v-if="voteResults.length != 0" @show-vote="handleShowClicked" :voteResults="voteResults" />
-            <div v-else class="empty">
-                ไม่มีข้อมูล
-            </div>
-        </v-col>
+
+        <VoteTable class="table" v-if="voteResults.length != 0" @show-vote="handleShowClicked" :voteResults="voteResults" />
+        <div v-else class="empty">
+            ไม่มีข้อมูล
+        </div>
     </div>
 </template>
 
@@ -42,17 +39,17 @@ export default {
 }
 </script>
 
-<style scoped>
-.my-head {
-    font-size: 32px !important;
-    font-weight: bold;
-}
-.v-btn {
- height: 50px;
-}
-.text-data {
-    margin-top: 20px;
-    text-align: center;
-    color: rgba(000, 000, 000, 0.3);
+<style lang="scss" scoped>
+.wrap-page {
+    margin: 24px 16px 0 16px;
+    & .header {
+        display: flex;
+        justify-content: center;
+        font-size: 32px;
+        font-weight: 600;
+    }
+    & .table {
+        margin-top:16px;
+    }
 }
 </style>
