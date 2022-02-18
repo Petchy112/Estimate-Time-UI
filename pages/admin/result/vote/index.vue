@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import VoteTable from "~/components/VoteTable.vue"
+import VoteTable from "~/components/voteTable"
 import voteAPI from "~/utils/voteAPI"
 import functionAPI from "~/utils/functionAPI"
 import toastr from 'toastr'

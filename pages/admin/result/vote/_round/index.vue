@@ -35,7 +35,7 @@
 
 <script>
 import toastr from 'toastr'
-import VoteDetail from '~/components/VoteDetail'
+import VoteDetail from '~/components/voteDetail'
 
 import voteAPI from "~/utils/voteAPI"
 export default {

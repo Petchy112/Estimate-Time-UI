@@ -113,14 +113,12 @@
 </template>
 
 <script>
-import EstimateCard from "~/components/estimateCard.vue"
-import voteAPI from "~/utils/voteAPI"
+import EstimateCard from '~/components/estimateCard.vue'
+import voteAPI from '~/utils/voteAPI'
 
 export default {
     layout: 'liff',
-    components: {
-        EstimateCard
-    },
+    components: { EstimateCard },
     data() {
         return {
             platform: this.$store.getters.getSelectedEstimate.platform,
@@ -211,7 +209,7 @@ export default {
 }
 
 </script>
-<style lang="scss" scoped>
+<style  scoped>
 .v-toolbar__title {
     width: 100%;
     text-align: center;
@@ -234,7 +232,7 @@ export default {
 }
 .next-btn {
     display: flex;
-    justify-content: end;
+    /* justify-content: end; */
     align-items: center;
     margin-bottom: 10px;
 }
