@@ -1,21 +1,52 @@
 <template>
-    <div>
-        <Votedetail
-            @choose-platform="choosePlatform"
-            :voteData="voteData == [] ? null :voteData"
-        />
+    <div class="wrap-page">
+        <div class="header">
+            VOTE RESULT
+        </div>
+        <v-divider />
+        <v-tabs
+            v-model="tab"
+            slider-color="blue"
+            fixed-tabs
+        >
+            <v-tab
+                v-for="(item,index) in items"
+                :key="index"
+                @click="choosePlatform(item.tab)"
+            >
+                {{ item.tab }}
+            </v-tab>
+        </v-tabs>
+        <v-tabs-items>
+            <div v-if="voteData.length != 0">
+                <div
+                    v-for="(i,index) in voteData.length"
+                    :key="index"
+                    style="margin: 16px;"
+                >
+                    <VoteDetail :voteData="voteData[0]" />
+                </div>
+            </div>
+            <div class="empty" v-else>
+                ไม่มีข้อมูล
+            </div>
+        </v-tabs-items>
     </div>
 </template>
 
 <script>
-import Votedetail from "~/components/votedetail.vue"
+import toastr from 'toastr'
+import VoteDetail from '~/components/VoteDetail.vue'
+
 import voteAPI from "~/utils/voteAPI"
 export default {
     layout: 'liff',
-    components: { Votedetail },
+    components: {
+        VoteDetail
+    },
     data() {
         return {
-            platform: '',
+            platform: 'WEBSITE',
             voteData: [],
             tab: null,
             items: [
@@ -25,28 +56,38 @@ export default {
             ],
         }
     },
+    async mounted() {
+        this.getVoteData()
+    },
     methods: {
-        async showResult() {
+        async getVoteData() {
             const response = await voteAPI.resultDetails(this.$route.params.round, this.platform || 'WEBSITE')
-            this.voteData = response
+            try {
+                this.voteData = response
+            }
+            catch (error) {
+                toastr.error(error.response.error.message)
+            }
         },
         async choosePlatform(platform) {
             this.platform = platform
-            this.showResult()
+            this.getVoteData()
+
         }
-    },
-    mounted() {
-        this.showResult()
     }
 }
+
 </script>
 
-<style>
-.bg{
-    background-color: rgb(55, 208, 255) !important
+<style lang="scss" scoped>
+.wrap-page {
+    margin: 24px 16px 0 16px;
+    & .header {
+        display: flex;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 600;
+    }
 }
-h1 {
-    text-align: center;
 
-}
 </style>

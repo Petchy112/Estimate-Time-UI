@@ -1,36 +1,30 @@
 <template>
-    <div>
-        <v-col cols="12">
-            <h1>VOTE RESULTS</h1>
-            <div class="btn-group mt-2">
-                <!-- <v-btn v-if="status == 'CLOSE'" @click="handleVote('OPEN')" rounded class="voteControl" color="rgb(55, 208, 255)">
-                    Start voting
-                </v-btn>
-                <v-btn v-if="status == 'OPEN'" @click="handleVote('CLOSE')" rounded class="voteControl" color="rgb(55, 208, 255)">
-                    Stop voting
-                </v-btn> -->
-                <v-switch
-                    v-model="switchs"
-                    inset
-                    :label="`Status : ${switchs == true ? 'OPEN' : 'CLOSE'}`"
-                    @click="handleVote(switchs)"
-                />
-            </div>
-        </v-col>
-
-        <Votelist @show-vote="handleShowClicked" :voteResults="voteResults" />
-        <div v-if="voteResults == ''" class="text-data">
-            No data
+    <div class="wrap-page">
+        <div class="header">
+            VOTE RESULT
+        </div>
+        <div class="btn-group">
+            <v-switch
+                v-model="switchs"
+                inset
+                :label="`Status : ${switchs == true ? 'OPEN' : 'CLOSE'}`"
+                @click="handleVote(switchs)"
+            />
+        </div>
+        <VoteTable v-if="voteResults.length != 0" @show-vote="handleShowClicked" :voteResults="voteResults" />
+        <div v-else class="empty">
+            ไม่มีข้อมูล
         </div>
     </div>
 </template>
 
 <script>
-import Votelist from "~/components/Votelist.vue"
+import VoteTable from "~/components/VoteTable.vue"
 import voteAPI from "~/utils/voteAPI"
 import functionAPI from "~/utils/functionAPI"
+import toastr from 'toastr'
 export default {
-    components: { Votelist },
+    components: { VoteTable },
     data () {
         return {
             voteResults: [],
@@ -39,7 +33,6 @@ export default {
         }
     },
     mounted() {
-
         this.getResult()
     },
     computed: {
@@ -52,9 +45,7 @@ export default {
         async getResult () {
             const response = await functionAPI.functionList('WEBSITE')
             try {
-                console.log('RESPONSE', response)
                 this.status = response[0].status
-                console.log(this.status)
                 if (this.status == 'OPEN') {
                     this.switchs = true
                 }
@@ -63,22 +54,16 @@ export default {
                 }
             }
             catch (error) {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
+                toastr.error(error.response.error.message)
+
             }
             const res = await voteAPI.resultLists()
             try {
                 this.voteResults = res
             }
             catch (error) {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.res.error.message
-                })
+                toastr.error(error.res.error.message)
+
             }
         },
         async handleShowClicked(round) {
@@ -94,11 +79,7 @@ export default {
             console.log(action)
             await voteAPI.handleVote(action)
                 .then(async response => {
-                    this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Success',
-                        message: response.message
-                    })
+                    toastr.success(response.data.message)
                 })
 
         }
@@ -107,28 +88,18 @@ export default {
 }
 </script>
 
-<style>
-.btn-group {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.v-btn {
- height: 50px;
-}
-.status{
-    font-size:20px;
-    font-weight:bold ;
-}
-.text-data {
-    margin-top: 20px;
-    text-align: center;
-    color: rgba(000, 000, 000, 0.3);
-}
-.voteControl {
-    color: white !important;
-    margin-left: 20px;
-    margin-right: 20px;
-    width: 30%;
+<style lang="scss" scoped>
+.wrap-page {
+    margin: 24px;
+    & .btn-group {
+        margin-top: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    & .header {
+        font-size: 28px;
+        font-weight: 600;
+    }
 }
 </style>

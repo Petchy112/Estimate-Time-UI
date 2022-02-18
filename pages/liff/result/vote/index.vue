@@ -7,21 +7,21 @@
                 </div>
             </v-card-title>
 
-            <Votelist @show-vote="handleShowClicked" :voteResults="voteResults" />
-            <div v-if="!voteResults" class="text-data">
-                No data
+            <VoteTable v-if="voteResults.length != 0" @show-vote="handleShowClicked" :voteResults="voteResults" />
+            <div v-else class="empty">
+                ไม่มีข้อมูล
             </div>
         </v-col>
     </div>
 </template>
 
 <script>
-import Votelist from "~/components/Votelist.vue"
+import VoteTable from "~/components/VoteTable.vue"
 import voteAPI from "~/utils/voteAPI"
 export default {
     layout: 'liff',
     components: {
-        Votelist
+        VoteTable
     },
     data () {
         return {
@@ -29,9 +29,6 @@ export default {
         }
     },
     async mounted() {
-        // liff.init({
-        //     liffId: '1656364274-nbwL6MA9'
-        // })
         const response = await voteAPI.resultLists()
         this.voteResults = response
 
