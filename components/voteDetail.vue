@@ -1,119 +1,69 @@
 <template>
-    <div>
-        <div class="ma-5">
-            <h1>VOTE RESULTS</h1>
-        </div>
-        <v-tabs
-            v-model="tab"
-            slider-color="blue"
-            fixed-tabs
+    <div class="result-card">
+        <v-card-title class="card-title">
+            {{ voteData.data.group }}
+        </v-card-title>
+        <div
+            class="wrap-choice"
+            v-for="choice in voteData.data.choices"
+            :key="choice.name"
         >
-            <v-tab
-                v-for="item in items"
-                :key="item.tab"
-                @click="choosePlatform(item.tab)"
-            >
-                {{ item.tab }}
-            </v-tab>
-        </v-tabs>
-        <v-tabs-items v-model="tab">
-            <div>
-                <v-tab-item
-                    v-for="item in items"
-                    :key="item.tab"
-                >
-                    <div v-if="voteData">
-                        <div
-                            v-for="(i,index) in voteData"
-                            :key="index"
-                            tile
-                            class="result-card"
+            <v-list-item two-line>
+                <v-list-item-avatar>
+                    <v-avatar class="logo">
+                        <img
+                            :src="choice.imagePath"
                         >
-                            <v-card-title class="card-title">
-                                {{ i.data.group }}
-                            </v-card-title>
-                            <div
-                                class="d-flex flex-column"
-                                v-for="element in i.data.choices"
-                                :key="element.name"
-                            >
-                                <v-list-item two-line>
-                                    <v-list-item-avatar>
-                                        <v-avatar>
-                                            <img
-                                                :src="element.imagePath"
-                                            >
-                                        </v-avatar>
-                                    </v-list-item-avatar>
-                                    <v-list-item-content>
-                                        <v-list-item-title class="name">
-                                            {{ element.name }}
-                                        </v-list-item-title>
-                                        <p class="description ">
-                                            {{ element.description }}
-                                        </p>
-                                    </v-list-item-content>
-                                    <div class="result-time">
-                                        {{ element.time.toFixed(1) }}  Hours
-                                    </div>
-                                </v-list-item>
-                            </div>
-                        </div>
+                    </v-avatar>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                    <div class="name">
+                        {{ choice.name }}
                     </div>
-                    <div v-else class="text-data">
-                        {{ voteData }}
-                    </div>
-                </v-tab-item>
-            </div>
-        </v-tabs-items>
+                    <p>
+                        {{ choice.description }}
+                    </p>
+                </v-list-item-content>
+                <div class="result-time">
+                    {{ choice.time.toFixed(1) }}  Hours
+                </div>
+            </v-list-item>
+        </div>
     </div>
 </template>
 
 <script>
 
 export default {
-    props: [ 'voteData' ],
-    data() {
-        return {
-            tab: null,
-            items: [
-                { tab: 'WEBSITE', },
-                { tab: 'MOBILE', },
-
-            ],
-        }
-    },
-    methods: {
-        choosePlatform(platform) {
-            this.$emit('choose-platform', platform)
-        }
-    }
+    props: [ 'voteData' ]
 }
 </script>
 
-<style scoped>
-.name{
-    margin: 0px;
-    padding-right: 10px;
-}
-.description {
-    color: rgba(000, 000, 000, 0.5);
-    margin: 0px;
-    padding-right: 10px;
-}
+<style lang='scss' scoped>
 .result-card{
-    border: 1px solid rgba(0,0,0,0.4);
+    border: 1px solid rgb(0, 183, 255);
     border-radius: 8px;
-    margin: 32px;
+    & .card-title {
+        border-bottom: 1px solid rgb(0, 183, 255);
+        font-weight: 600;
+        justify-content: center;
+    }
+    & .wrap-choice{
+        display: flex;
+        flex-direction: column;
+    }
+    & .name{
+        padding: 0 0 10px 0;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
+    }
+    & p {
+        color: rgba(000, 000, 000, 0.5);
+        font-size: 14px;
+        padding-right: 10px;
+    }
 }
-.card-title {
-    border-bottom: 1px solid rgba(0,0,0,0.4);
-    background-color: #f3f3f3;
-    justify-content: center;
-}
-.text-data {
-    /* text-align: center;
-     transform: translateY(60%);
-    color: rgba(000, 000, 000, 0.3); */
-}
+
 </style>

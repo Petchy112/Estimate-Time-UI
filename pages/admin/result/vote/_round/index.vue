@@ -1,14 +1,46 @@
 <template>
-    <Votedetail @choose-platform="choosePlatform" :voteData="voteData" />
+    <div class="wrap-page">
+        <div class="header">
+            VOTE RESULT
+        </div>
+        <v-divider />
+        <v-tabs
+            v-model="tab"
+            slider-color="blue"
+        >
+            <v-tab
+                v-for="(item,index) in items"
+                :key="index"
+                @click="choosePlatform(item.tab)"
+            >
+                {{ item.tab }}
+            </v-tab>
+        </v-tabs>
+        <v-tabs-items>
+            <div v-if="voteData.length != 0">
+                <div
+                    v-for="(i,index) in voteData.length"
+                    :key="index"
+                    style="margin: 20px;"
+                >
+                    <VoteDetail :voteData="voteData[0]" />
+                </div>
+            </div>
+            <div class="empty" v-else>
+                ไม่มีข้อมูล
+            </div>
+        </v-tabs-items>
+    </div>
 </template>
 
 <script>
+import toastr from 'toastr'
+import VoteDetail from '~/components/VoteDetail.vue'
 
-import Votedetail from "~/components/votedetail.vue"
 import voteAPI from "~/utils/voteAPI"
 export default {
     components: {
-        Votedetail
+        VoteDetail
     },
     data() {
         return {
@@ -23,39 +55,35 @@ export default {
         }
     },
     async mounted() {
-        const response = await voteAPI.resultDetails(this.$route.params.round, this.platform || 'WEBSITE')
-        try {
-            console.log('RESPONSE', response)
-            this.voteData = response
-        }
-        catch (error) {
-            this.$store.dispatch('setDialog', {
-                isShow: true,
-                title: 'Please try again',
-                message: error.response.error.message
-            })
-        }
+        this.getVoteData()
     },
     methods: {
-        async choosePlatform(platform) {
-            this.platform = platform
-            await voteAPI.resultDetails(this.$route.params.round, platform)
+        async getVoteData() {
+            const response = await voteAPI.resultDetails(this.$route.params.round, this.platform || 'WEBSITE')
             try {
-                console.log('RESPONSE', response)
                 this.voteData = response
             }
             catch (error) {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
+                toastr.error(error.response.error.message)
             }
+        },
+        async choosePlatform(platform) {
+            this.platform = platform
+            this.getVoteData()
+
         }
     }
 }
+
 </script>
 
 <style lang="scss" scoped>
+.wrap-page {
+    margin: 24px;
+    & .header {
+        font-size: 28px;
+        font-weight: 600;
+    }
+}
 
 </style>
