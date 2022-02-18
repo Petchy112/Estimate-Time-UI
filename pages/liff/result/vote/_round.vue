@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Votedetail from "~/components/Votedetail.vue"
+import Votedetail from "~/components/votedetail.vue"
 import voteAPI from "~/utils/voteAPI"
 export default {
     layout: 'liff',
