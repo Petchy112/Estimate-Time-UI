@@ -13,8 +13,6 @@ export const createInstance = ({ store, redirect }) => {
     })
 
     axiosInstance.interceptors.request.use(config => {
-        console.log('in')
-        console.log('on', store.state)
         if (store.state.auth.access_token) {
 
             config.headers.Authorization = `Bearer ${store.state.auth.access_token}`
