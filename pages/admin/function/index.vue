@@ -1,20 +1,20 @@
 <template>
-    <div v-if="functionData">
+    <div class="wrap-page">
         <div>
-            <h1 style="font-size:30px; font-weight:bold;" class="ma-3">
+            <div class="header">
                 ALL FUNCTION
-            </h1>
+            </div>
         </div>
         <AddFunction />
         <v-tabs
             v-model="tab"
-            slider-color="yellow"
+            slider-color="blue"
             height="60px"
         >
             <v-tab
                 v-for="item,index in items"
                 :key="index"
-                @click="choosePlatform(item.tab)"
+                @change="choosePlatform(item.tab)"
             >
                 {{ item.tab }}
             </v-tab>
@@ -26,51 +26,39 @@
                 background-color="rgb(240,240,240)"
                 flat
                 append-icon="mdi-magnify"
-                class="mx-4 my-2 search-tab"
+                class="search-tab"
             />
         </v-tabs>
 
-        <v-col cols="12">
-            <v-card
-                flat
-            >
-                <div class="text-data" v-if="functionData == ''">
-                    No Data
-                </div>
-                <v-tabs-items v-model="tab">
-                    <v-tab-item
-                        v-for="i in 2"
-                        :key="i.tab"
+
+        <div class="empty" v-if="functionData.length == 0">
+            no data
+        </div>
+        <v-tabs-items v-model="tab">
+            <div class="warp-card">
+                <v-hover
+                    v-slot="{ hover }"
+                    v-for="(functions,index) in filteredItems"
+                    :key="index"
+                >
+                    <v-card
+                        class="card-func"
+                        :elevation="hover ? 5 :2"
+                        :class="{ 'on-hover': hover }"
+                        @click="handleShowClicked(functions._id)"
                     >
-                        <div class="d-flex flex-wrap">
-                            <v-card
-                                v-for="functions,index in filteredItems"
-                                :key="index"
-
-                                class="ma-5"
-                                width="300px"
-                                @click="handleShowClicked(functions._id)"
-                            >
-                                <img
-                                    :src="defaultFunctionImg"
-                                    height="200px"
-
-                                    class="image"
-                                >
-                                <v-card-title class="justify-center">
-                                    {{ functions.group }}
-                                </v-card-title>
-                            </v-card>
+                        <div class="title">
+                            {{ functions.group }}
                         </div>
-                    </v-tab-item>
-                </v-tabs-items>
-            </v-card>
-        </v-col>
+                    </v-card>
+                </v-hover>
+            </div>
+        </v-tabs-items>
     </div>
 </template>
 
 <script>
-import AddFunction from "~/components/dialog/addFunction.vue"
+import AddFunction from "~/components/dialog/addFunction"
 import functionAPI from '~/utils/functionAPI'
 export default {
     components: {
@@ -78,13 +66,13 @@ export default {
     },
     data() {
         return {
-            platform: '',
+            platform: 'WEBSITE',
             search: '',
             functionData: [],
             tab: '',
             items: [
-                { tab: 'WEBSITE', },
-                { tab: 'MOBILE', },
+                { tab: 'WEBSITE' },
+                { tab: 'MOBILE' },
 
             ],
             defaultFunctionImg: require('~/assets/function.jpg')
@@ -101,26 +89,16 @@ export default {
         }
     },
     methods: {
-        async getFunctionLists(platform) {
-            const response = await functionAPI.functionList(platform)
-            try {
-                console.log('RESPONSE', response)
-                this.functionData = response
-            }
-            catch (error) {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
-            }
+        async getFunctionLists() {
+            const response = await functionAPI.functionList(this.platform)
+            this.functionData = response
         },
         async handleShowClicked(id) {
-            console.log(id)
             this.$router.push({ name: 'admin-function-id', params: { id } })
         },
         async choosePlatform(platform) {
-            this.getFunctionLists(platform)
+            this.platform = platform
+            this.getFunctionLists()
 
         }
     }
@@ -128,26 +106,31 @@ export default {
 
 }
 </script>
-<style scoped>
-.search-tab {
-    color:blue;
-    width: 1px;
+<style lang='scss' scoped>
+.wrap-page{
+    & .header{
+        font-size:30px;
+        font-weight:bold;
+        text-align: center;
+        margin: 8px 0 8px ;
+    }
+    & .search-tab {
+        margin-top: 8px;
+    }
+    & .warp-card {
+        margin: 24px;
+        display: grid;
+        grid-template-columns:33% 33% 33% ;
+        grid-gap: 10px;
+        & .card-func {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 75px;
+            border-radius: 16px;
+            cursor: pointer;
+        }
+    }
 }
-.text-data {
-    text-align: center;
-    color: rgba(000,000, 000, 0.3);
-}
-h1{
-    text-align: center;
-}
-.text-data {
-    text-align: center;
-    color: rgba(000,000, 000, 0.3);
-}
-.image {
-    width: 100%;
-    object-fit: cover;
-
-}
-
 </style>
+

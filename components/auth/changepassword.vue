@@ -1,72 +1,63 @@
 <template>
-    <div>
+    <div class="wrap-page">
         <v-form
             ref="form"
             v-model="valid"
             lazy-validation
-            class=""
+            class="from-input"
         >
-            <h1 class="mb-8 mt-5">
+            <div class="header">
                 Change password
-            </h1>
-            <v-col
-                cols="12"
-            >
-                <v-text-field
-                    dense
-                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                    :rules="passwordRules"
-                    :type="show1 ? 'text' : 'password'"
-                    label="Current password"
-                    hint="At least 8 characters"
-                    v-model="body.oldPassword"
-                    class="input-group--focused mx-10"
-                    @click:append="show1 = !show1"
-                    outlined
-                />
-                <v-text-field
-                    dense
-                    :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-                    :rules="passwordRules"
-                    :type="show2 ? 'text' : 'password'"
-                    label="New password"
-                    hint="At least 8 characters"
-                    v-model="body.newPassword"
-                    class="input-group--focused mx-10"
-                    @click:append="show2 = !show2"
-                    outlined
-                />
-                <v-text-field
-                    dense
-                    :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
-                    :rules="confirmPasswordRules"
-                    :type="show3 ? 'text' : 'password'"
-                    label="Re-enter new password"
-                    hint="At least 8 characters"
-                    v-model="body.confirmPassword"
-                    class="input-group--focused mx-10"
-                    @click:append="show3 = !show3"
-                    outlined
-                />
-                <v-col cols="12">
-                    <v-row
-                        class="ma-md-0 mt-md-2 mr-md-10 pa-md-0 mt-4 mr-5"
-                        justify="end"
-                        justify-md="end"
-                    >
-                        <v-btn
-                            elevation="0"
-                            :disabled="!valid"
-                            class="btn-confirm primary"
-                            width="150px"
+            </div>
 
-                            @click="handleChangeClicked(body)"
-                        >
-                            confirm
-                        </v-btn>
-                    </v-row>
-                </v-col>
-            </v-col>
+            <v-text-field
+                dense
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="passwordRules"
+                :type="show1 ? 'text' : 'password'"
+                label="Current password"
+                hint="At least 8 characters"
+                v-model="body.oldPassword"
+                class="input-group--focused mx-10"
+                @click:append="show1 = !show1"
+                outlined
+            />
+            <v-text-field
+                dense
+                :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="passwordRules"
+                :type="show2 ? 'text' : 'password'"
+                label="New password"
+                hint="At least 8 characters"
+                v-model="body.newPassword"
+                class="input-group--focused mx-10"
+                @click:append="show2 = !show2"
+                outlined
+            />
+            <v-text-field
+                dense
+                :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="confirmPasswordRules"
+                :type="show3 ? 'text' : 'password'"
+                label="Re-enter new password"
+                hint="At least 8 characters"
+                v-model="body.confirmPassword"
+                class="input-group--focused mx-10"
+                @click:append="show3 = !show3"
+                outlined
+            />
+
+            <div class="button-section">
+                <v-btn
+                    :disabled="!valid"
+                    class="btn-confirm"
+
+
+                    @click="handleChangeClicked(body)"
+                >
+                    confirm
+                </v-btn>
+            </div>
         </v-form>
     </div>
 </template>
@@ -103,11 +94,27 @@ export default {
 }
 </script>
 
-<style>
-.d-flex {
-    justify-content: space-around;
-    margin-top: 20px;
-}
- .btn-confirm {
+<style lang='scss' scoped>
+.wrap-page {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    & .from-input {
+        width: 500px;
+        & .header {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            padding: 18px 0 18px ;
+        }
+        & .button-section {
+            margin: 20px;
+            & .btn-confirm {
+                background: #37d0ff;
+                width:100%
+            }
+        }
+    }
+
 }
 </style>

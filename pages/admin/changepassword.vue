@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import Changepassword from "~/components/auth/changepassword.vue"
+import toastr from 'toastr'
+import Changepassword from "~/components/auth/changepassword"
 import userAPI from "~/utils/userAPI"
 export default {
     components: { Changepassword },
@@ -13,25 +14,15 @@ export default {
         async handleChangeClicked(body) {
             const response = await userAPI.changepassword(body)
             try {
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Success',
-                    message: response.message
-                })
+                toastr.success(response.message)
                 await this.$router.push({ name: 'admin-function' })
             }
             catch (error) {
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
+                toastr.error(error.response.error.message)
             }
         }
     }
 }
 </script>
 
-<style>
 
-</style>

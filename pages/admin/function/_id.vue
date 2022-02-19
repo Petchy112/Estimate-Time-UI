@@ -1,40 +1,25 @@
 <template>
-    <div v-if="functionData">
-        <h1
-            class="ma-3"
-            style="font-size:30px; font-weight:bold;"
-        >
-            {{ functionData.group }}
-        </h1>
-        <!-- <v-text-field
-            dense
-            flat
-            placeholder="Search"
-            solo-inverted
-            append-icon="mdi-magnify"
-            class="mx-4"
-        /> -->
-        <v-col
-            cols="12"
-        >
+    <div class="wrap-page">
+        <div class="top">
+            <div class="header">
+                {{ functionData.group }}
+            </div>
+
             <div class="menu">
-                <v-menu
-                    offset-y
-                >
+                <v-menu offset-y>
                     <template #activator="{ attrs, on }">
                         <v-btn
-                            color="blue"
-                            class="white--text mx-5 my-0"
+                            class="button-setting"
                             v-bind="attrs"
                             v-on="on"
                         >
-                            Settings
+                            Setting
                         </v-btn>
                     </template>
 
                     <v-list>
                         <v-list-item
-                            v-for="item in items"
+                            v-for="item in dialog"
                             :key="item.index"
                             @click="openDialog(item)"
                             link
@@ -44,194 +29,202 @@
                     </v-list>
                 </v-menu>
             </div>
+        </div>
 
-            <div class="d-flex flex-wrap">
-                <v-card
-                    class="ma-5"
-                    width="300px"
-                    v-for="choice in functionData.choices"
-                    :key="choice.index"
-                >
-                    <img
-                        width="300px"
-                        :src="choice.imagePath"
-                    >
-
-
-                    <v-card-title class="py-0 pt-2">
+        <div class="wrap-card">
+            <div
+                class="func-card"
+                v-for="choice in functionData.choices"
+                :key="choice.index"
+            >
+                <div class="wrap-image">
+                    <img :src="choice.imagePath">
+                </div>
+                <div class="choice">
+                    <div class="name">
                         {{ choice.name }}
-                    </v-card-title>
-                    <p class="ml-4 ma-0 mb-3">
+                    </div>
+                    <p class="desc">
                         {{ choice.description }}
                     </p>
-                </v-card>
+                </div>
             </div>
-            <v-dialog
-                v-model="editDialog"
-                scrollable
-                max-width="1000px"
-            >
-                <v-card>
-                    <v-app-bar color="rgb(55, 208, 255)" flat>
-                        <v-toolbar-title>
-                            EDIT FUNCTION
-                        </v-toolbar-title>
-                    </v-app-bar>
-                    <div class="pl-8 pt-6">
-                        ชื่อกลุ่ม
-                    </div>
+        </div>
+        <v-dialog
+            v-model="editDialog"
+            scrollable
+            max-width="1000px"
+        >
+            <v-card>
+                <v-app-bar color="rgb(55, 208, 255)" flat>
+                    <v-toolbar-title>
+                        EDIT FUNCTION
+                    </v-toolbar-title>
+                </v-app-bar>
+                <div class="wrap-input">
                     <v-text-field
                         dense
-                        class="px-6 pb-0"
                         :rules="groupRules"
-                        :placeholder="functionData.group"
+                        v-model="editData.group"
                         required
                         outlined
-                    />
-
-                    <v-divider />
-                    <v-card-text style="height: 500px;">
-                        <v-card
-                            v-for="(choice,index) in functionData.choices"
-                            :key="index"
-                            class="ma-2 mb-6"
-                            elevation="2"
-                        >
-                            <div class="remove-btn">
-                                <v-btn
-                                    fab
-                                    elevation="0"
-                                    max-width="28px"
-                                    height="28px"
-                                    @click="handleCloseClicked(functionData.choices.indexOf(choice))"
-                                    class="error"
-                                    v-if="functionData.choices.length>1"
-                                >
-                                    <v-icon size="16px">
-                                        mdi-close
-                                    </v-icon>
-                                </v-btn>
-                            </div>
-                            <v-col cols="12">
-                                <v-card-title>
-                                    <v-avatar
-                                        @change="handlePicture(index)"
-                                        class="mr-3 mb-3"
-                                        size="80px"
-                                    >
-                                        <v-btn
-                                            class="secondary btn-img"
-                                            fab
-                                            width="30px"
-                                            height="30px"
-                                            @click="PickFile(index)"
-                                        >
-                                            <v-icon size="20px">
-                                                mdi-camera
-                                            </v-icon>
-                                        </v-btn>
-                                        <input
-                                            type="file"
-                                            style="display:none"
-                                            :id="`fileInput-${index}`"
-                                            accept="image/*"
-                                            @change="Picked($event,index)"
-                                        >
-                                        <img :src="choice.imagePath ? choice.imagePath : defaultProfile">
-                                    </v-avatar>
-
-                                    <v-text-field
-                                        dense
-                                        placeholder="Function choice"
-                                        v-model="choice.name"
-                                        :rules="choiceRules"
-                                        outlined
-                                    />
-                                </v-card-title>
-                                <v-card-subtitle>
-                                    <v-text-field
-                                        dense
-                                        placeholder="Description"
-                                        v-model="choice.description"
-                                        :rules="descriptionRules"
-                                        outlined
-                                    />
-                                </v-card-subtitle>
-                            </v-col>
-                        </v-card>
-                        <div class="d-flex justify-center">
+                    >
+                        <template slot="label">
+                            Group of function choice
+                        </template>
+                    </v-text-field>
+                </div>
+                <v-divider />
+                <v-card-text style="height: 600px;">
+                    <v-card
+                        v-for="(editChoice,index) in editData.choices"
+                        :key="index"
+                        class="ma-2 mb-6"
+                        elevation="2"
+                    >
+                        <div class="remove-btn">
                             <v-btn
-                                rounded
-                                @click="handleAddClicked"
-                                color="success"
+                                fab
+                                elevation="0"
+                                max-width="28px"
+                                height="28px"
+                                @click="handleCloseClicked(editData.choices.indexOf(choice))"
+                                class="error"
+                                v-if="editData.choices.length > 1"
                             >
-                                <v-icon>mdi-plus</v-icon>
+                                <v-icon size="16px">
+                                    mdi-close
+                                </v-icon>
                             </v-btn>
                         </div>
-                    </v-card-text>
-                    <v-divider />
-                    <v-card-actions class="pa-7">
-                        <v-row justify="end">
-                            <v-btn
-                                class="mx-md-2 pa-md-4 pa-lg-4 pa-xs-auto"
-                                color="error"
-                                width="100px"
-                                @click="editDialog = false"
-                            >
-                                Close
-                            </v-btn>
-                            <v-btn
-                                class="mx-md-2 pa-md-4 pa-lg-4 pa-xs-auto"
-                                color="success"
-                                width="100px"
-                                @click="handleEditClicked"
-                            >
-                                Save
-                            </v-btn>
-                        </v-row>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
-            <v-dialog
-                v-model="deleteDialog"
-                max-width="400px"
-            >
-                <v-card class="pa-5">
-                    <v-card-title class="justify-center mb-2 pb-4">
-                        Delete {{ functionData.group }}?
-                    </v-card-title>
-                    <div>
-                        <v-row justify="space-between">
-                            <v-col
-                                cols="12"
-                            >
-                                <v-row justify="space-around">
+                        <v-col cols="12">
+                            <v-card-title>
+                                <v-avatar
+                                    @change="handlePicture(index)"
+                                    class="mr-3 mb-3"
+                                    size="80px"
+                                >
                                     <v-btn
-                                        class="pa-2 mt-4"
-                                        @click="deleteDialog = false"
-                                        text
+                                        class="secondary btn-img"
+                                        fab
+                                        width="30px"
+                                        height="30px"
+                                        @click="PickFile(index)"
                                     >
-                                        No
+                                        <v-icon size="20px">
+                                            mdi-camera
+                                        </v-icon>
                                     </v-btn>
-                                    <v-btn
-                                        class="pa-2 mt-4"
-                                        color="error"
-                                        text
-                                        @click="handleDeleteClicked(functionData._id)"
+                                    <input
+                                        type="file"
+                                        style="display:none"
+                                        :id="`fileInput-${index}`"
+                                        accept="image/*"
+                                        @change="Picked($event,index)"
                                     >
-                                        Yes
-                                    </v-btn>
-                                </v-row>
-                            </v-col>
-                        </v-row>
+                                    <img :src="editChoice.imagePath ? editChoice.imagePath : defaultProfile">
+                                </v-avatar>
+
+                                <v-text-field
+                                    dense
+                                    placeholder="Function choice"
+                                    v-model="editChoice.name"
+                                    :rules="choiceRules"
+                                    outlined
+                                >
+                                    <template slot="label">
+                                        Function choice
+                                    </template>
+                                </v-text-field>
+                            </v-card-title>
+                            <v-card-subtitle>
+                                <v-text-field
+                                    dense
+                                    placeholder="Description"
+                                    v-model="editChoice.description"
+                                    :rules="descriptionRules"
+                                    outlined
+                                >
+                                    <template slot="label">
+                                        Description
+                                    </template>
+                                </v-text-field>
+                            </v-card-subtitle>
+                        </v-col>
+                    </v-card>
+                    <div class="d-flex justify-center">
+                        <v-btn
+                            rounded
+                            @click="handleAddClicked"
+                            color="success"
+                        >
+                            <v-icon>mdi-plus</v-icon>
+                        </v-btn>
                     </div>
-                </v-card>
-            </v-dialog>
-        </v-col>
+                </v-card-text>
+                <v-divider />
+                <v-card-actions class="pa-7">
+                    <v-row justify="end">
+                        <v-btn
+                            class="mx-md-2 pa-md-4 pa-lg-4 pa-xs-auto"
+                            color="error"
+                            width="100px"
+                            @click="editDialog = false"
+                        >
+                            Close
+                        </v-btn>
+                        <v-btn
+                            class="mx-md-2 pa-md-4 pa-lg-4 pa-xs-auto"
+                            color="success"
+                            width="100px"
+                            @click="handleEditClicked"
+                        >
+                            Save
+                        </v-btn>
+                    </v-row>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog
+            v-model="deleteDialog"
+            max-width="400px"
+        >
+            <v-card class="pa-5">
+                <v-card-title class="justify-center mb-2 pb-4">
+                    Delete {{ functionData.group }}?
+                </v-card-title>
+                <div>
+                    <v-row justify="space-between">
+                        <v-col
+                            cols="12"
+                        >
+                            <div class="btn-action">
+                                <v-btn
+                                    class="button"
+                                    @click="deleteDialog = false"
+                                    plain
+                                >
+                                    No
+                                </v-btn>
+                                <v-btn
+                                    class="button"
+                                    color="error"
+                                    text
+                                    @click="handleDeleteClicked"
+                                >
+                                    Yes
+                                </v-btn>
+                            </div>
+                        </v-col>
+                    </v-row>
+                </div>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
 <script>
+import toastr from 'toastr'
 import functionAPI from '~/utils/functionAPI'
 import imageAPI from "~/utils/imageAPI"
 export default {
@@ -240,19 +233,14 @@ export default {
             editDialog: false,
             deleteDialog: false,
             functionData: [],
-            items: [
+            dialog: [
                 'EDIT', 'DELETE'
             ],
             editData: {
+                _id: '',
+                platform: '',
                 group: '',
-                choice: [
-                    {
-                        name: '',
-                        description: '',
-                        imageUrl: '',
-                        imagePath: ''
-                    }
-                ]
+                choices: []
             },
             image: null,
             choice: [
@@ -275,18 +263,29 @@ export default {
             defaultProfile: require('~/assets/default-profile.png')
         }
     },
-    async mounted() {
-        const response = await functionAPI.functionDetails(this.$route.params.id)
-        this.functionData = response
-        // this.functionData.choice.forEach((element) => {
-        //     console.log(element)
-        // })
-
+    mounted() {
+        this.getDatail()
     },
     methods: {
+        async getDatail () {
+            const response = await functionAPI.functionDetails(this.$route.params.id)
+            this.functionData = response
+        },
         openDialog(event) {
             if (event == 'EDIT') {
                 this.editDialog = true
+                this.editData.group = this.functionData.group
+                for (let index = 0; index < this.functionData.choices.length; index++) {
+                    this.editData.choices.push({ name: '', description: '', imagePath: '' })
+                }
+                this.functionData.choices.forEach((element, index) => {
+                    this.editData.choices[index].name = element.name
+                    this.editData.choices[index].description = element.description
+                    this.editData.choices[index].imagePath = element.imagePath
+                })
+                this.editData.platform = this.functionData.platform
+                this.editData._id = this.functionData._id
+
             }
             else if (event == 'DELETE') {
                 this.deleteDialog = true
@@ -314,79 +313,107 @@ export default {
             this.image = files[0]
         },
         async handleEditClicked () {
-            const response = await functionAPI.editFunction(this.functionData._id, this.functionData.group, this.functionData.choice)
-            try {
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    message: response.message
+            await functionAPI.editFunction(this.editData._id, this.editData.group, this.editData.choices)
+                .then(response => {
+                    toastr.success(response.message)
                 })
-                this.editDialog = false
-                this.$router.replace({
-                    name: 'admin-function-id',
-                    params: {
-                        id: this.functionData._id
-                    }
+                .catch(error => {
+                    toastr.error(error.response.error.message)
                 })
-            }
-            catch (error) {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
-            }
         },
-        async handleDeleteClicked(id) {
-            const response = await functionAPI.deleteFunction(id)
+        async handleDeleteClicked() {
+            const response = await functionAPI.deleteFunction(this.$route.params.id)
             try {
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    message: response.message
-                })
+                toastr.success(response.message)
                 this.deleteDialog = false
-                await this.$router.replace({
+                this.$router.replace({
                     name: 'admin-function'
                 })
             }
             catch (error) {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
+                toastr.error(error.response.error.message)
             }
         },
         async handleAddClicked () {
-            console.log(this.functionData.choice.length)
-            this.functionData.choice.push({ title: '', description: '', imageUrl: '', imagePath: '' })
+            console.log(this.functionData.choices.length)
+            this.editData.choices.push({ name: '', description: '', imagePath: '' })
         },
         async handleCloseClicked (index) {
             console.log(index)
-            this.functionData.choice.splice(index, 1)
+            this.editData.choices.splice(index, 1)
         }
     }
 }
 </script>
 
-<style>
-h1{
-    text-align: center;
+<style lang="scss" scoped>
+.wrap-page {
+    margin: 24px;
+    & .top {
+        display: grid;
+        grid-template-columns: auto 150px;
+        align-items: center;
+
+    }
+    & .header{
+        font-size:30px;
+        font-weight:bold;
+        text-align: center;
+        margin: 8px 0 8px ;
+    }
+    & .menu {
+        & .button-setting {
+            background-color:#37d0ff;
+        }
+    }
+    & .wrap-card {
+        margin: 16px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 250px);
+        grid-gap: 16px;
+        & .func-card {
+            border: 1px solid rgba( #000000,  0.3);
+            border-radius: 8px;
+            & .wrap-image {
+                background-color: #FFF;
+                max-width: 250px;
+                height: 250px;
+                padding: 16px;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                }
+            }
+            & .choice {
+                padding: 16px;
+                & .name {
+                    font-size: 20px;
+                    font-weight: 500;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
+                & .desc {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+
+
 }
-.menu {
-    padding-top: 0;
+ .wrap-input {
+    padding: 16px;
+}
+.btn-action {
     display: flex;
-    /* justify-content: flex-end; */
-}
-.remove-btn {
-    display: flex;
-    /* justify-content: flex-end; */
-    size: 10px;
-}
-p{
-    color: rgba(000, 000, 000, 0.3);
+    justify-content: space-around;
+
 }
 .btn-img {
     position:absolute;
     margin-top: 50px;
 }
 </style>
+

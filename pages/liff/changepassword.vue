@@ -1,24 +1,15 @@
 <template>
     <div>
         <changepassword @change-password="handleChangeClicked" />
-        <v-row>
-            <v-btn
-                elevation="0"
-                class="ml-15 btn-confirm primary"
-                width="150px"
-                @click="goBack"
-            >
-                Back
-            </v-btn>
-        </v-row>
     </div>
 </template>
 
 <script>
-import changepassword from "~/components/auth/changepassword.vue"
+import toastr from 'toastr'
+import changepassword from "~/components/auth/changepassword"
 import userAPI from "~/utils/userAPI"
 export default {
-    layout: 'liff',
+    layout: 'plain',
     components: { changepassword },
     methods: {
         goBack() {
@@ -28,27 +19,15 @@ export default {
             console.log(body)
             const response = await userAPI.changepassword(body)
             try {
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Success',
-                    message: response.message
-                })
+                toastr.success(response.message)
                 await liff.closeWindow()
             }
             catch (error) {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
+                toastr.error(error.response.error.message)
             }
         }
     }
 }
 </script>
 
-<style>
-.btn-confirm {
-    position: absolute;
-}
-</style>
+

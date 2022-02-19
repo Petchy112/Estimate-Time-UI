@@ -1,16 +1,13 @@
 <template>
-    <div>
+    <div class="wrap-zone">
         <div
-            rounded="20"
-            class="func-card my-6 mx-6"
+            class="func-card"
             v-for="input,index in choice"
             :key="index"
         >
-            <div class="d-flex flex-column">
-                <div class="top-box pa-4">
-                    <v-avatar
-                        size="64px"
-                    >
+            <div class="func-data">
+                <div class="top-box">
+                    <v-avatar size="60px">
                         <img :src="input.imagePath">
                     </v-avatar>
                     <div class="choice-name">
@@ -18,41 +15,33 @@
                     </div>
                 </div>
                 <div class="middle-box">
-                    <p class="pa-4 pt-0 text-justify">
-                        {{ input.description }}
-                    </p>
+                    {{ input.description }}
                 </div>
             </div>
-            <v-divider class="mx-4" />
-            <v-col cols="12">
-                <p class="text-center mt-4">
+            <v-divider />
+            <div class="input-section">
+                <p>
                     Input your time (Hour)
                 </p>
 
                 <div class="input-box">
-                    <!-- <v-btn elevation="0" @click="minus" width="32px" max-height="32px" fab>
-                        <v-icon size="24px">
-                            mdi-minus
-                        </v-icon>
-                    </v-btn> -->
-
                     <v-text-field
                         @change="$emit('inputTime',input.time)"
                         hide-details
                         solo
                         flat
-                        placeholder="time"
+                        type="number"
+                        placeholder="Time"
                         :rules="timeRules"
                         v-model="input.time"
                         class="input-time text-center"
-                    />
-                    <!-- <v-btn elevation="0" @click="plus" width="32px" max-height="32px" fab>
-                        <v-icon size="24px">
-                            mdi-plus
-                        </v-icon>
-                    </v-btn> -->
+                    >
+                        <template slot="label">
+                            Time
+                        </template>
+                    </v-text-field>
                 </div>
-            </v-col>
+            </div>
         </div>
     </div>
 </template>
@@ -68,9 +57,7 @@ export default {
             ],
         }
     },
-    computed: {
 
-    },
     methods: {
 
         plus(val) {
@@ -90,36 +77,49 @@ export default {
 }
 </script>
 
-<style>
-.func-card {
-    background-color: #fafafa;
-    border: 1px solid rgba(0, 0, 0, 0.35);
-    border-radius: 5px;
-}
-.top-box {
-    display: flex;
-    align-items: center;
-}
-.middle-box {
-    color: rgba(0, 0, 0, 0.6);
-    font-size: 16px;
+<style lang='scss' scoped>
+.wrap-zone {
+    margin: 12px;
+    display: grid;
+    grid-gap: 12px;
+    & .func-card {
+        background-color: #fafafa;
+        border: 1px solid rgba(0, 0, 0, 0.35);
+        border-radius: 5px;
+        padding: 16px;
+        & .func-data{
+            & .top-box {
+                align-items: center;
+                display: grid;
+                grid-template-columns: 60px auto;
+                // align-items: center;
+                & .choice-name{
+                    font-size: 20px;
+                    padding-left: 16px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+            & .middle-box {
+                margin: 10px;
+                color: rgba(0, 0, 0, 0.6);
+                font-size: 16px;
 
-}
-.choice-name{
-    font-size: 20px;
-    padding-left: 16px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.input-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.input-time {
-    max-width: 60px;
-    margin-left: 16px;
-    margin-right: 8px;
+            }
+        }
+        & .input-section{
+            display: grid;
+            grid-template-columns: 60% 40%;
+            align-items: center;
+            p {
+                font-size: 14px;
+            }
+            & .input-time{
+                max-width: 75px;
+                margin-left: 8px;
+            }
+        }
+    }
 }
 </style>

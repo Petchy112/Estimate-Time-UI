@@ -1,52 +1,46 @@
 <template>
-    <div
-        class="card-round pa-6 py-7"
-    >
-        <v-card-title>
-            <div class="my-header">
-                ESTIMATE TIME APP
+    <div class="wrap-page">
+        <div class="wrap-card-login">
+            <div class="top">
+                <div class="header">
+                    ESTIMATE TIME APP
+                </div>
+                <p> Please login to website</p>
             </div>
-        </v-card-title>
-        <p class="ml-4">
-            Please login to website
-        </p>
 
-
-        <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation
-        >
-            <v-text-field
-                dense
-                v-model="body.email"
-                :rules="emailRules"
-                type="email"
-                label="Email"
-                outlined
-                required
-            />
-            <v-text-field
-                dense
-                v-model="body.password"
-                :rules="passwordRules"
-                :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="show ? 'text' : 'password'"
-                @click:append="show = !show"
-                label="Password"
-                outlined
-                required
-            />
-            <v-btn
-                class="width-100 btn-signin"
-
-                color="rgb(55, 208, 255)"
-                rounded
-                @click="login(body)"
+            <v-form
+                ref="form"
+                v-model="valid"
+                lazy-validation
             >
-                Sign in
-            </v-btn>
-        </v-form>
+                <v-text-field
+                    dense
+                    v-model="body.email"
+                    :rules="emailRules"
+                    type="email"
+                    label="Email"
+                    outlined
+                    required
+                />
+                <v-text-field
+                    dense
+                    v-model="body.password"
+                    :rules="passwordRules"
+                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="show ? 'text' : 'password'"
+                    @click:append="show = !show"
+                    label="Password"
+                    outlined
+                    required
+                />
+                <v-btn
+                    class="btn-signin"
+                    @click="onSubmit"
+                >
+                    Sign in
+                </v-btn>
+            </v-form>
+        </div>
     </div>
 </template>
 
@@ -56,7 +50,7 @@ import { mapMutations } from 'vuex'
 
 import userAPI from "~/utils/userAPI"
 export default {
-    layout: 'blank',
+    layout: 'plain',
     data() {
         return {
             token: '',
@@ -84,7 +78,7 @@ export default {
             setProfile: "profile/setProfile",
             setAuth: "auth/setAuth",
         }),
-        async login() {
+        async onSubmit() {
             if (this.$refs.form.validate()) {
                 await userAPI.login(this.body)
                     .then(async response => {
@@ -114,40 +108,37 @@ export default {
 }
 </script>
 
-<style>
-.v-application--wrap {
-    justify-content: center;
-    align-content: center !important;
-}
-
-.v-card__title {
-    margin-top: 0 !important;
-    padding-bottom: 0 !important;
-}
-.card-round {
-    width: 768px;
+<style scoped lang='scss'>
+.wrap-page {
     margin: 0 auto;
-}
-.width-100 {
-    width: 100%;
-    margin-bottom:9px ;
+    display: flex;
+    justify-content: center;
+    & .wrap-card-login{
+        position: absolute;
+        top: 25%;
+        width: 700px;
+        & .top {
+            margin: 24px 0 24px 0;
+            & .header {
+                font-size: 28px;
+                font-weight: 600;
+            }
+        }
+        & .btn-signin {
+            color: #FFF;
+            margin-top: 10px;
+            width: 100%;
+            background-color: #37d0ff;
+            border-radius: 8px;
+        }
+
+    }
 }
 
-.v-form {
-    padding: 0 20px;
-}
-.my-header{
-    padding-bottom: 10px;
-    font-weight: bold;
-    font-size:28px;
-}
-.btn-signin {
-    font-size: 14px !important;
-}
+
 @media only screen and (max-width: 767px) {
-    .card-round {
+    .wrap-page .wrap-card-login {
         width: auto;
-        border-radius: 20px;
     }
 }
 </style>
