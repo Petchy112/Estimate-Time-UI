@@ -32,7 +32,7 @@
 
 
         <div class="empty" v-if="functionData.length == 0">
-            no data
+            ไม่มีข้อมูล
         </div>
         <v-tabs-items v-model="tab">
             <div class="warp-card">
