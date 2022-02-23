@@ -13,8 +13,8 @@ export default {
         return instanceAPI.api.post(`/function/add`, group, platform, choice)
             .then(response => response.data)
     },
-    editFunction: (id, group, choice) => {
-        return instanceAPI.api.post(`/function/${id}/edit`, group, choice)
+    editFunction: (id, group, choices) => {
+        return instanceAPI.api.post(`/function/${id}/edit`, group, choices)
             .then(response => response.data)
     },
     deleteFunction: (id) => {

@@ -26,7 +26,7 @@ export default {
             .then(response => response.data)
     },
     logout: () => {
-        return instanceAPI.api.post(`/user/logout`, data)
+        return instanceAPI.api.post(`/user/logout`)
             .then(response => response.data)
     },
     userDetails: (id) => {
@@ -34,7 +34,7 @@ export default {
             .then(response => response.data)
     },
     removeUser: (id)=> {
-        return instanceAPI.api.delete(`/user/${id}`, data)
+        return instanceAPI.api.delete(`/user/${id}`)
             .then(response => response.data)
     }
 }
