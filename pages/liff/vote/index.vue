@@ -36,9 +36,9 @@
 </template>
 
 <script>
-import functionAPI from "~/utils/functionAPI"
-import voteAPI from "~/utils/voteAPI"
-import VoteBox from '~/components/voteBox'
+import functionAPI from '~/utils/functionAPI'
+import voteAPI from '~/utils/voteAPI'
+import VoteBox from '~/components/pages/VoteBox.vue'
 import toastr from 'toastr'
 export default {
     layout: 'plain',

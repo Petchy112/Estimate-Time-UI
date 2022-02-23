@@ -35,7 +35,7 @@
 
 <script>
 import toastr from 'toastr'
-import VoteDetail from '~/components/voteDetail'
+import VoteDetail from '~/components/pages/VoteDetail.vue'
 
 import voteAPI from "~/utils/voteAPI"
 export default {

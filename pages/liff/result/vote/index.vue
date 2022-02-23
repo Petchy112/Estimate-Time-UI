@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import VoteTable from "~/components/voteTable"
+import VoteTable from '~/components/pages/VoteTable.vue'
 import voteAPI from "~/utils/voteAPI"
 export default {
     layout: 'plain',

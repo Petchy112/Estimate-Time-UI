@@ -19,9 +19,11 @@
 </template>
 
 <script>
-import VoteTable from "~/components/voteTable"
+import VoteTable from '~/components/pages/VoteTable.vue'
+
 import voteAPI from "~/utils/voteAPI"
 import functionAPI from "~/utils/functionAPI"
+
 import toastr from 'toastr'
 export default {
     components: { VoteTable },
