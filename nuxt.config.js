@@ -1,6 +1,7 @@
 
 
 export default {
+    ssr: false,
     target: 'static',
     head: {
         titleTemplate: '%s',
@@ -44,7 +45,6 @@ export default {
         '@nuxtjs/style-resources',
     ],
 
-    axios: {},
 
     vuetify: {
         customVariables: [ '~/styles/variables.scss' ],
