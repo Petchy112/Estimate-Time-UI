@@ -1,18 +1,15 @@
 <template>
-    <div>
-        <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation
-            class="pa-5 ma-4"
-        >
-            <h1 class="mb-8">
-                REGISTER FORM
-            </h1>
-            <v-col
-                cols="12"
-                sm="12"
+    <div class="wrap-page">
+        <div class="form">
+            <v-form
+                ref="form"
+                v-model="valid"
+                lazy-validation
             >
+                <div class="header mb-8">
+                    REGISTER FORM
+                </div>
+
                 <v-text-field
                     dense
                     v-model="body.firstname"
@@ -62,7 +59,7 @@
                     @click:append="show2 = !show2"
                     outlined
                 />
-                <v-text>Select role of user (required)</v-text>
+                <v-text>Select role of user (Required)</v-text>
                 <div class="checkbox my-2 ml-4">
                     <v-checkbox
                         dense
@@ -83,29 +80,24 @@
                         value="COORDINATOR"
                     />
                 </div>
+            </v-form>
+        </div>
 
-                <v-btn
-                    color="error"
-                    class="mr-4"
-                    @click="cancel"
-                >
-                    cancel
-                </v-btn>
-
-                <v-btn
-                    :disabled="!valid"
-                    color="success"
-                    class="mr-4"
-                    @click="register"
-                >
-                    register
-                </v-btn>
-            </v-col>
-        </v-form>
+        <div class="buttom-section">
+            <v-btn
+                :disabled="!valid"
+                color="success"
+                class="save"
+                @click="register"
+            >
+                SAVE
+            </v-btn>
+        </div>
     </div>
 </template>
 
 <script>
+import toastr from 'toastr'
 import userAPI from "~/utils/userAPI"
 export default {
     data: () => ({
@@ -146,22 +138,16 @@ export default {
 
     methods: {
         async register () {
-            this.$refs.form.validate()
-            await userAPI.register(this.body)
-            try {
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Success',
-                    message: response.message
-                })
-                await this.$router.push({ name: 'admin-user' })
-            }
-            catch (error) {
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
+            if (this.$refs.form.validate()) {
+                await userAPI.register(this.body)
+                try {
+                    toastr.success(response.message)
+                    await this.$router.push({ name: 'admin-user' })
+                }
+                catch (error) {
+                    toastr.error(error.response.message)
+
+                }
             }
         },
         async cancel () {
@@ -174,9 +160,21 @@ export default {
 }
 </script>
 
-<style scoped>
-h1 {
-    text-align: center;
+<style lang='scss' scoped>
+.wrap-page{
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    & .header {
+        font-size: 32px;
+        font-weight: 600;
+        text-align: center;
+    }
+    & .save {
+        width: 100%;
+    }
 }
 
 </style>

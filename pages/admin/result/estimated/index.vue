@@ -1,79 +1,68 @@
 <template>
-    <div>
-        <v-card-title>
-            <div class="my-head ma-3">
+    <div class="wrap-page">
+        <div class="top-section">
+            <div class="header">
                 ESTIMATE RESULTS
             </div>
-            <v-spacer />
+
             <v-text-field
                 background-color="rgba(240,240,240)"
                 v-model="search"
                 append-icon="mdi-magnify"
                 flat
                 placeholder="Search"
-                class="mx-4"
+                class="search-tab"
                 solo
                 single-line
                 hide-details
             />
-        </v-card-title>
-        <v-divider class="ma-5" />
-        <div v-if="this.estimateData == ''" class="text-data">
-            No data
         </div>
-        <div v-else class="grid-container">
+        <v-divider />
+        <div v-if="this.estimateData.length == 0" class="empty">
+            ไม่มีข้อมูล
+        </div>
+        <div v-else class="wrap-content">
             <div
-                class="pl-3 content-column"
                 v-for="(item,index) in filteredItems"
                 :key="index"
             >
                 <v-expansion-panels>
-                    <v-expansion-panel
-                        class="panel"
-                    >
+                    <v-expansion-panel class="panel">
                         <v-expansion-panel-header>
                             <div class="proj-header">
                                 {{ item.projectName }}
                             </div>
                         </v-expansion-panel-header>
-                        <v-expansion-panel-content>
-                            <div class="left-box">
-                                Create by : {{ item.createBy }}
-                                <br>
-                                Platform : {{ item.platform }}
-                                <br>
-                                Number of developer : {{ item.qty }}
-                                <br>
-                                System size : {{ item.size }}
-                                <br>
-                                Estimated Time : {{ item.estimatedTime }}
-                            </div>
-                            <v-divider class="my-5" />
-                            <div class="right-box mt-5">
-                                <template>
-                                    <v-expansion-panels flat focusable>
-                                        <v-expansion-panel>
-                                            <v-expansion-panel-header expand-icon="mdi-menu-down">
-                                                <div class="proj-header">
-                                                    SELECTED FUNCTION
-                                                </div>
-                                            </v-expansion-panel-header>
-                                            <v-expansion-panel-content>
-                                                <div class="text-data" v-if="item.choice == ''">
-                                                    No Data
-                                                </div>
-                                                <div
-                                                    class="mt-3"
-                                                    v-for="select in item.choice"
-                                                    :key="select.index"
-                                                >
-                                                    {{ select }}
-                                                </div>
-                                            </v-expansion-panel-content>
-                                        </v-expansion-panel>
-                                    </v-expansion-panels>
-                                </template>
-                            </div>
+                        <v-expansion-panel-content class="content">
+                            <p>Create by : {{ item.createBy }}</p>
+                            <p>Platform : {{ item.platform }}</p>
+                            <p>Number of developer : {{ item.qty }}  person</p>
+                            <p>Estimated Time : {{ item.estimatedTime }}  hours</p>
+                            <v-divider />
+
+                            <template>
+                                <v-expansion-panels flat focusable>
+                                    <v-expansion-panel>
+                                        <v-expansion-panel-header expand-icon="mdi-menu-down">
+                                            <div class="choice-header">
+                                                Selected Function
+                                            </div>
+                                        </v-expansion-panel-header>
+                                        <v-expansion-panel-content class="choice-content">
+                                            <div class="empty" v-if="item.choice == ''">
+                                                ไม่มีข้อมูล
+                                            </div>
+                                            <div
+                                                class="choice"
+                                                v-for="(select,index) in item.choice"
+                                                :key="index"
+                                            >
+                                                {{ select }}
+                                            </div>
+                                        </v-expansion-panel-content>
+                                    </v-expansion-panel>
+                                </v-expansion-panels>
+                            </template>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
@@ -85,15 +74,10 @@
 <script>
 import estimateAPI from "~/utils/estimateAPI"
 export default {
-
     data () {
         return {
             search: '',
             estimateData: [],
-            headers: [
-                { text: 'Project Name', align: 'start', sortable: true, value: 'projectName' },
-                { text: 'Create by', align: 'start', sortable: true, value: 'createBy' }
-            ],
         }
     },
     computed: {
@@ -109,58 +93,56 @@ export default {
     methods: {
         async getResult() {
             const response = await estimateAPI.estimateLists()
-            try {
-                console.log('RESPONSE', response)
-                this.estimateData = response
-            }
-            catch (error) {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
-            }
-        },
-        async handleShowClicked(data) {
-            var id = data._id
-            this.$router.push({ name: 'admin-result-estimated-id', params: { id } })
+            this.estimateData = response
         }
     },
 }
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
+.wrap-page {
+    margin: 0 auto;
+    & .top-section {
+        display: flex;
+        justify-content: space-between;
+        & .header {
+            margin: 12px;
+            font-size: 32px !important;
+            font-weight: bold;
+        }
+        & .search-tab {
+            margin-top: 12px;
+            margin-right: 20px;
+            max-width: 600px;
+        }
+    }
+    & .wrap-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fill ,500px);
+        grid-gap: 20px;
+        & .panel {
+            padding: 10px;
+            & .proj-header {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 20px;
+                font-weight: bold;
+            }
+            & .choice-header{
+                font-size: 18px;
+                font-weight: bold;
+            }
+           & .choice-content {
+               margin-top: 10px;
+               display: flex;
+               & .choice{
+                   line-height: 30px;
+               }
+           }
+        }
 
-.my-head {
-    font-size: 32px !important;
-    font-weight: bold;
-}
-.proj-header{
-    font-size: 18px;
-    font-weight: bold;
-}
-.selected {
-    font-size: 16px;
-    font-weight: bold;
-}
-.v-expansion-panels {
-    width: 400px;
-}
-.text-data {
-    text-align: center;
-    color: rgba(000,000, 000, 0.3);
-}
-.panel {
-    margin: 5px 5px ;
-    padding: 5px 5px;
-}
-.grid-container {
-    display: flex;
-    flex-wrap: wrap;
-}
-.text-data {
-    text-align: center;
-    color: rgba(000,000, 000, 0.3);
+    }
 }
 
 </style>

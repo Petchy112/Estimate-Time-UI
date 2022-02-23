@@ -32,31 +32,22 @@ export default {
             switchs: null
         }
     },
-    mounted() {
-        this.getResult()
-    },
     computed: {
         theStatus() {
             return this.status
         }
     },
-
     methods: {
         async getResult () {
             const response = await functionAPI.functionList('WEBSITE')
-            try {
-                this.status = response[0].status
-                if (this.status == 'OPEN') {
-                    this.switchs = true
-                }
-                else {
-                    this.switchs = false
-                }
+            this.status = response[0].status
+            if (this.status == 'OPEN') {
+                this.switchs = true
             }
-            catch (error) {
-                toastr.error(error.response.error.message)
+            else {
+                this.switchs = false
+            }
 
-            }
             const res = await voteAPI.resultLists()
             try {
                 this.voteResults = res
@@ -67,23 +58,20 @@ export default {
             }
         },
         async handleShowClicked(round) {
-            this.$router.push({ name: 'admin-result-vote-round', params: { round } })
+            this.$router.push({ name: 'admin-vote-round', params: { round } })
         },
         async handleVote(action) {
-            if (action == true) {
-                action = 'OPEN'
-            }
-            else if (action == false) {
-                action = 'CLOSE'
-            }
-            console.log(action)
-            await voteAPI.handleVote(action)
-                .then(async response => {
-                    toastr.success(response.data.message)
+            await voteAPI.handleVote(action == true ? 'OPEN' : 'CLOSE')
+                .then(response => {
+                    toastr.success(response.message)
                 })
-
-        }
-
+                .catch(error => {
+                    toastr.error(error.response.message)
+                })
+        },
+        mounted() {
+            this.getResult()
+        },
     }
 }
 </script>

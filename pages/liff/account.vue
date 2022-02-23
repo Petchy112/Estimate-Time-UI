@@ -28,34 +28,33 @@
 </template>
 
 <script>
+import toastr from 'toastr'
+import { mapMutations } from 'vuex'
 import userAPI from "~/utils/userAPI"
 export default {
-    layout: 'liff',
+    layout: 'plain',
     mounted() {
-        // liff.init({
-        //     liffId: '1656364274-P9lyjQAe'
-        // })
     },
+
     methods: {
+        ...mapMutations ({
+            resetAuth: "auth/resetAuth",
+        }),
         role() {
             this.$router.push({ name: 'liff-role' })
         },
         async logout() {
             await userAPI.logout()
                 .then(async response => {
-                    await localStorage.clear()
+                    await this.resetAuth()
                     liff.closeWindow()
                 })
                 .catch(error => {
-                    this.$store.dispatch('setDialog', {
-                        isShow: true,
-                        title: 'Please try again',
-                        message: error.response.error.message
-                    })
+                    toastr.error(error.response.error.message)
                 })
         },
-        async changepassword() {
-            await this.$router.push({ name: 'liff-changepassword' })
+        changepassword() {
+            this.$router.push({ name: 'liff-changepassword' })
         }
 
     }
