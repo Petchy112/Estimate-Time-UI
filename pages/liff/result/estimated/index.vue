@@ -39,11 +39,9 @@
                                     <br>
                                     Platform : {{ item.platform }}
                                     <br>
-                                    Number of developer : {{ item.qty }}
+                                    Number of developer : {{ item.qty }} person
                                     <br>
-                                    System size : {{ item.size }}
-                                    <br>
-                                    Estimated Time : {{ item.estimatedTime }}
+                                    Estimated Time : {{ item.estimatedTime }} Hours
                                 </div>
                                 <v-divider class="my-5" />
                                 <div class="right-box mt-5">
@@ -84,7 +82,7 @@
 <script>
 import estimateAPI from "~/utils/estimateAPI"
 export default {
-    layout: 'liff',
+    layout: 'plain',
     data () {
         return {
             search: '',
@@ -99,19 +97,10 @@ export default {
         // await liff.init({
         //     liffId: '1656364274-ADg78Boe'
         // })
-        await estimateAPI.estimateLists()
-        try {
-            console.log('RESPONSE', response)
-            this.estimateData = response
-        }
-        catch (error) {
-            console.log('ERROR', error.response)
-            this.$store.dispatch('setDialog', {
-                isShow: true,
-                title: 'Please try again',
-                message: error.response.error.message
-            })
-        }
+        const response = await estimateAPI.estimateLists()
+        console.log('RESPONSE', response)
+        this.estimateData = response
+
     },
     computed: {
         filteredItems() {

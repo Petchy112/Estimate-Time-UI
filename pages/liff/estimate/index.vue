@@ -1,123 +1,116 @@
 <template>
-    <div v-if="estimateData">
-        <v-app>
-            <v-container>
-                <v-app-bar
-                    color="primary"
-                    flat
-                    fixed
-                    max-width="100%"
+    <div class="wrap-page" v-if="estimateData">
+        <v-app-bar
+            class="app-bar"
+            flat
+            fixed
+        >
+            <div class="title">
+                ESTIMATE TIME
+            </div>
+        </v-app-bar>
+        <div class="wrap-content">
+            <v-tabs
+                class="tab-title pa-0 pt-11"
+                v-model="tab"
+                height="60px"
+                slider-color="blue"
+            >
+                <v-tab
+                    v-for="item in items"
+                    :key="item.tab"
+                    @click="choosePlatform(item.tab)"
                 >
-                    <v-toolbar-title>
-                        ESTIMATE TIME
-                    </v-toolbar-title>
-                </v-app-bar>
-                <v-container class="container">
-                    <v-col cols="12">
-                        <v-tabs
-                            class="tab-title pa-0 pt-11"
-                            v-model="tab"
-                            height="60px"
-                            slider-color="blue"
-                        >
-                            <v-tab
-                                v-for="item in items"
-                                :key="item.tab"
-                                @click="choosePlatform(item.tab)"
-                            >
-                                {{ item.tab }}
-                            </v-tab>
-                        </v-tabs>
-                        <v-tabs-items v-model="tab">
-                            <v-tab-item
-                                v-for="i in 3"
-                                :key="i.tab"
-                            >
-                                <div>
-                                    <v-card-title class="justify-center">
-                                        SELECT NUMBER OF DEVELOPER
-                                    </v-card-title>
-                                    <div class="dev-number">
-                                        <v-btn class="mx-4" elevation="0" fab width="32px" height="32px" @click="minus">
-                                            <v-icon size="24px">
-                                                mdi-minus
-                                            </v-icon>
-                                        </v-btn>
-                                        <div class="mx-4">
-                                            {{ selected.qty }}
-                                        </div>
-                                        <v-btn class="mx-4" elevation="0" fab width="32px" height="32px" @click="plus">
-                                            <v-icon size="24px">
-                                                mdi-plus
-                                            </v-icon>
-                                        </v-btn>
-                                    </div>
-                                    <v-divider class="ma-2" />
-
-                                    <div class="subheader2 pa-0 pt-5 ">
-                                        SELECT FUNCTION THAT YOU NEED
-                                    </div>
-                                    <div
-                                        rounded="50%"
-                                        class="my-5 mx-5 py-3"
-                                        v-for="data in estimateData"
-                                        :key="data._id"
-                                    >
-                                        <div class="estimate-card" v-if="data.length != 0">
-                                            <div class="group-name">
-                                                {{ data.group }}
-                                            </div>
-
-                                            <EstimateCard
-                                                v-for="choice in data.choices"
-                                                :key="choice.name"
-                                                :choice="choice"
-                                                :active="selected.selectedChoice.includes(choice.name)"
-                                                @chooseChoice="chooseChoice"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </v-tab-item>
-                        </v-tabs-items>
-                    </v-col>
-                </v-container>
-                <v-footer
-                    :padless="padless"
-                    fixed
-                    app
-                    height="100px"
+                    {{ item.tab }}
+                </v-tab>
+            </v-tabs>
+            <v-tabs-items v-model="tab">
+                <v-tab-item
+                    v-for="i in 3"
+                    :key="i.tab"
                 >
-                    <v-card
-                        tile
-                        width="100%"
-                        color="primary"
-                    >
-                        <v-col cols="12">
-                            <v-card-text class="pa-0 pb-4 pl-2">
-                                <div class="text">
-                                    ** Please make sure your selection is correct.
-                                </div>
-                            </v-card-text>
-                            <div class="next-btn">
-                                <v-btn v-if="selected.selectedChoice != []" width="40%" outlined color="white" rounded @click="nextPage">
-                                    Next
-                                </v-btn>
+                    <div>
+                        <v-card-title class="justify-center">
+                            SELECT NUMBER OF DEVELOPER
+                        </v-card-title>
+                        <div class="dev-number">
+                            <v-btn class="mx-4" elevation="0" fab width="32px" height="32px" @click="minus">
+                                <v-icon size="24px">
+                                    mdi-minus
+                                </v-icon>
+                            </v-btn>
+                            <div class="mx-4">
+                                {{ selected.qty }}
                             </div>
-                        </v-col>
-                    </v-card>
-                </v-footer>
-            </v-container>
-        </v-app>
+                            <v-btn class="mx-4" elevation="0" fab width="32px" height="32px" @click="plus">
+                                <v-icon size="24px">
+                                    mdi-plus
+                                </v-icon>
+                            </v-btn>
+                        </div>
+                        <v-divider class="ma-2" />
+
+                        <div class="subheader2 pa-0 pt-5 ">
+                            SELECT FUNCTION THAT YOU NEED
+                        </div>
+                        <div
+                            rounded="50%"
+                            class="my-5 mx-5 py-3"
+                            v-for="data in estimateData"
+                            :key="data._id"
+                        >
+                            <div class="estimate-card" v-if="data.length != 0">
+                                <div class="group-name">
+                                    {{ data.group }}
+                                </div>
+
+                                <EstimateCard
+                                    v-for="choice in data.choices"
+                                    :key="choice.name"
+                                    :choice="choice"
+                                    :active="selected.selectedChoice.includes(choice.name)"
+                                    @chooseChoice="chooseChoice"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </v-tab-item>
+            </v-tabs-items>
+        </div>
+        <v-footer
+            :padless="padless"
+            fixed
+            app
+            height="100px"
+        >
+            <v-card
+                tile
+                width="100%"
+                color="primary"
+            >
+                <v-col cols="12">
+                    <v-card-text class="pa-0 pb-4 pl-2">
+                        <div class="text">
+                            ** Please make sure your selection is correct.
+                        </div>
+                    </v-card-text>
+                    <div class="next-btn">
+                        <v-btn v-if="selected.selectedChoice != []" width="40%" outlined color="white" rounded @click="nextPage">
+                            Next
+                        </v-btn>
+                    </div>
+                </v-col>
+            </v-card>
+        </v-footer>
     </div>
 </template>
 
 <script>
-import EstimateCard from '~/components/estimateCard.vue'
+import EstimateCard from '~/components/pages/EstimateCard.vue'
 import voteAPI from '~/utils/voteAPI'
 
 export default {
-    layout: 'liff',
+    layout: 'plain',
     components: { EstimateCard },
     data() {
         return {
@@ -209,7 +202,28 @@ export default {
 }
 
 </script>
-<style  scoped>
+<style lang='scss' scoped>
+.wrap-page {
+    & .app-bar{
+        display: flex;
+        background-color: #37d0ff !important;
+        justify-content: center;
+        color: #fff;
+        & .title {
+            font-weight: 600;
+            font-size: 28px !important;
+        }
+    }
+    & .wrap-content {
+
+        margin: 60px 10px 0 10px;
+        & .tab-title {
+            font-size: 14px;
+
+}
+    }
+}
+
 .v-toolbar__title {
     width: 100%;
     text-align: center;
