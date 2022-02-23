@@ -255,14 +255,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .btn-img {
     position:absolute;
     margin-top: 50px;
 }
 .remove-btn {
     display: flex;
-    /* justify-content: flex-end; */
 
 }
 </style>

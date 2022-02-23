@@ -141,7 +141,7 @@
 <script>
 import estimateAPI from "~/utils/estimateAPI"
 export default {
-    layout: 'liff',
+    layout: 'plain',
     data() {
         return {
             padless: true,

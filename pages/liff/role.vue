@@ -27,7 +27,7 @@
 <script>
 import userAPI from "~/utils/userAPI"
 export default {
-    layout: 'liff',
+    layout: 'plain',
     data() {
         return {
             userData: [],
@@ -58,7 +58,7 @@ export default {
 }
 </script>
 
-<style  scoped>
+<style lang='scss' scoped>
 .back {
     background-color: #fefefe !important;
 }

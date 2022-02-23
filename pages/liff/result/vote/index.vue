@@ -16,7 +16,7 @@
 import VoteTable from "~/components/voteTable"
 import voteAPI from "~/utils/voteAPI"
 export default {
-    layout: 'liff',
+    layout: 'plain',
     components: {
         VoteTable
     },

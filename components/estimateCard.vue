@@ -29,7 +29,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
 .sub-title {
     color: rgba( 0,0,0,0.4);
 }
