@@ -1,129 +1,131 @@
 <template>
-    <v-app>
-        <v-app-bar
-            :clipped-left="clipped"
-            class="top-bar"
-            flat
-            app
-            color="rgb(55, 208, 255)"
-        >
-            <v-app-bar-nav-icon @click="drawer = !drawer" />
-            <v-toolbar-title v-text="title" />
-            <v-spacer />
-            <div class="text-center">
-                <v-menu
-                    :close-on-content-click="false"
-                    :nudge-width="200"
-                    offset-y
-                >
-                    <template #activator="{ on, attrs }">
-                        <v-btn
-                            icon
-                            v-bind="attrs"
-                            v-on="on"
-                        >
-                            <v-icon>mdi-account</v-icon>
-                        </v-btn>
-                    </template>
-
-                    <v-card class="profile-card">
-                        <div class="wrap-image">
-                            <v-avatar
-                                class="image"
-                                size="100px"
-                                @change="upload"
+    <div class="wrap">
+        <v-app>
+            <v-app-bar
+                :clipped-left="clipped"
+                class="top-bar"
+                flat
+                app
+                color="rgb(55, 208, 255)"
+            >
+                <v-app-bar-nav-icon @click="drawer = !drawer" />
+                <v-toolbar-title v-text="title" />
+                <v-spacer />
+                <div class="text-center">
+                    <v-menu
+                        :close-on-content-click="false"
+                        :nudge-width="200"
+                        offset-y
+                    >
+                        <template #activator="{ on, attrs }">
+                            <v-btn
+                                icon
+                                v-bind="attrs"
+                                v-on="on"
                             >
-                                <v-btn
-                                    class="secondary btn-upload"
-                                    fab
-                                    width="30px"
-                                    height="30px"
-                                    @click="onPickFile"
+                                <v-icon>mdi-account</v-icon>
+                            </v-btn>
+                        </template>
+
+                        <v-card class="profile-card">
+                            <div class="wrap-image">
+                                <v-avatar
+                                    class="image"
+                                    size="100px"
+                                    @change="upload"
                                 >
-                                    <v-icon size="20px">
-                                        mdi-camera
-                                    </v-icon>
+                                    <v-btn
+                                        class="secondary btn-upload"
+                                        fab
+                                        width="30px"
+                                        height="30px"
+                                        @click="onPickFile"
+                                    >
+                                        <v-icon size="20px">
+                                            mdi-camera
+                                        </v-icon>
+                                    </v-btn>
+
+                                    <img
+                                        :src="profile.profilePic ? profile.profilePic : require('~/assets/default-profile.png')"
+                                    >
+                                </v-avatar>
+                            </div>
+
+
+                            <div class="profile">
+                                <div class="name">
+                                    Hello, {{ profile.firstname }}
+                                </div>
+
+                                <div class="email">
+                                    {{ profile.email }}
+                                </div>
+                            </div>
+                            <input
+                                type="file"
+                                style="display:none"
+                                ref="fileInput"
+                                accept="image/*"
+                                @change="onFilePicked"
+                            >
+                            <div class="button-section">
+                                <v-btn color="primary" plain @click="changepassword">
+                                    change password
                                 </v-btn>
 
-                                <img
-                                    :src="profile.profilePic ? profile.profilePic : require('~/assets/default-profile.png')"
-                                >
-                            </v-avatar>
-                        </div>
-
-
-                        <div class="profile">
-                            <div class="name">
-                                Hello, {{ profile.firstname }}
+                                <v-btn color="error" @click="logout">
+                                    Sign out
+                                </v-btn>
                             </div>
+                        </v-card>
+                    </v-menu>
+                </div>
+            </v-app-bar>
+            <v-navigation-drawer
+                v-model="drawer"
+                :clipped="clipped"
+                app
+            >
+                <v-list>
+                    <v-list-item
+                        v-for="(item, i) in items"
+                        :key="i"
+                        :to="item.to"
+                        router
+                        exact
+                    >
+                        <v-list-item-action>
+                            <v-icon>{{ item.icon }}</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title v-text="item.title" />
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list>
+            </v-navigation-drawer>
 
-                            <div class="email">
-                                {{ profile.email }}
-                            </div>
-                        </div>
-                        <input
-                            type="file"
-                            style="display:none"
-                            ref="fileInput"
-                            accept="image/*"
-                            @change="onFilePicked"
-                        >
-                        <div class="button-section">
-                            <v-btn color="primary" plain @click="changepassword">
-                                change password
-                            </v-btn>
+            <v-main>
+                <v-container>
+                    <Nuxt />
+                </v-container>
+                <alertDialog />
+            </v-main>
 
-                            <v-btn color="error" @click="logout">
-                                Sign out
-                            </v-btn>
-                        </div>
-                    </v-card>
-                </v-menu>
-            </div>
-        </v-app-bar>
-        <v-navigation-drawer
-            v-model="drawer"
-            :clipped="clipped"
-            app
-        >
-            <v-list>
-                <v-list-item
-                    v-for="(item, i) in items"
-                    :key="i"
-                    :to="item.to"
-                    router
-                    exact
-                >
-                    <v-list-item-action>
-                        <v-icon>{{ item.icon }}</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title v-text="item.title" />
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
-        </v-navigation-drawer>
-
-        <v-main>
-            <v-container>
-                <Nuxt />
-            </v-container>
-            <alertDialog />
-        </v-main>
-
-        <v-footer
-            :absolute="!fixed"
-            color="rgb(55, 208, 255)"
-            app
-            dark
-        >
-            <span>&copy; {{ new Date().getFullYear() }}</span>
-        </v-footer>
-    </v-app>
+            <v-footer
+                :absolute="!fixed"
+                color="rgb(55, 208, 255)"
+                app
+                dark
+            >
+                <span>&copy; {{ new Date().getFullYear() }}</span>
+            </v-footer>
+        </v-app>
+    </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 import alertDialog from "~/components/dialog/alertDialog"
 import userAPI from "~/utils/userAPI"
@@ -200,6 +202,9 @@ export default {
         })
     },
     methods: {
+        ...mapMutations ({
+            resetAuth: "auth/resetAuth",
+        }),
         async upload() {
             const response = await imageAPI.uploadProfile(this.profileImage)
             try {
@@ -230,9 +235,9 @@ export default {
             this.profileImage = files[0]
         },
         async logout() {
-            const response =await userAPI.logout()
+            const response = await userAPI.logout()
             try {
-                localStorage.clear()
+                this.resetAuth()
                 this.$router.replace({ name: 'index' })
             }
             catch (error) {
@@ -252,43 +257,46 @@ export default {
 <style lang="scss" scoped>
 @import '~/styles/variables.scss';
 
-.profile-card {
-    margin: 0 auto;
-    padding: 10px;
-    & .wrap-image {
-        border-radius: 50% !important;
-        display: flex;
-        justify-content: center;
-        & .image {
-                width: 60px;
-                height: 60px;
-                & .btn-upload {
-                    background-color: brown;
-                    margin-top: 70px;
-                    position: absolute;
+.wrap {
+    width: 100%;
+    background-color: #fff;
+    .profile-card {
+        margin: 0 auto;
+        padding: 10px;
+        & .wrap-image {
+            border-radius: 50% !important;
+            display: flex;
+            justify-content: center;
+            & .image {
+                    width: 60px;
+                    height: 60px;
+                    & .btn-upload {
+                        background-color: brown;
+                        margin-top: 70px;
+                        position: absolute;
+                    }
                 }
-            }
-    }
-
-    & .profile {
-        text-align: center;
-        font-size: 24px;
-
-        & .email {
-            padding-top: 0px;
-            text-align: center;
-            font-size: 16px;
-            color: rgba($color: #000000, $alpha: 0.5);
         }
+
+        & .profile {
+            text-align: center;
+            font-size: 24px;
+
+            & .email {
+                padding-top: 0px;
+                text-align: center;
+                font-size: 16px;
+                color: rgba($color: #000000, $alpha: 0.5);
+            }
+        }
+        & .button-section {
+            margin-top: 16px;
+            margin-bottom: 16px;
+            display: grid;
+            grid-auto-flow: row;
+            grid-gap: 10px;
+
     }
-    & .button-section {
-        margin-top: 16px;
-        margin-bottom: 16px;
-        display: grid;
-        grid-auto-flow: row;
-        grid-gap: 10px;
-
-   }
+    }
 }
-
 </style>
