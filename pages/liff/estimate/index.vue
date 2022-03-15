@@ -11,9 +11,8 @@
         </v-app-bar>
         <div class="wrap-content">
             <v-tabs
-                class="tab-title pa-0 pt-11"
+                class="tab-title"
                 v-model="tab"
-                height="60px"
                 slider-color="blue"
             >
                 <v-tab
@@ -30,32 +29,23 @@
                     :key="i.tab"
                 >
                     <div>
-                        <v-card-title class="justify-center">
-                            SELECT NUMBER OF DEVELOPER
-                        </v-card-title>
                         <div class="dev-number">
-                            <v-btn class="mx-4" elevation="0" fab width="32px" height="32px" @click="minus">
-                                <v-icon size="24px">
-                                    mdi-minus
-                                </v-icon>
-                            </v-btn>
-                            <div class="mx-4">
-                                {{ selected.qty }}
-                            </div>
-                            <v-btn class="mx-4" elevation="0" fab width="32px" height="32px" @click="plus">
-                                <v-icon size="24px">
-                                    mdi-plus
-                                </v-icon>
-                            </v-btn>
+                            <v-text-field
+                                dense
+                                class="input-group--focused"
+                                placeholder="Number of developers"
+                                v-model="data.qty"
+                                required
+                                outlined
+                            >
+                                <template slot="label">
+                                    Number of developers
+                                </template>
+                            </v-text-field>
                         </div>
-                        <v-divider class="ma-2" />
-
-                        <div class="subheader2 pa-0 pt-5 ">
-                            SELECT FUNCTION THAT YOU NEED
-                        </div>
+                        <v-divider />
                         <div
                             rounded="50%"
-                            class="my-5 mx-5 py-3"
                             v-for="data in estimateData"
                             :key="data._id"
                         >
@@ -65,10 +55,10 @@
                                 </div>
 
                                 <EstimateCard
-                                    v-for="choice in data.choices"
-                                    :key="choice.name"
+                                    v-for="(choice,index) in data.choices"
+                                    :key="index"
                                     :choice="choice"
-                                    :active="selected.selectedChoice.includes(choice.name)"
+                                    @click="isClicked(choice)"
                                     @chooseChoice="chooseChoice"
                                 />
                             </div>
@@ -86,26 +76,25 @@
             <v-card
                 tile
                 width="100%"
-                color="primary"
+                color="#37d0ff"
             >
-                <v-col cols="12">
-                    <v-card-text class="pa-0 pb-4 pl-2">
-                        <div class="text">
-                            ** Please make sure your selection is correct.
-                        </div>
-                    </v-card-text>
+                <div class="footer-content">
+                    <div class="remark">
+                        ** Please make sure your selection is correct.
+                    </div>
                     <div class="next-btn">
-                        <v-btn v-if="selected.selectedChoice != []" width="40%" outlined color="white" rounded @click="nextPage">
+                        <v-btn class="btn" v-if="data.selectedChoice != []" @click="nextPage">
                             Next
                         </v-btn>
                     </div>
-                </v-col>
+                </div>
             </v-card>
         </v-footer>
     </div>
 </template>
 
 <script>
+import toastr from 'toastr'
 import EstimateCard from '~/components/pages/EstimateCard.vue'
 import voteAPI from '~/utils/voteAPI'
 
@@ -114,79 +103,64 @@ export default {
     components: { EstimateCard },
     data() {
         return {
-            platform: this.$store.getters.getSelectedEstimate.platform,
             tab: null,
             padless: true,
             items: [
                 { tab: 'WEBSITE' },
                 { tab: 'MOBILE' }
             ],
-
-            selected: {
+            data: {
                 selectedChoice: [],
-                platform: this.$store.getters.getSelectedEstimate.platform,
-                estimateTime: this.$store.getters.getSelectedEstimate.estimateTime,
-                projectName: this.$store.getters.getSelectedEstimate.projectName,
-                qty: this.$store.getters.getSelectedEstimate.qty,
-                size: this.$store.getters.getSelectedEstimate.size
+                platform: '',
+                estimateTime: null,
+                projectName: '',
+                qty: null,
             },
+            isActive: false,
             estimateData: []
         }
     },
 
-    async mounted() {
+    mounted() {
         // await liff.init({
         //     liffId: '1656364274-kBvYz6PE'
         // })
         this.getEstimateData()
     },
     methods: {
+        isClicked(val) {
+            console.log(val, 'petch')
+        },
         async getEstimateData () {
             const response = await voteAPI.getDataForEstimate('WEBSITE')
             try {
-                console.log('RESPONSE', response)
                 this.estimateData = response
             }
             catch (error) {
-                this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    title: 'Please try again',
-                    message: error.response.error.message
-                })
-            }
-        },
-        plus() {
-            this.selected.qty = this.selected.qty + 1
-        },
-        minus() {
-            if (this.selected.qty>1) {
-                this.selected.qty = this.selected.qty - 1
-            }
-            else {
-                this.selected.qty = 1
+                toastr.error(response.error.data.message)
             }
         },
         async chooseChoice(choice) {
-            console.log(choice)
-            if (this.selected.selectedChoice.includes(choice.name)) {
-                const found = this.selected.selectedChoice.find(element => element == choice.name)
-                const inSelected = this.selected.selectedChoice.indexOf(found)
-                this.selected.selectedChoice.splice(inSelected, 1)
-                console.log(this.selected.selectedChoice)
-                this.selected.estimateTime = this.selected.estimateTime - choice.time
-                console.log(this.selected.estimateTime)
+            if (this.data.selectedChoice.includes(choice.name)) {
+                this.isActive = true
+                const found = this.data.selectedChoice.find(element => element == choice.name)
+                const index = this.data.selectedChoice.indexOf(found)
+                this.data.selectedChoice.splice(index, 1)
+                console.log(this.data.selectedChoice)
+                this.data.estimateTime = this.data.estimateTime - choice.time
+                console.log(this.data.estimateTime)
             }
             else {
-                this.selected.selectedChoice.push(choice.name)
-                console.log(this.selected.selectedChoice)
-                this.selected.estimateTime = this.selected.estimateTime + choice.time
-                console.log(this.selected.estimateTime)
+                this.data.selectedChoice.push(choice.name)
+                console.log(this.data.selectedChoice)
+                this.data.estimateTime = this.data.estimateTime + choice.time
+                console.log(this.data.estimateTime)
             }
 
 
         },
         async choosePlatform(platform) {
-            this.selected.platform = platform || 'WEBSITE'
+            this.data.platform = platform || 'WEBSITE'
             console.log(this.selected)
             await voteAPI.getDataForEstimate(platform)
                 .then(async response => {
@@ -215,61 +189,51 @@ export default {
         }
     }
     & .wrap-content {
-
         margin: 60px 10px 0 10px;
         & .tab-title {
-            font-size: 14px;
-
-}
+            font-size: 12px;
+        }
+        & .dev-number {
+            margin-top: 24px;
+            display: flex;
+            // justify-content: space-evenly;
+            height:50px;
+            align-items: center;
+        }
+        & .estimate-card {
+            background-color: #fafafa;
+            border: 1px solid rgba(0, 0, 0, 0.35);
+            border-radius: 16px;
+            & .group-name {
+                font-size: 20px;
+                font-weight: 600;
+                text-align: center;
+                padding: 16px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
     }
-}
+    & .footer-content {
+        height: 100px;
+        margin: 8px;
+        display: grid;
+        & .remark {
+            color: #fff;
+        }
+        & .next-btn {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            & .btn {
+                width: 100%;
+                border-radius: 8px;
+                font-weight: 600;
+            }
 
-.v-toolbar__title {
-    width: 100%;
-    text-align: center;
-    font-size: 28px;
-    font-weight: bold;
-    color: white;
-}
-.estimate-card {
-    background-color: #fafafa;
-    border: 1px solid rgba(0, 0, 0, 0.35);
-    border-radius: 16px;
-}
-.group-name {
-    font-size: 24px;
-    text-align: center;
-    padding: 24px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.next-btn {
-    display: flex;
-    /* justify-content: end; */
-    align-items: center;
-    margin-bottom: 10px;
-}
+        }
 
-.tab-title {
-    font-size: 14px;
-
-}
-.subheader2 {
-    text-align: center;
-    font-size: 16px;
-
-}
-.dev-number {
-    display: flex;
-    justify-content: center;
-    height:50px;
-    align-items: center;
-}
-.container {
-    margin-bottom: 54px;
-}
-.text {
-    color: white;
+    }
 }
 </style>

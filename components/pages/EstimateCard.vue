@@ -1,53 +1,68 @@
 <template>
     <div>
-        <div
-            class="d-flex flex-column"
-        >
-            <v-card flat class="mb-3 mx-3 choice-card" :class="active == true ? 'active': ''" @click="$emit('chooseChoice',choice)">
-                <div class="top-box px-4 pt-4">
-                    <v-avatar size="64px">
-                        <img :src="choice.imagePath">
-                    </v-avatar>
-                    <v-card-title class="pa-0 pl-4">
-                        {{ choice.name }}
-                    </v-card-title>
+        <div class="choice-card" :class="[active ? 'active': '']" @click="unselect">
+            <div class="top-box">
+                <v-avatar size="40px">
+                    <img :src="choice.imagePath">
+                </v-avatar>
+                <div class="name">
+                    {{ choice.name }}
                 </div>
-                <div class="middle-box">
-                    <p class=" pa-4  ma-0 sub-title">
-                        {{ choice.description }}
-                    </p>
-                </div>
-            </v-card>
+            </div>
+            <div class="middle-box">
+                <p class="description">
+                    {{ choice.description }}
+                </p>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    props: [ 'choice', 'active' ]
+    props: [ 'choice' ],
+    data() {
+        return {
+            active: false
+        }
+    },
+    methods: {
+        unselect() {
+            this.active = !this.active
+            this.$emit('chooseChoice', this.choice)
+        }
+    }
 }
 
 </script>
 
 <style lang='scss' scoped>
-.sub-title {
-    color: rgba( 0,0,0,0.4);
-}
-.choice-card{
+.choice-card {
+    margin: 8px;
+    padding: 8px;
     border-radius: 8px;
-    background-color:#e2e2e2  !important ;
+    background-color:#e2e2e2;
+    &.active {
+        background-color:#7BE891;
+        color: #404040;
+    }
+    & .top-box {
+        display: grid;
+        grid-template-columns: 18% auto;
+        padding-bottom: 8px;
+        align-items: center;
+        & .name {
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+    & .description {
+        color: #404040;
+        white-space: nowrap;
+    }
 }
-.v-list-item__title {
-    font-weight:400;
 
-}
-.v-list-item__subtitle {
-    font-weight:300;
-    opacity: 80%;
-}
-.top-box {
-    display: flex;
-    align-items: center;
-}
 
 </style>
