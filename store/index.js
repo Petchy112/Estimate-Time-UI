@@ -4,11 +4,7 @@ export const state = () => ({
         title: '',
         message: ''
     },
-    line: {
-        pictureUrl: null,
-        displayName: null,
-        userId: null
-    },
+
     user: {
         role: '',
         accessToken: ''
@@ -48,9 +44,7 @@ export const getters = {
     getLogin(state) {
         return state.login
     },
-    getLine(state) {
-        return state.line
-    },
+
     getSelectedEstimate(state) {
         return state.selectedEstimate
     }
@@ -80,12 +74,7 @@ export const mutations = {
             ...data
         }
     },
-    SET_LINE(state, data) {
-        state.line = {
-            ...state.line,
-            ...data
-        }
-    },
+
     SET_SELECTED_ESTIMATE(state, data) {
         state.selectedEstimate = {
             ...state.selectedEstimate,
@@ -106,9 +95,7 @@ export const actions = {
     setLogin({ commit }, data) {
         commit('SET_LOGIN', data)
     },
-    setLine({ commit }, data) {
-        commit('SET_LINE', data)
-    },
+
     setSelectedEstimate({ commit }, data) {
         commit('SET_SELECTED_ESTIMATE', data)
     }
