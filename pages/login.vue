@@ -90,16 +90,12 @@ export default {
                             toastr.success('Welcome')
                         }
                         else {
-                            this.$store.dispatch('setDialog', {
-                                isShow: true,
-                                title: 'Please try again',
-                                message: 'User not in permission'
-                            })
+                            toastr.error('User not in permission')
                         }
                     })
                     .catch(async error => {
-                        // console.log(error)
-                        toastr.error(error.response.message)
+                        console.log(error.response)
+                        // toastr.error(error.response.message)
                     })
             }
 
