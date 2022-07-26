@@ -1,18 +1,18 @@
 <template>
     <v-dialog
-        v-model="getDialog.isShow"
+        v-model="isShow"
         max-width="290"
         persistent
     >
         <v-card>
-            <v-card-title>{{ getDialog.title }}</v-card-title>
-            <v-card-text v-html="getDialog.message" />
+            <v-card-title> title </v-card-title>
+            <v-card-text v-html="'message'" />
             <v-card-actions>
                 <v-spacer />
                 <v-btn
                     color="rgb(55, 208, 255)"
                     text
-                    @click="hideDialog"
+                    @click="close"
                 >
                     Close
                 </v-btn>
@@ -23,19 +23,19 @@
 
 <script>
 export default {
-    computed: {
-        getDialog() {
-            return this.$store.getters.getDialog
+    data() {
+        return {
+            isShow: false
         }
     },
     methods: {
-        hideDialog() {
-            this.$store.dispatch('setDialog', {
-                isShow: false,
-                title: '',
-                message: ''
-            })
+        open() {
+            this.isShow = true
+        },
+        close() {
+            this.isShow = false
         }
-    }
+
+    },
 }
 </script>
