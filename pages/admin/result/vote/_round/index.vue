@@ -19,11 +19,11 @@
         <v-tabs-items>
             <div v-if="voteData.length != 0">
                 <div
-                    v-for="(i,index) in voteData.length"
+                    v-for="(data,index) in voteData"
                     :key="index"
                     style="margin: 20px;"
                 >
-                    <VoteDetail :voteData="voteData[0]" />
+                    <VoteDetail :voteData="data" />
                 </div>
             </div>
             <div class="empty" v-else>
@@ -54,14 +54,15 @@ export default {
             ],
         }
     },
-    async mounted() {
+    mounted() {
         this.getVoteData()
     },
     methods: {
         async getVoteData() {
-            const response = await voteAPI.resultDetails(this.$route.params.round, this.platform || 'WEBSITE')
             try {
-                this.voteData = response
+                const response = await voteAPI.resultDetails(this.$route.params.round, this.platform)
+                this.voteData = response.data
+                console.log(this.voteData)
             }
             catch (error) {
                 toastr.error(error.response.error.message)

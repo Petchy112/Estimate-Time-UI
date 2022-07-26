@@ -4,19 +4,25 @@
             <template #default>
                 <thead>
                     <tr>
-                        <th>
+                        <th style="height:30px color:#999">
                             Round
+                        </th>
+                        <th style="height:30px color:#999">
+                            Created at
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr
-                        v-for="data in voteResults "
-                        :key="data.index"
-                        @click="handleShowClicked(data)"
+                        v-for="(data,index) in voteResults "
+                        :key="index"
+                        @click="handleShowClicked(data.id)"
                     >
                         <td class="pt-3">
-                            Vote round {{ data }}
+                            Vote round {{ data.round }}
+                        </td>
+                        <td class="pt-3" style=" color:#999">
+                            {{ data.createdAt }}
                         </td>
                     </tr>
                 </tbody>
@@ -31,8 +37,9 @@ export default {
         voteResults: Array
     },
     methods: {
-        handleShowClicked(date) {
-            this.$emit('show-vote', date)
+        handleShowClicked(id) {
+            console.log(id)
+            this.$emit('show-vote', id)
         }
     }
 }

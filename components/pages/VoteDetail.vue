@@ -1,11 +1,11 @@
 <template>
     <div class="result-card">
         <v-card-title class="card-title">
-            {{ voteData.data.group }}
+            {{ voteData.group }}
         </v-card-title>
         <div
             class="wrap-choice"
-            v-for="choice in voteData.data.choices"
+            v-for="choice in voteData.choices"
             :key="choice.name"
         >
             <v-list-item two-line>
@@ -41,10 +41,10 @@ export default {
 
 <style lang='scss' scoped>
 .result-card{
-    border: 1px solid rgb(0, 183, 255);
+    border: 1px solid #d1d1d1;
     border-radius: 8px;
     & .card-title {
-        border-bottom: 1px solid rgb(0, 183, 255);
+        border-bottom: 1px solid #d1d1d1;
         font-weight: 600;
         justify-content: center;
     }
