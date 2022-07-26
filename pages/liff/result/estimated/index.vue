@@ -2,7 +2,7 @@
     <div>
         <v-col cols="12">
             <v-card-title class="card-title">
-                <div class="my-head my-5">
+                <div class="my-head ">
                     ESTIMATE RESULTS
                 </div>
                 <v-text-field
@@ -98,8 +98,7 @@ export default {
         //     liffId: '1656364274-ADg78Boe'
         // })
         const response = await estimateAPI.estimateLists()
-        console.log('RESPONSE', response)
-        this.estimateData = response
+        this.estimateData = response.estimateList
 
     },
     computed: {
@@ -125,6 +124,7 @@ h1 {
 .my-head {
     font-size: 32px !important;
     font-weight: bold;
+    margin-bottom: 16px;
 }
 .text-data {
     text-align: center;

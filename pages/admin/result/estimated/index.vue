@@ -93,7 +93,7 @@ export default {
     methods: {
         async getResult() {
             const response = await estimateAPI.estimateLists()
-            this.estimateData = response
+            this.estimateData = response.estimateList
         }
     },
 }
