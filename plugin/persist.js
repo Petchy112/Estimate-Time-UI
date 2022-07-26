@@ -6,6 +6,8 @@ export default ({ store }) => {
         reducer: state => ({
             auth: state.auth,
             profile: state.profile,
+            line: state.line,
+            estimate: state.estimate
         })
     }).plugin(store)
 }
