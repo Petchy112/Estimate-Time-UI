@@ -10,10 +10,10 @@
 
                     <v-col cols="12">
                         <div class="d-flex flex-column pa-2 pt-0">
-                            <v-btn v-if="role.includes('VOTER')" @click="selectRole('VOTER')" outlined rounded class="role-btn" color="rgb(55, 208, 255)">
+                            <v-btn v-if="role.includes('VOTER')" @click="selectRole('VOTER')" rounded class="role-btn" color="#37d0ff">
                                 VOTER
                             </v-btn>
-                            <v-btn v-if="role.includes('COORDINATOR')" @click="selectRole('COORDINATOR')" outlined rounded class="role-btn" color="rgb(55, 208, 255)">
+                            <v-btn v-if="role.includes('COORDINATOR')" @click="selectRole('COORDINATOR')" rounded class="role-btn" color="#37d0ff">
                                 COORDINATOR
                             </v-btn>
                         </div>
@@ -40,7 +40,7 @@ export default {
     methods: {
         async getProfile() {
             const response = await userAPI.getProfile()
-            this.userData = response
+            this.userData = response.profile
             if (this.userData.role.length == 1) {
                 this.selectRole(this.userData.role[0])
             }
@@ -60,7 +60,7 @@ export default {
 
 <style lang='scss' scoped>
 .back {
-    background-color: #fefefe !important;
+    background-color: #37d0ff !important;
 }
 .text {
     color: rgba(0,0,0,0.8);
@@ -74,6 +74,7 @@ export default {
     padding: 10px 20px;
 }
 .role-btn {
+    color: #fff;
     margin-top: 20px;
     height: 50px !important;
     font-size: 16px;
