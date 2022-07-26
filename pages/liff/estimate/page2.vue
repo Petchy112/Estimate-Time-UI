@@ -1,31 +1,28 @@
 <template>
-    <div>
+    <div class="wrap-page">
         <v-app-bar
-            color="primary"
+            class="app-bar"
             flat
-            tile
-            max-width="100%"
+            fixed
         >
-            <v-toolbar-title>
+            <div class="title">
                 ESTIMATE TIME
-            </v-toolbar-title>
+            </div>
         </v-app-bar>
-
-
-        <v-col cols="12">
-            <div class="result-card ma-5 py-3">
+        <div class="wrap-content">
+            <div class="result-card">
                 <v-col cols="12">
                     <v-list>
                         <v-list-item-title class="mx-5 platform">
-                            PLATFORM: {{ getSelectedEstimate.platform }}
+                            PLATFORM: {{ estimateData.platform }}
                         </v-list-item-title>
 
                         <v-list-item-title class="mx-5 time">
-                            ESTIMATE TIME: {{ getSelectedEstimate.estimateTime }}  Hours ({{ (getSelectedEstimate.estimateTime/8).toFixed(1) }} days)
+                            ESTIMATE TIME: {{ estimateData.estimateTime }}  Hours ({{ (estimateData.estimateTime/8).toFixed(1) }} days)
                         </v-list-item-title>
 
                         <v-list-item-title class="mx-5 time">
-                            DEVELOPER QUANTITY: {{ getSelectedEstimate.qty }}
+                            DEVELOPER QUANTITY: {{ estimateData.qty }}
                         </v-list-item-title>
                         <v-divider class="mt-4 mx-3" />
                         <v-list-item>
@@ -37,10 +34,10 @@
                                         </div>
                                         <div
                                             class="ma-3"
-                                            v-for="item in getSelectedEstimate.selectedChoice"
-                                            :key="item.index "
+                                            v-for="(choice,index) in estimateData.selectedChoice"
+                                            :key="index "
                                         >
-                                            {{ item }}
+                                            {{ choice }}
                                         </div>
                                     </div>
                                 </v-col>
@@ -49,96 +46,86 @@
                     </v-list>
                 </v-col>
             </div>
-        </v-col>
-
-
-        <v-col cols="12">
             <v-footer
                 :padless="padless"
                 fixed
             >
                 <v-card
+                    class="card-footer"
                     tile
-                    width="100%"
-                    color="primary"
-                    height="80px"
                 >
-                    <v-col cols="12">
-                        <div>
-                            <div class="d-flex justify-space-around ">
-                                <v-btn
-                                    outlined
-                                    color="white"
-                                    rounded
-                                    width="40%"
-                                    class="mt-3"
-                                    @click="back"
-                                >
-                                    back
-                                </v-btn>
+                    <div class="footer-content">
+                        <v-btn
 
+                            color="white"
+
+                            width="40%"
+                            class="btn mt-3"
+                            @click="back"
+                        >
+                            back
+                        </v-btn>
+
+                        <v-btn
+
+                            color="white"
+                            class="btn mt-3"
+                            width="40%"
+                            @click="nameDialog = !nameDialog"
+                        >
+                            next
+                        </v-btn>
+                    </div>
+                </v-card>
+            </v-footer>
+            <v-dialog
+                v-model="nameDialog"
+                max-width="350px"
+            >
+                <v-card height="150px">
+                    <v-col cols="12">
+                        <div class="justify-center">
+                            <v-text-field
+                                class="px-6 pt-6"
+                                dense
+                                flat
+                                outlined
+                                v-model="projectName"
+                                label="System name"
+                                placeholder="System name"
+                            />
+                        </div>
+                        <div class="mt-2">
+                            <v-row justify="space-around">
                                 <v-btn
-                                    color="white"
-                                    outlined
-                                    rounded
-                                    class="mt-3"
+
                                     width="40%"
-                                    @click="nameDialog = !nameDialog"
+                                    color="primary"
+                                    text
+                                    @click="nameDialog = false"
                                 >
-                                    next
+                                    Cancel
                                 </v-btn>
-                            </div>
+                                <v-btn
+
+                                    color="primary"
+                                    text
+                                    width="40%"
+                                    @click="estimate"
+                                >
+                                    Save
+                                </v-btn>
+                            </v-row>
                         </div>
                     </v-col>
                 </v-card>
-            </v-footer>
-        </v-col>
-        <v-dialog
-            v-model="nameDialog"
-            max-width="350px"
-        >
-            <v-card height="150px">
-                <v-col cols="12">
-                    <div class="justify-center">
-                        <v-text-field
-                            class="px-6 pt-6"
-                            dense
-                            flat
-                            outlined
-                            v-model="projectName"
-                            label="System name"
-                            placeholder="System name"
-                        />
-                    </div>
-                    <div class="mt-2">
-                        <v-row justify="space-around">
-                            <v-btn
-
-                                width="40%"
-                                color="primary"
-                                text
-                                @click="nameDialog = false"
-                            >
-                                Cancel
-                            </v-btn>
-                            <v-btn
-
-                                color="primary"
-                                text
-                                width="40%"
-                                @click="estimate"
-                            >
-                                Save
-                            </v-btn>
-                        </v-row>
-                    </div>
-                </v-col>
-            </v-card>
-        </v-dialog>
+            </v-dialog>
+        </div>
     </div>
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex'
 import estimateAPI from "~/utils/estimateAPI"
 export default {
     layout: 'plain',
@@ -151,37 +138,73 @@ export default {
         }
     },
     computed: {
-        getSelectedEstimate() {
-            return this.$store.getters.getSelectedEstimate
-        }
+        ...mapState({
+            estimateData: state => state.estimate
+        })
     },
     methods: {
         async estimate() {
-            await this.$store.dispatch('setSelectedEstimate', {
-                projectName: this.projectName,
-            })
-            var body = await this.$store.getters.getSelectedEstimate
-            console.log(body)
-            const response = await estimateAPI.sentEstimate(body)
-            this.nameDialog = false
-            await this.$store.dispatch('setDialog', {
-                isShow: true,
-                title: 'Success',
-                message: response.message
-            })
+            // await this.$store.dispatch('setSelectedEstimate', {
+            //     projectName: this.projectName,
+            // })
+            // var body = await
+            // console.log(body)
+            // const response = await estimateAPI.sentEstimate(body)
+            // this.nameDialog = false
+            // await this.$store.dispatch('setDialog', {
+            //     isShow: true,
+            //     title: 'Success',
+            //     message: response.message
+            // })
             await liff.closeWindow()
 
         },
         back() {
-            this.$router.push({ name: 'liff-estimate' })
+            history.back()
         }
+    },
+    mounted() {
+        console.log(this.estimateData)
     }
 }
 </script>
 
-<style scoped>
-.v-application {
-    background-color: rgb(55, 208, 255) !important;
+<style lang='scss' scoped>
+.wrap-page {
+    & .app-bar{
+        display: flex;
+        background-color: #37d0ff !important;
+        justify-content: center;
+        color: #fff;
+        & .title {
+            font-weight: 600;
+            font-size: 28px !important;
+        }
+    }
+    & .wrap-content {
+        margin: 60px 10px 0 10px;
+        & .result-card {
+            border: 1px solid rgba(0, 0, 0, 0.35);
+            border-radius: 10px;
+
+        }
+        & .card-footer {
+            height: 60px;
+            width: 100%;
+            background-color: #37d0ff !important;
+            & .footer-content {
+                margin-top: 10px;
+                display: flex;
+                justify-content: space-evenly;
+                & .btn {
+                    width: 100%;
+                    border-radius: 8px;
+                    font-weight: 600;
+                }
+            }
+
+        }
+    }
 }
 .v-toolbar__title {
     width: 100%;
@@ -190,10 +213,7 @@ export default {
     font-weight: bold;
     color: white;
 }
-.result-card {
-    border: 1px solid rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
-}
+
 .selectFunc {
     font-size: 18px;
 }

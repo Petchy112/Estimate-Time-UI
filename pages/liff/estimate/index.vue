@@ -94,6 +94,7 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex'
 import toastr from 'toastr'
 import EstimateCard from '~/components/pages/EstimateCard.vue'
 import voteAPI from '~/utils/voteAPI'
@@ -111,7 +112,7 @@ export default {
             ],
             data: {
                 selectedChoice: [],
-                platform: '',
+                platform: 'WEBSITE',
                 estimateTime: null,
                 projectName: '',
                 qty: null,
@@ -120,14 +121,16 @@ export default {
             estimateData: []
         }
     },
-
-    mounted() {
-        // await liff.init({
-        //     liffId: '1656364274-kBvYz6PE'
-        // })
-        this.getEstimateData()
+    computed: {
+        ...mapState({
+            estimate: state => state.estimate
+        })
     },
+
     methods: {
+        ...mapMutations({
+            setEstimateData: "estimate/setEstimateData",
+        }),
         isClicked(val) {
             console.log(val, 'petch')
         },
@@ -160,7 +163,7 @@ export default {
 
         },
         async choosePlatform(platform) {
-            this.data.platform = platform || 'WEBSITE'
+            this.data.platform = platform
             console.log(this.selected)
             await voteAPI.getDataForEstimate(platform)
                 .then(async response => {
@@ -169,10 +172,21 @@ export default {
                 })
         },
         async nextPage() {
-            this.$store.dispatch('setSelectedEstimate', this.selected)
+            console.log(this.data)
+            this.setEstimateData(this.data)
             await this.$router.push({ name: 'liff-estimate-page2' })
         }
-    }
+    },
+    mounted() {
+        // await liff.init({
+        //     liffId: '1656364274-kBvYz6PE'
+        // })
+        this.getEstimateData()
+        this.data.selectedChoice = this.estimate.selectedChoice
+        this.data.qty = this.estimate.qty
+
+        console.log(this.data)
+    },
 }
 
 </script>
