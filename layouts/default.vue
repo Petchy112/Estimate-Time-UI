@@ -235,10 +235,10 @@ export default {
             this.profileImage = files[0]
         },
         async logout() {
-            const response = await userAPI.logout()
             try {
+                await userAPI.logout()
                 this.resetAuth()
-                this.$router.replace({ name: 'index' })
+                this.$router.replace({ name: 'login' })
             }
             catch (error) {
                 await this.$store.dispatch('setDialog', {
