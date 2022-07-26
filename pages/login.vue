@@ -85,7 +85,7 @@ export default {
                         if (response.role.includes('ADMIN')) {
                             this.setAuth(response)
                             const profile = await userAPI.getProfile()
-                            await this.setProfile(profile)
+                            await this.setProfile(profile.profile)
                             this.$router.push('/admin/function')
                             toastr.success('Welcome')
                         }
