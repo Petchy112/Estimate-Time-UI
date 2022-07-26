@@ -71,7 +71,7 @@
                             >
                             <div class="button-section">
                                 <v-btn color="primary" plain @click="changepassword">
-                                    change password
+                                    Change Password
                                 </v-btn>
 
                                 <v-btn color="error" @click="logout">
@@ -89,8 +89,8 @@
             >
                 <v-list>
                     <v-list-item
-                        v-for="(item, i) in items"
-                        :key="i"
+                        v-for="(item, index) in items"
+                        :key="index"
                         :to="item.to"
                         router
                         exact
