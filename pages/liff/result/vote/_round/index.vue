@@ -1,6 +1,11 @@
 <template>
     <div class="wrap-page">
         <div class="header">
+            <div class="back" @click="back">
+                <v-icon size="32px">
+                    mdi-arrow-left
+                </v-icon>
+            </div>
             VOTE RESULT
         </div>
         <v-divider />
@@ -20,11 +25,11 @@
         <v-tabs-items>
             <div v-if="voteData.length != 0">
                 <div
-                    v-for="(i,index) in voteData.length"
+                    v-for="(data,index) in voteData"
                     :key="index"
                     style="margin: 16px;"
                 >
-                    <VoteDetail :voteData="voteData[0]" />
+                    <VoteDetail :voteData="data" />
                 </div>
             </div>
             <div class="empty" v-else>
@@ -61,9 +66,9 @@ export default {
     },
     methods: {
         async getVoteData() {
-            const response = await voteAPI.resultDetails(this.$route.params.round, this.platform || 'WEBSITE')
             try {
-                this.voteData = response
+                const response = await voteAPI.resultDetails(this.$route.params.round, this.platform || 'WEBSITE')
+                this.voteData = response.data
             }
             catch (error) {
                 toastr.error(error.response.error.message)
@@ -73,6 +78,9 @@ export default {
             this.platform = platform
             this.getVoteData()
 
+        },
+        back() {
+            history.back()
         }
     }
 }
@@ -84,9 +92,10 @@ export default {
     margin: 24px 16px 0 16px;
     & .header {
         display: flex;
-        justify-content: center;
-        font-size: 28px;
+        justify-content: space-between;
+        font-size: 32px;
         font-weight: 600;
+        margin-right: 64px;
     }
 }
 
