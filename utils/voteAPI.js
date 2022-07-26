@@ -2,11 +2,11 @@ import instanceAPI from "~/utils/instance"
 
 export default {
     resultLists: () => {
-        return instanceAPI.api.get(`/vote`)
+        return instanceAPI.api.get(`/vote/list`)
             .then(response => response.data)
     },
     resultDetails: (round, platform) => {
-        return instanceAPI.api.get(`/vote/${round}/?platform=${platform}`)
+        return instanceAPI.api.get(`/vote/${round}/detail?platform=${platform}`)
             .then(response => response.data)
     },
     sentVote: (data) => {
@@ -17,8 +17,8 @@ export default {
         return instanceAPI.api.get(`/vote/result?platform=${platform}`)
             .then(response => response.data)
     },
-    handleVote: (action) => {
-        return instanceAPI.api.post(`/vote/controlVote/?action=${action}`)
+    handleVote: () => {
+        return instanceAPI.api.post(`/vote/controlVote`)
             .then(response => response.data)
     },
 }

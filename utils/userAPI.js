@@ -2,7 +2,7 @@ import instanceAPI from '~/utils/instance'
 
 export default {
     userLists: () => {
-        return instanceAPI.api.get(`/user`)
+        return instanceAPI.api.get(`/user/list`)
             .then(response => response.data)
     },
     register: (data) => {
@@ -18,7 +18,7 @@ export default {
             .then(response => response.data)
     },
     getProfile: () => {
-        return instanceAPI.api.get(`/user/data`)
+        return instanceAPI.api.get(`/user/getProfile`)
             .then(response => response.data)
     },
     changepassword: (data) => {

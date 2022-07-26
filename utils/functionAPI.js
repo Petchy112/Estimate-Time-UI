@@ -2,7 +2,7 @@ import instanceAPI from "~/utils/instance"
 
 export default {
     functionList: (platform) => {
-        return instanceAPI.api.get(`/function?platform=${platform}`)
+        return instanceAPI.api.get(`/function/list?platform=${platform}`)
             .then(response => response.data)
     },
     functionDetails: (id) => {
