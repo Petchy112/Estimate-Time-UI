@@ -269,7 +269,7 @@ export default {
     methods: {
         async getDatail () {
             const response = await functionAPI.functionDetails(this.$route.params.id)
-            this.functionData = response
+            this.functionData = response.functionLists
         },
         openDialog(event) {
             if (event == 'EDIT') {

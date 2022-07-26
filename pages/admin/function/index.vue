@@ -91,7 +91,7 @@ export default {
     methods: {
         async getFunctionLists() {
             const response = await functionAPI.functionList(this.platform)
-            this.functionData = response
+            this.functionData = response.functionLists
         },
         async handleShowClicked(id) {
             this.$router.push({ name: 'admin-function-id', params: { id } })
