@@ -71,19 +71,29 @@
                             :disabled="isCalling"
                             v-model="user.email"
                         />
-
-                        <v-text-field
+                        <v-autocomplete
+                            class="text-wrap"
+                            v-model="user.role"
+                            :items="role"
+                            outlined
+                            chips
+                            small-chips
+                            :disabled="isCalling"
+                            label="Role"
+                            multiple
+                        />
+                        <!-- <v-text-field
                             class="text-wrap"
                             label="Role"
                             outlined
                             :disabled="isCalling"
                             v-model="user.role"
-                        />
+                        /> -->
                     </div>
                     <div class="bottom-section">
                         <div class="delete-button">
                             <v-btn
-                                @click="isCalling = !isCalling"
+                                @click="actionClicked"
                                 :color="isCalling ? 'primary' : 'secondary'"
                             >
                                 {{ isCalling ? 'edit' : 'save' }}
@@ -108,7 +118,7 @@
         >
             <v-card class="pa-5">
                 <v-card-title class=" justify-center card-text pa-1 pb-3">
-                    Are u sure to delete this user ?
+                    Are you sure to delete this user ?
                 </v-card-title>
 
 
@@ -145,6 +155,7 @@ export default {
         return {
             message: '',
             userLists: [],
+            role: [ 'ADMIN', 'VOTER', 'COORDINATOR' ],
             user: null,
             deleteDialog: false,
             search: '',
@@ -162,6 +173,13 @@ export default {
         }
     },
     methods: {
+        actionClicked() {
+            if (this.isCalling == true)
+                this.isCalling = false
+            else if (this.isCalling == false) {
+                console.log('save')
+            }
+        },
         async handleDelete(id) {
             console.log(id)
             const response = await userAPI.removeUser(id)
@@ -174,15 +192,13 @@ export default {
             }
         },
         async getUserList () {
-            const userlist = await userAPI.userLists()
-            this.userLists = userlist
+            const userList = await userAPI.userLists()
+            this.userLists = userList.userLists
         },
         async getUserDetail(id) {
-
-            const response = await userAPI.userDetails(id)
             try {
-                this.user = response
-                this.user.role = this.user.role.join(', ')
+                const response = await userAPI.userDetails(id)
+                this.user = response.user
             }
             catch (error) {
                 toastr.error(error.response.error.message)
