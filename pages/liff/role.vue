@@ -10,10 +10,10 @@
 
                     <v-col cols="12">
                         <div class="d-flex flex-column pa-2 pt-0">
-                            <v-btn v-if="role.includes('VOTER')" @click="selectRole('VOTER')" rounded class="role-btn" color="#37d0ff">
+                            <v-btn v-if="profile.role.includes('VOTER')" @click="selectRole('VOTER')" rounded class="role-btn" color="#37d0ff">
                                 VOTER
                             </v-btn>
-                            <v-btn v-if="role.includes('COORDINATOR')" @click="selectRole('COORDINATOR')" rounded class="role-btn" color="#37d0ff">
+                            <v-btn v-if="profile.role.includes('COORDINATOR')" @click="selectRole('COORDINATOR')" rounded class="role-btn" color="#37d0ff">
                                 COORDINATOR
                             </v-btn>
                         </div>
@@ -25,14 +25,19 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import userAPI from "~/utils/userAPI"
 export default {
     layout: 'plain',
     data() {
         return {
             userData: [],
-            role: [],
         }
+    },
+    computed: {
+        ...mapState({
+            profile: state => state.profile.profile
+        })
     },
     mounted() {
         this.getProfile()
@@ -49,7 +54,8 @@ export default {
             }
         },
         async selectRole(role) {
-            await userAPI.selectRole(role)
+            console.log(role)
+            await userAPI.selectRole({ 'role': role })
             await liff.closeWindow()
         }
 
