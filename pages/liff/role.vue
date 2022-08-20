@@ -1,27 +1,34 @@
 <template>
-    <div>
-        <v-app class="back">
-            <v-col cols="12">
-                <div class="wrap-card-role">
-                    <div class="text ml-5 mt-4">
-                        SELECT ROLE
-                    </div>
-
-
-                    <v-col cols="12">
-                        <div class="d-flex flex-column pa-2 pt-0">
-                            <v-btn v-if="profile.role.includes('VOTER')" @click="selectRole('VOTER')" rounded class="role-btn" color="#37d0ff">
-                                VOTER
-                            </v-btn>
-                            <v-btn v-if="profile.role.includes('COORDINATOR')" @click="selectRole('COORDINATOR')" rounded class="role-btn" color="#37d0ff">
-                                COORDINATOR
-                            </v-btn>
-                        </div>
-                    </v-col>
+    <v-app class="wrap-page">
+        <div>
+            <div class="wrap-card-role">
+                <div class="header">
+                    SELECT ROLE
                 </div>
-            </v-col>
-        </v-app>
-    </div>
+
+                <div class="button-group">
+                    <v-btn
+                        class="role-btn"
+                        v-if="profile.role.includes('VOTER')"
+                        @click="selectRole('VOTER')"
+                        rounded
+                        color="primary"
+                    >
+                        VOTER
+                    </v-btn>
+                    <v-btn
+                        color="primary"
+                        class="role-btn"
+                        v-if="profile.role.includes('COORDINATOR')"
+                        @click="selectRole('COORDINATOR')"
+                        rounded
+                    >
+                        COORDINATOR
+                    </v-btn>
+                </div>
+            </div>
+        </div>
+    </v-app>
 </template>
 
 <script>
@@ -65,25 +72,35 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.back {
-    background-color: #37d0ff !important;
-}
-.text {
-    color: rgba(0,0,0,0.8);
-    font-weight: bold;
-    font-size: x-large;
-}
-.wrap-card-role {
-    border-radius: 5px;
-    margin: 16px;
-    background-color: #fafafa;
-    padding: 10px 20px;
-}
-.role-btn {
-    color: #fff;
-    margin-top: 20px;
-    height: 50px !important;
-    font-size: 16px;
+.wrap-page {
+    background-color: #37d0ffcc !important;
+    padding: 12px;
 
+    .wrap-card-role {
+        border-radius: 5px;
+        margin: 16px;
+        background-color: #fafafa;
+        padding: 10px 20px;
+        .header {
+            color: rgba(0,0,0,0.8);
+            font-weight: bold;
+            font-size: x-large;
+            margin: 16px 0 0 20px;
+        }
+        & .button-group {
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            margin: 10px;
+            .role-btn {
+                color: #fff;
+                margin-top: 20px;
+                height: 40px !important;
+                font-size: 14px;
+            }
+        }
+    }
 }
+
+
 </style>

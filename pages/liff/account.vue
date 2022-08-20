@@ -1,28 +1,23 @@
 <template>
-    <v-app class="back">
+    <v-app class="wrap-page">
         <div>
-            <v-col cols="12">
-                <v-card rounded>
-                    <v-list>
-                        <h2 class="text-center mt-3">
-                            What do you want to ?
-                        </h2>
-                        <v-col cols="12">
-                            <div class="d-flex flex-column pa-2">
-                                <v-btn class="role-btn" color="primary" @click="role" rounded>
-                                    Select role
-                                </v-btn>
-                                <v-btn class="role-btn" color="primary" @click="changepassword" rounded>
-                                    Change password
-                                </v-btn>
-                                <v-btn class="role-btn" color="error" @click="logout" rounded>
-                                    Sign out
-                                </v-btn>
-                            </div>
-                        </v-col>
-                    </v-list>
-                </v-card>
-            </v-col>
+            <div class="wrap-account-setting">
+                <div class="text-header">
+                    ACCOUNT SETTING
+                </div>
+
+                <div class="button-group">
+                    <v-btn class="role-btn" color="primary" @click="role" rounded>
+                        Select role
+                    </v-btn>
+                    <v-btn class="role-btn" color="primary" @click="changepassword" rounded>
+                        Change password
+                    </v-btn>
+                    <v-btn class="role-btn" color="error" @click="logout" rounded>
+                        Sign out
+                    </v-btn>
+                </div>
+            </div>
         </div>
     </v-app>
 </template>
@@ -63,18 +58,34 @@ export default {
 
 </script>
 
-<style scoped>
-.back {
-    background-color: rgba(55, 208, 255, 0.8) !important;
-}
-.v-list__title {
-    font-weight: bold;
-}
+<style lang='scss' scoped>
+.wrap-page {
+    background-color: #37d0ffcc !important;
+    padding: 12px;
+    & .wrap-account-setting {
+        background-color: #fafafa;
+        margin: 16px;
+        border-radius: 5px;
+        padding: 10px;
+        & .text-header {
+            margin: 16px 0 0 20px;
+            font-size: x-large;
+            font-weight: bold;
+            align-items: center;
+        }
+        & .button-group {
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            margin: 10px;
+        }
+        & .role-btn {
+            margin-top: 20px !important;
+            height: 40px !important;
+            font-size: 14px;
+        }
+    }
 
-.role-btn {
-    margin-top: 20px !important;
-    height: 50px !important;
-    font-size: 16px;
 }
 
 </style>

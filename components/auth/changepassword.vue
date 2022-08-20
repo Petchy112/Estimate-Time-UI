@@ -7,65 +7,69 @@
             class="from-input"
         >
             <div class="header">
-                Change password
+                CHANGE PASSWORD
             </div>
+            <div class="wrap-form">
+                <v-text-field
+                    dense
+                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="passwordRules"
+                    :type="show1 ? 'text' : 'password'"
+                    label="Current password"
+                    hint="At least 8 characters"
+                    v-model="body.oldPassword"
+                    class="input-group--focused mx-10"
+                    @click:append="show1 = !show1"
+                    outlined
+                />
+                <v-text-field
+                    dense
+                    :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="passwordRules"
+                    :type="show2 ? 'text' : 'password'"
+                    label="New password"
+                    hint="At least 8 characters"
+                    v-model="body.newPassword"
+                    class="input-group--focused mx-10"
+                    @click:append="show2 = !show2"
+                    outlined
+                />
+                <v-text-field
+                    dense
+                    :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="confirmPasswordRules"
+                    :type="show3 ? 'text' : 'password'"
+                    label="Re-enter new password"
+                    hint="At least 8 characters"
+                    v-model="body.confirmPassword"
+                    class="input-group--focused mx-10"
+                    @click:append="show3 = !show3"
+                    outlined
+                />
 
-            <v-text-field
-                dense
-                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="passwordRules"
-                :type="show1 ? 'text' : 'password'"
-                label="Current password"
-                hint="At least 8 characters"
-                v-model="body.oldPassword"
-                class="input-group--focused mx-10"
-                @click:append="show1 = !show1"
-                outlined
-            />
-            <v-text-field
-                dense
-                :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="passwordRules"
-                :type="show2 ? 'text' : 'password'"
-                label="New password"
-                hint="At least 8 characters"
-                v-model="body.newPassword"
-                class="input-group--focused mx-10"
-                @click:append="show2 = !show2"
-                outlined
-            />
-            <v-text-field
-                dense
-                :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="confirmPasswordRules"
-                :type="show3 ? 'text' : 'password'"
-                label="Re-enter new password"
-                hint="At least 8 characters"
-                v-model="body.confirmPassword"
-                class="input-group--focused mx-10"
-                @click:append="show3 = !show3"
-                outlined
-            />
-
-            <div class="button-section">
-                <v-btn
-                    :disabled="!valid"
-                    class="btn-confirm"
-
-
-                    @click="handleChangeClicked(body)"
-                >
-                    confirm
-                </v-btn>
+                <div class="button-section">
+                    <v-btn
+                        :disabled="!valid || isCalling"
+                        :loading="isCalling"
+                        class="btn-confirm"
+                        @click="handleChangeClicked(body)"
+                    >
+                        confirm
+                    </v-btn>
+                </div>
             </div>
         </v-form>
     </div>
 </template>
 
 <script>
+import userAPI from "~/utils/userAPI"
+import toastr from 'toastr'
 export default {
+    layout: 'plain',
     data() {
         return {
+            isCalling: false,
             body: {
                 oldPassword: '',
                 newPassword: '',
@@ -87,8 +91,18 @@ export default {
     },
     methods: {
         async handleChangeClicked() {
-            console.log(this.body)
-            this.$emit('change-password', this.body)
+            this.isCalling = true
+            await userAPI.changepassword(this.body)
+                .then(async (response) => {
+                    toastr.success(response.message)
+                    this.isCalling = false
+                    await liff.closeWindow()
+                }) .catch((error) => {
+                    toastr.error(error.response.data.error.message)
+                    this.isCalling = false
+                })
+
+
         }
     }
 }
@@ -96,7 +110,7 @@ export default {
 
 <style lang='scss' scoped>
 .wrap-page {
-    margin: 0 auto;
+    margin: 20px;
     display: flex;
     justify-content: center;
     & .from-input {
@@ -107,11 +121,17 @@ export default {
             font-weight: 600;
             padding: 18px 0 18px ;
         }
+        & .wrap-form {
+
+            margin: 18px 18px 18px;
+        }
         & .button-section {
-            margin: 20px;
+            margin-top: 20px;
             & .btn-confirm {
                 background: #37d0ff;
-                width:100%
+                width:100%;
+                border-radius: 10px;
+                color: #fafafa;
             }
         }
     }
