@@ -43,7 +43,8 @@ export default {
     },
     computed: {
         ...mapState({
-            profile: state => state.profile.profile
+            profile: state => state.profile.profile,
+            line: state => state.line
         })
     },
     mounted() {
@@ -61,8 +62,10 @@ export default {
             }
         },
         async selectRole(role) {
-            console.log(role)
-            await userAPI.selectRole({ 'role': role })
+            const data = new FormData
+            data.append('role', role)
+            data.append('lineUserId', this.line.lineUserId || 'Uecebfbd1db9785ce9a8254590bc502d5')
+            await userAPI.selectRole(data)
             await liff.closeWindow()
         }
 
