@@ -38,7 +38,7 @@
                 :key="choice.index"
             >
                 <div class="wrap-image">
-                    <img :src="choice.imagePath">
+                    <img :src="choice.imagePath ? input.imagePath : require('~/assets/function.jpg')">
                 </div>
                 <div class="choice">
                     <div class="name">
