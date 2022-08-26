@@ -94,8 +94,7 @@ export default {
                         }
                     })
                     .catch(async error => {
-                        console.log(error.response)
-                        // toastr.error(error.response.message)
+                        toastr.error(error.response.data.error.message)
                     })
             }
 

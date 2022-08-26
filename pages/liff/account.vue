@@ -24,13 +24,17 @@
 
 <script>
 import toastr from 'toastr'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import userAPI from "~/utils/userAPI"
 export default {
     layout: 'plain',
     mounted() {
     },
-
+    computed: {
+        ...mapState({
+            line: state => state.line
+        })
+    },
     methods: {
         ...mapMutations ({
             resetAuth: "auth/resetAuth",
@@ -39,7 +43,7 @@ export default {
             this.$router.push({ name: 'liff-role' })
         },
         async logout() {
-            await userAPI.logout()
+            await userAPI.logout({ 'lineUserId': this.line.lineUserId || 'Uecebfbd1db9785ce9a8254590bc502d5' })
                 .then(async response => {
                     await this.resetAuth()
                     liff.closeWindow()

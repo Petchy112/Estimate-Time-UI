@@ -7,6 +7,7 @@
 import { mapMutations, mapState } from 'vuex'
 
 export default {
+    layout: 'plain',
     data () {
         return {
             role: '',
@@ -59,7 +60,7 @@ export default {
                             }
                         }
                         else {
-                            this.$router.push('/login')
+                            this.$router.push('/liff/login')
                         }
                     })
                 }
