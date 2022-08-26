@@ -2,7 +2,6 @@
     <div>
         <v-btn
             fab
-
             color="rgb(55, 208, 255)"
             bottom
             right
@@ -26,7 +25,7 @@
                 <v-text-field
                     dense
                     class="input-group--focused pa-6 pb-0"
-                    label="Group of function is"
+                    label="Group of function"
                     :rules="groupRules"
                     v-model="group"
                     required
@@ -38,8 +37,8 @@
                     class="pa-sm-5 pa-xs-1"
                     v-model="platform"
                     row
+                    label="CHOOSE PLATFORM"
                 >
-                    <span class="ml-lg-6 mr-lg-6">CHOOSE PLATFORM</span>
                     <v-radio
                         label="WEBSITE"
                         value="WEBSITE"
@@ -162,6 +161,7 @@
 </template>
 
 <script>
+import toastr from 'toastr'
 import functionAPI from "~/utils/functionAPI"
 import imageAPI from "~/utils/imageAPI"
 export default {
@@ -217,29 +217,27 @@ export default {
             }
         },
         async handleSaveClicked () {
-            const response = await functionAPI.createFunction(this.group, this.platform, this.choices)
             try {
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    type: 'success',
-                    message: response.message
-                })
-                this.dialog = false
-                await this.$router.push({
-                    name: 'admin-function-id',
-                    params: {
-                        id: response.id
+                const response = await functionAPI.createFunction(
+                    {
+                        'group': this.group,
+                        'platform': this.platform,
+                        'choices': this.choices
                     }
-                })
+                )
+                console.log(response.result.successful == false)
+                if (response.result.successful == false) {
+                    toastr.error(response.result.message)
+                }
+                else {
+                    toastr.success(response.result.message)
+                }
+                this.dialog = false
+                await this.$router.push(`/admin/function/${response.result.id}`)
             }
             catch (error) {
-                console.log('ERROR', error.response)
-                await this.$store.dispatch('setDialog', {
-                    isShow: true,
-                    type: 'error',
-                    message: error.response.error.message
-                })
-
+                console.log(error)
+                toastr.error(error.response.error.message)
             }
 
         },

@@ -9,8 +9,8 @@ export default {
         return instanceAPI.api.get(`/function/${id}`)
             .then(response => response.data)
     },
-    createFunction: (group, platform, choice) => {
-        return instanceAPI.api.post(`/function/add`, group, platform, choice)
+    createFunction: (data) => {
+        return instanceAPI.api.post(`/function/add`, data)
             .then(response => response.data)
     },
     editFunction: (id, group, choices) => {
