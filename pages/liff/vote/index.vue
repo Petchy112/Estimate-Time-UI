@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import functionAPI from '~/utils/functionAPI'
 import voteAPI from '~/utils/voteAPI'
 import VoteBox from '~/components/pages/VoteBox.vue'
@@ -51,20 +52,23 @@ export default {
             list: [],
             data: [],
             status: '',
-            platform: 'MOBILE'
+            platform: 'WEBSITE'
         }
+    },
+    computed: {
+        ...mapState({
+            profile: state => state.profile.profile,
+        })
     },
     async mounted() {
         this.getData()
-
-
     },
 
 
     methods: {
         async getData() {
             const response = await functionAPI.functionList(this.platform)
-            this.functionData = response
+            this.functionData = response.functionLists
             this.functionData.forEach(async element => {
                 await this.list.push({ fid: element._id, group: element.group, choices: element.choices })
             })
