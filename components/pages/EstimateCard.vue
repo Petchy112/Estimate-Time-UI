@@ -3,7 +3,7 @@
         <div class="choice-card" :class="[active ? 'active': '']" @click="unselect">
             <div class="top-box">
                 <v-avatar size="40px">
-                    <img :src="choice.imagePath">
+                    <img :src="choice.imagePath ? input.imagePath : require('~/assets/function.jpg')">
                 </v-avatar>
                 <div class="name">
                     {{ choice.name }}

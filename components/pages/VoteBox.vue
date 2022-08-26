@@ -8,7 +8,7 @@
             <div class="func-data">
                 <div class="top-box">
                     <v-avatar size="60px">
-                        <img :src="input.imagePath">
+                        <img :src="input.imagePath ? input.imagePath : require('~/assets/function.jpg')">
                     </v-avatar>
                     <div class="choice-name">
                         {{ input.name }}
