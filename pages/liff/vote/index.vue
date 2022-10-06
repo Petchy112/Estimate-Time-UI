@@ -52,7 +52,6 @@ export default {
             list: [],
             data: [],
             status: '',
-            platform: 'WEBSITE'
         }
     },
     computed: {
@@ -67,7 +66,7 @@ export default {
 
     methods: {
         async getData() {
-            const response = await functionAPI.functionList(this.platform)
+            const response = await functionAPI.functionList(this.profile.position)
             this.functionData = response.functionLists
             this.functionData.forEach(async element => {
                 await this.list.push({ fid: element._id, group: element.group, choices: element.choices })
