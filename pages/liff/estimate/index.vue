@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap-page" v-if="estimateData">
+    <div class="wrap-page">
         <v-app-bar
             class="app-bar"
             flat
@@ -25,7 +25,7 @@
             </v-tabs>
             <v-tabs-items v-model="tab">
                 <v-tab-item
-                    v-for="i in 3"
+                    v-for="i in 2"
                     :key="i.tab"
                 >
                     <div>
@@ -33,8 +33,8 @@
                             <v-text-field
                                 dense
                                 class="input-group--focused"
-                                placeholder="Number of developers"
-                                v-model="data.qty"
+                                label="Number of developers"
+                                v-model="fromData.quantity"
                                 required
                                 outlined
                             >
@@ -46,19 +46,18 @@
                         <v-divider />
                         <div
                             rounded="50%"
-                            v-for="data in estimateData"
-                            :key="data._id"
+                            v-for="(estimate,index) in estimateData"
+                            :key="index"
                         >
-                            <div class="estimate-card" v-if="data.length != 0">
+                            <div class="estimate-card">
                                 <div class="group-name">
-                                    {{ data.group }}
+                                    {{ estimate.group }}
                                 </div>
 
                                 <EstimateCard
-                                    v-for="(choice,index) in data.choices"
+                                    v-for="(choice, index) in estimate.choices"
                                     :key="index"
                                     :choice="choice"
-                                    @click="isClicked(choice)"
                                     @chooseChoice="chooseChoice"
                                 />
                             </div>
@@ -83,7 +82,7 @@
                         ** Please make sure your selection is correct.
                     </div>
                     <div class="next-btn">
-                        <v-btn class="btn" v-if="data.selectedChoice != []" @click="nextPage">
+                        <v-btn class="btn" @click="nextPage">
                             Next
                         </v-btn>
                     </div>
@@ -96,7 +95,7 @@
 <script>
 import { mapMutations, mapState } from 'vuex'
 import toastr from 'toastr'
-import EstimateCard from '~/components/pages/EstimateCard.vue'
+import EstimateCard from '~/components/pages/EstimateCard'
 import voteAPI from '~/utils/voteAPI'
 
 export default {
@@ -110,12 +109,12 @@ export default {
                 { tab: 'WEBSITE' },
                 { tab: 'MOBILE' }
             ],
-            data: {
+            fromData: {
                 selectedChoice: [],
                 platform: 'WEBSITE',
-                estimateTime: null,
+                estimateTime: 0,
                 projectName: '',
-                qty: null,
+                quantity: 1,
             },
             isActive: false,
             estimateData: []
@@ -123,7 +122,7 @@ export default {
     },
     computed: {
         ...mapState({
-            estimate: state => state.estimate
+            estimate: (state) => state.estimate
         })
     },
 
@@ -131,61 +130,43 @@ export default {
         ...mapMutations({
             setEstimateData: "estimate/setEstimateData",
         }),
-        isClicked(val) {
-            console.log(val, 'petch')
-        },
         async getEstimateData () {
-            const response = await voteAPI.getDataForEstimate('WEBSITE')
-            try {
-                this.estimateData = response
-            }
-            catch (error) {
-                toastr.error(response.error.data.message)
-            }
+            await voteAPI.getDataForEstimate('WEBSITE')
+                .then(response => {
+                    this.estimateData = response.data
+                }).catch (error => {
+                    toastr.error(error.data.message)
+                })
         },
         async chooseChoice(choice) {
-            if (this.data.selectedChoice.includes(choice.name)) {
+            if (this.fromData.selectedChoice.includes(choice)) {
                 this.isActive = true
-                const found = this.data.selectedChoice.find(element => element == choice.name)
-                const index = this.data.selectedChoice.indexOf(found)
-                this.data.selectedChoice.splice(index, 1)
-                console.log(this.data.selectedChoice)
-                this.data.estimateTime = this.data.estimateTime - choice.time
-                console.log(this.data.estimateTime)
+                const found = this.fromData.selectedChoice.find(element => element == choice.name)
+                const index = this.fromData.selectedChoice.indexOf(found)
+                this.fromData.selectedChoice.splice(index, 1)
+                this.fromData.estimateTime = this.fromData.estimateTime - choice.time
             }
             else {
-                this.data.selectedChoice.push(choice.name)
-                console.log(this.data.selectedChoice)
-                this.data.estimateTime = this.data.estimateTime + choice.time
-                console.log(this.data.estimateTime)
+                this.fromData.selectedChoice.push(choice)
+                this.fromData.estimateTime = this.fromData.estimateTime + choice.time
             }
-
-
         },
         async choosePlatform(platform) {
-            this.data.platform = platform
-            console.log(this.selected)
+            this.fromData.platform = platform
             await voteAPI.getDataForEstimate(platform)
                 .then(async response => {
-                    console.log('RESPONSE', response)
-                    this.estimateData = response
+                    this.estimateData = response.data
                 })
         },
         async nextPage() {
-            console.log(this.data)
-            this.setEstimateData(this.data)
+            this.setEstimateData(this.fromData)
             await this.$router.push({ name: 'liff-estimate-page2' })
         }
     },
-    mounted() {
-        // await liff.init({
-        //     liffId: '1656364274-kBvYz6PE'
-        // })
+    async mounted() {
         this.getEstimateData()
-        this.data.selectedChoice = this.estimate.selectedChoice
-        this.data.qty = this.estimate.qty
-
-        console.log(this.data)
+        // this.fromData.selectedChoice = await this.estimate.selectedChoice
+        // this.fromData.quantity = await this.estimate.quantity
     },
 }
 
@@ -208,7 +189,7 @@ export default {
             font-size: 12px;
         }
         & .dev-number {
-            margin-top: 24px;
+            margin-top: 30px;
             display: flex;
             // justify-content: space-evenly;
             height:50px;

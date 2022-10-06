@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div class="choice-card" :class="[active ? 'active': '']" @click="unselect">
+        <div class="choice-card" :class="[active ? 'active': '']" @click="select">
             <div class="top-box">
                 <v-avatar size="40px">
-                    <img :src="choice.imagePath ? input.imagePath : require('~/assets/function.jpg')">
+                    <img :src="choice.imagePath ? choice.imagePath : require('~/assets/function.jpg')">
                 </v-avatar>
                 <div class="name">
                     {{ choice.name }}
@@ -27,7 +27,7 @@ export default {
         }
     },
     methods: {
-        unselect() {
+        select() {
             this.active = !this.active
             this.$emit('chooseChoice', this.choice)
         }
