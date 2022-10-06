@@ -36,6 +36,8 @@
                 <v-btn
                     class="btn-signin"
                     @click="onSubmit"
+                    :loading="isCalling"
+                    :disabled="isCalling"
                 >
                     Sign in
                 </v-btn>
@@ -53,6 +55,7 @@ export default {
     layout: 'plain',
     data() {
         return {
+            isCalling: false,
             token: '',
             valid: false,
             message: '',
@@ -80,6 +83,7 @@ export default {
         }),
         async onSubmit() {
             if (this.$refs.form.validate()) {
+                this.isCalling = true
                 await userAPI.login(this.body)
                     .then(async response => {
                         if (response.role.includes('ADMIN')) {
@@ -90,10 +94,12 @@ export default {
                             toastr.success('Welcome')
                         }
                         else {
+                            this.isCalling = false
                             toastr.error('User not in permission')
                         }
                     })
                     .catch(async error => {
+                        this.isCalling = false
                         toastr.error(error.response.data.error.message)
                     })
             }
