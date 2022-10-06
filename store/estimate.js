@@ -3,7 +3,7 @@ export const state = () => ({
     platform: '',
     estimateTime: 0,
     projectName: '',
-    qty: 0,
+    quantity: 1,
 })
 
 export const mutations = {
@@ -12,13 +12,13 @@ export const mutations = {
         state.platform = data.platform
         state.estimateTime = data.estimateTime
         state.projectName = data.projectName
-        state.qty = data.qty
+        state.quantity = data.quantity
     },
     resetEstimateData(state) {
         state.selectedChoice = []
         state.platform = ''
         state.estimateTime = 0
         state.projectName = ''
-        state.qty = 0
+        state.quantity = 1
     },
 }
