@@ -59,27 +59,27 @@
                     @click:append="show2 = !show2"
                     outlined
                 />
-                <v-text>Select role of user (Required)</v-text>
-                <div class="checkbox my-2 ml-4">
-                    <v-checkbox
-                        dense
-                        v-model="body.role"
-                        label="ADMIN"
-                        value="ADMIN"
-                    />
-                    <v-checkbox
-                        dense
-                        v-model="body.role"
-                        label="VOTER"
-                        value="VOTER"
-                    />
-                    <v-checkbox
-                        dense
-                        v-model="body.role"
-                        label="COORDINATOR"
-                        value="COORDINATOR"
-                    />
-                </div>
+                <v-autocomplete
+                    dense
+                    class="text-wrap"
+                    v-model="body.role"
+                    :items="role"
+                    outlined
+                    chips
+                    small-chips
+                    label="Role"
+                    multiple
+                />
+                <v-select
+                    v-if="body.role.includes('VOTER')"
+                    dense
+                    :rules="positionRules"
+                    v-model="body.position"
+                    label="Vote Platform"
+                    required
+                    outlined
+                    :items="position"
+                />
             </v-form>
         </div>
 
@@ -120,6 +120,10 @@ export default {
             v => !!v || 'Required',
 
         ],
+        positionRules: [
+            v => !!v || 'Required',
+
+        ],
         emailRules: [
             v => !!v || 'Required',
             v => /.+@.+\..+/.test(v) || 'Email is invalid format',
@@ -131,9 +135,13 @@ export default {
             email: '',
             password: '',
             confirmPassword: '',
-            role: []
+            role: [],
+            position: ''
 
-        }
+        },
+        position: [ 'WEBSITE', 'MOBILE' ],
+        role: [ 'ADMIN', 'VOTER', 'COORDINATOR' ],
+
     }),
 
     methods: {
