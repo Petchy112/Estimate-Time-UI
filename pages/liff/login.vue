@@ -95,10 +95,24 @@ export default {
                             this.setAuth(response)
                             const profile = await userAPI.getProfile()
                             await this.setProfile(profile.profile)
-                            await userAPI.selectRole({
-                                'role': response.role[0],
-                                'lineUserId': this.line.lineUserId
-                            })
+                            if (response.role.includes('VOTER')) {
+                                await userAPI.selectRole({
+                                    'role': "VOTER",
+                                    'lineUserId': this.line.lineUserId
+                                })
+                            }
+                            else if (response.role.includes('COORDINATOR')) {
+                                await userAPI.selectRole({
+                                    'role': "COORDINATOR",
+                                    'lineUserId': this.line.lineUserId
+                                })
+                            }
+                            else {
+                                await userAPI.selectRole({
+                                    'role': response.role[0],
+                                    'lineUserId': this.line.lineUserId
+                                })
+                            }
                             liff.closeWindow()
                         }
                         else {
