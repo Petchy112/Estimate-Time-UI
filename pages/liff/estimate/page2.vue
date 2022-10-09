@@ -58,7 +58,10 @@
                         >
                             back
                         </v-btn>
-                        <NameDialog data-app class="nameDialog" :estimate="estimate" />
+                        <NameDialog
+                            class="nameDialog"
+                            @estimateSystem="estimateSystem"
+                        />
                     </div>
                 </v-card>
             </v-footer>
@@ -67,7 +70,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import estimateAPI from "~/utils/estimateAPI"
 
 import NameDialog from '~/components/dialog/nameDialog.vue'
@@ -77,7 +80,6 @@ export default {
     data: () => ({
         padless: true,
         variant: 'fixed',
-        projectName: '',
     }),
     computed: {
         ...mapState({
@@ -85,9 +87,9 @@ export default {
         })
     },
     methods: {
-        async estimate() {
-            console.log(body)
-            // const response = await estimateAPI.sentEstimate(body)
+        async estimateSystem(projectName) {
+            console.log(projectName, this.estimateData)
+            const response = await estimateAPI.sentEstimate(this.estimateData, ...projectName)
             // await liff.closeWindow()
 
         },
@@ -97,7 +99,6 @@ export default {
     },
     mounted() {
         console.log(this.estimateData)
-        console.log(this.nameDialog)
     }
 }
 </script>
