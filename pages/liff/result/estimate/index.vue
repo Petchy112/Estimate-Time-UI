@@ -22,12 +22,11 @@
             </div>
             <div class="grid-container">
                 <div
-                    class="mx-4 mb-4"
                     v-for="(item,index) in filteredItems"
                     :key="index"
                 >
                     <v-expansion-panels>
-                        <v-expansion-panel>
+                        <v-expansion-panel class="panel">
                             <v-expansion-panel-header>
                                 <div class="proj-header py-2">
                                     {{ item.projectName }}
@@ -41,7 +40,7 @@
                                     <br>
                                     Number of developer : {{ item.qty }} person
                                     <br>
-                                    Estimated Time : {{ item.estimatedTime }} Hours
+                                    Estimated Time : {{ item.estimatedTime }} Hours ({{ (item.estimatedTime/8).toFixed(1) }} days)
                                 </div>
                                 <v-divider class="my-5" />
                                 <div class="right-box mt-5">
@@ -93,12 +92,11 @@ export default {
             ],
         }
     },
-    async mounted() {
+    mounted() {
         // await liff.init({
         //     liffId: '1656364274-ADg78Boe'
         // })
-        const response = await estimateAPI.estimateLists()
-        this.estimateData = response.estimateList
+        this.getData()
 
     },
     computed: {
@@ -109,15 +107,25 @@ export default {
         }
     },
     methods: {
-        async handleShowClicked(data) {
-            var id = data._id
-            this.$router.push({ name: 'liff-result-estimated-id', params: { id } })
+        async getData() {
+            const response = await estimateAPI.estimateLists()
+            this.estimateData = response.estimateList
         }
-    },
+    }
 }
 </script>
 
 <style scoped>
+.grid-container {
+    display: grid;
+    grid-gap: 16px;
+    /* flex-direction: column; */
+    /* margin-top: 10px; */
+}
+.panel {
+    display: grid;
+    grid-gap: 10px;
+}
 h1 {
     text-align: center;
 }
