@@ -109,7 +109,6 @@
                 <v-container>
                     <Nuxt />
                 </v-container>
-                <alertDialog />
             </v-main>
 
             <v-footer
@@ -127,13 +126,9 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 
-import alertDialog from "~/components/dialog/alertDialog"
 import userAPI from "~/utils/userAPI"
 import imageAPI from "~/utils/imageAPI"
 export default {
-    components: {
-        alertDialog
-    },
     data () {
         return {
             userData: [],
