@@ -62,8 +62,8 @@ export default {
             body: {
                 email: '',
                 password: '',
-                profilePic: this.line.picture,
-                lineUserId: this.line.lineUserId
+                profilePic: null,
+                lineUserId: ''
             },
             show: false,
             passwordRules: [
@@ -89,7 +89,6 @@ export default {
         async onSubmit() {
             if (this.$refs.form.validate()) {
                 this.isCalling = true
-                console.log(this.body)
                 await userAPI.login(this.body)
                     .then(async response => {
                         if (response.role.includes('VOTER') || response.role.includes('COORDINATOR')) {
@@ -114,6 +113,11 @@ export default {
             }
 
         }
+    },
+    mounted() {
+        this.body.lineUserId = this.line.lineUserId
+        this.body.profilePic = this.line.picture
+        console.log(this.body, 'body')
     }
 }
 </script>
