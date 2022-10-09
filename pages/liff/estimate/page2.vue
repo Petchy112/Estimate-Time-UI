@@ -21,7 +21,7 @@
                     </v-list-item-title>
 
                     <v-list-item-title class="mx-5 time">
-                        DEVELOPER QUANTITY: {{ estimateData.quantity }} person
+                        DEVELOPER QUANTITY: {{ estimateData.qty }} person
                     </v-list-item-title>
                     <v-divider class="mt-4 mx-3" />
                     <v-list-item>
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import estimateAPI from "~/utils/estimateAPI"
 
 import NameDialog from '~/components/dialog/nameDialog.vue'
@@ -87,10 +87,15 @@ export default {
         })
     },
     methods: {
+        ...mapMutations({
+            setName: "estimate/setName",
+        }),
         async estimateSystem(projectName) {
-            console.log(projectName, this.estimateData)
-            const response = await estimateAPI.sentEstimate(this.estimateData, ...projectName)
-            // await liff.closeWindow()
+            this.setName(projectName)
+            console.log(this.estimateData)
+            await estimateAPI.sentEstimate(this.estimateData)
+            await liff.sendMessage('Estimate result saved successfully.')
+            await liff.closeWindow()
 
         },
         back() {
