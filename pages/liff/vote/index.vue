@@ -26,6 +26,7 @@
                 <v-btn
                     class="next"
                     :disabled="!valid"
+                    :loading="!valid"
                     @click="next(),valid = !valid"
                 >
                     Next
@@ -79,13 +80,21 @@ export default {
                 }
             }
 
-            const response = await voteAPI.sentVote(this.data)
+            const response = await voteAPI.sentVote({ 'body': this.data })
             try {
-                toastr.success(response.message)
-                await liff.closeWindow()
+                if (response.successful == true) {
+                    toastr.success(response.message)
+                    await liff.closeWindow()
+                }
+                else {
+                    toastr.error(response.message)
+                }
             }
             catch (error) {
                 toastr.error(error.response.error.message)
+            }
+            finally {
+                this.valid = true
             }
 
         },
