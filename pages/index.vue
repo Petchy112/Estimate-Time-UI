@@ -29,7 +29,7 @@ export default {
                     this.params = params
                     liff.getProfile().then((profile) => {
                         this.setLine(profile)
-                        window.alert(profile)
+                        console.log(profile)
                         if (params.get('role') === 'COORDINATOR') {
                             switch (params.get('action')) {
                                 case 'RESULT':

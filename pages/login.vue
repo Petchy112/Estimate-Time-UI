@@ -86,7 +86,15 @@ export default {
                 this.isCalling = true
                 await userAPI.login(this.body)
                     .then(async response => {
-                        if (response.role.includes('VOTER') || response.role.includes('COORDINATOR')) {
+                        if (response.role.includes('ADMIN')) {
+                            this.setAuth(response)
+                            const profile = await userAPI.getProfile()
+                            await this.setProfile(profile.profile)
+                            this.$router.push('/admin/function')
+                            toastr.success('Welcome')
+                        }
+                        else {
+                            this.isCalling = false
                             toastr.error('User not in permission')
                         }
                     })

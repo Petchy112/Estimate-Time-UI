@@ -86,12 +86,12 @@ export default {
                 this.isCalling = true
                 await userAPI.login(this.body)
                     .then(async response => {
-                        if (response.role.includes('ADMIN')) {
+                        if (response.role.includes('VOTER') || response.role.includes('COORDINATOR')) {
                             this.setAuth(response)
                             const profile = await userAPI.getProfile()
                             await this.setProfile(profile.profile)
-                            this.$router.push('/admin/function')
-                            toastr.success('Welcome')
+                            await userAPI.selectRole(response.role[0])
+                            liff.closeWindow()
                         }
                         else {
                             this.isCalling = false
