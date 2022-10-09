@@ -44,22 +44,24 @@
                             </v-text-field>
                         </div>
                         <v-divider />
-                        <div
-                            rounded="50%"
-                            v-for="(estimate,index) in estimateData"
-                            :key="index"
-                        >
-                            <div class="estimate-card">
-                                <div class="group-name">
-                                    {{ estimate.group }}
-                                </div>
+                        <div class="card">
+                            <div
+                                rounded="50%"
+                                v-for="(estimate,index) in estimateData"
+                                :key="index"
+                            >
+                                <div class="estimate-card">
+                                    <div class="group-name">
+                                        {{ estimate.group }}
+                                    </div>
 
-                                <EstimateCard
-                                    v-for="(choice, index) in estimate.choices"
-                                    :key="index"
-                                    :choice="choice"
-                                    @chooseChoice="chooseChoice"
-                                />
+                                    <EstimateCard
+                                        v-for="(choice, index) in estimate.choices"
+                                        :key="index"
+                                        :choice="choice"
+                                        @chooseChoice="chooseChoice"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -173,6 +175,7 @@ export default {
 </script>
 <style lang='scss' scoped>
 .wrap-page {
+    padding-bottom: 120px;
     & .app-bar{
         display: flex;
         background-color: #37d0ff !important;
@@ -184,7 +187,7 @@ export default {
         }
     }
     & .wrap-content {
-        margin: 60px 10px 0 10px;
+        margin: 60px 10px 0px 10px;
         & .tab-title {
             font-size: 12px;
         }
@@ -195,18 +198,22 @@ export default {
             height:50px;
             align-items: center;
         }
-        & .estimate-card {
-            background-color: #fafafa;
-            border: 1px solid rgba(0, 0, 0, 0.35);
-            border-radius: 16px;
-            & .group-name {
-                font-size: 20px;
-                font-weight: 600;
-                text-align: center;
-                padding: 16px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+        & .card {
+            display: grid;
+            grid-gap: 16px;
+            & .estimate-card {
+                background-color: #fafafa;
+                border: 1px solid rgba(0, 0, 0, 0.35);
+                border-radius: 16px;
+                & .group-name {
+                    font-size: 20px;
+                    font-weight: 600;
+                    text-align: center;
+                    padding: 16px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
             }
         }
     }
