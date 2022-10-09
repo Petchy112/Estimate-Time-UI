@@ -33,7 +33,7 @@ export default {
                         if (params.get('role') === 'COORDINATOR') {
                             switch (params.get('action')) {
                                 case 'RESULT':
-                                    this.$router.push('/liff/result/estimated')
+                                    this.$router.push('/liff/result/estimate')
                                     break
                                 case 'ESTIMATE':
                                     this.$router.push('/liff/estimate')
