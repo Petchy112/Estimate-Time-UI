@@ -94,7 +94,6 @@ export default {
             this.setName(projectName)
             console.log(this.estimateData)
             await estimateAPI.sentEstimate(this.estimateData)
-            await liff.sendMessage('Estimate result saved successfully.')
             await liff.closeWindow()
 
         },
