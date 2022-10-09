@@ -6,9 +6,9 @@ export const state = () => ({
 
 export const mutations = {
     setLine(state, lineData) {
-        state.lineUserId = lineData.lineUserId
+        state.lineUserId = lineData.userId
         state.displayName = lineData.displayName
-        state.picture = lineData.picture
+        state.picture = lineData.pictureUrl
 
     },
     resetLine(state) {

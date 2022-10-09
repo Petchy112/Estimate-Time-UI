@@ -25,8 +25,8 @@ export default {
         return instanceAPI.api.post(`/user/changePassword`, data)
             .then(response => response.data)
     },
-    logout: () => {
-        return instanceAPI.api.post(`/user/logout`)
+    logout: (data) => {
+        return instanceAPI.api.post(`/user/logout`, data)
             .then(response => response.data)
     },
     userDetails: (id) => {

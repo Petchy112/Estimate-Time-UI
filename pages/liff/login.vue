@@ -48,7 +48,7 @@
 
 <script>
 import toastr from "toastr"
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 import userAPI from "~/utils/userAPI"
 export default {
@@ -62,7 +62,8 @@ export default {
             body: {
                 email: '',
                 password: '',
-
+                profilePic: this.line.picture,
+                lineUserId: this.line.lineUserId
             },
             show: false,
             passwordRules: [
@@ -75,7 +76,11 @@ export default {
             ],
         }
     },
-
+    computed: {
+        ...mapState({
+            line: state => state.line
+        })
+    },
     methods: {
         ...mapMutations({
             setProfile: "profile/setProfile",
@@ -84,13 +89,17 @@ export default {
         async onSubmit() {
             if (this.$refs.form.validate()) {
                 this.isCalling = true
+                console.log(this.body)
                 await userAPI.login(this.body)
                     .then(async response => {
                         if (response.role.includes('VOTER') || response.role.includes('COORDINATOR')) {
                             this.setAuth(response)
                             const profile = await userAPI.getProfile()
                             await this.setProfile(profile.profile)
-                            await userAPI.selectRole(response.role[0])
+                            await userAPI.selectRole({
+                                'role': response.role[0],
+                                'lineUserId': this.line.lineUserId
+                            })
                             liff.closeWindow()
                         }
                         else {
