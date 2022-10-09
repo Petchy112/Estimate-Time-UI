@@ -34,7 +34,7 @@
                                 dense
                                 class="input-group--focused"
                                 label="Number of developers"
-                                v-model="fromData.quantity"
+                                v-model="fromData.qty"
                                 required
                                 outlined
                             >
@@ -114,7 +114,7 @@ export default {
                 platform: 'WEBSITE',
                 estimateTime: 0,
                 projectName: '',
-                quantity: 1,
+                qty: 1,
             },
             isActive: false,
             estimateData: []
@@ -163,10 +163,10 @@ export default {
             await this.$router.push({ name: 'liff-estimate-page2' })
         }
     },
-    async mounted() {
+    mounted() {
         this.getEstimateData()
-        // this.fromData.selectedChoice = await this.estimate.selectedChoice
-        // this.fromData.quantity = await this.estimate.quantity
+        // this.fromData.selectedChoice = this.estimate.selectedChoice
+        // this.fromData.quantity = this.estimate.quantity
     },
 }
 

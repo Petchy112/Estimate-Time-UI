@@ -71,7 +71,6 @@ export default {
         estimate() {
             if (this.$refs.form.validate()) {
                 this.$emit('estimateSystem', this.projectName)
-                // console.log(this.projectName)
             }
         },
     }

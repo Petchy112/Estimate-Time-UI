@@ -28,9 +28,7 @@ export default {
                     const params = new URLSearchParams(queryString)
                     this.params = params
                     liff.getProfile().then((profile) => {
-                        console.log(profile)
-                        // this.setLine(profile.userId)
-                        console.log(params)
+                        this.setLine(profile)
                         window.alert(this.$route.query.action)
                         if (params.get('role') === 'COORDINATOR') {
                             switch (params.get('action')) {
