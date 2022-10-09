@@ -12,7 +12,7 @@
                 <v-list-item-avatar>
                     <v-avatar class="logo">
                         <img
-                            :src="choice.imagePath ? input.imagePath : require('~/assets/function.jpg')"
+                            :src="choice.imagePath ? choice.imagePath : require('~/assets/function.jpg')"
                         >
                     </v-avatar>
                 </v-list-item-avatar>
